@@ -1,8 +1,21 @@
 # ScrKeyboard
 
-ScrKeyboard is a Chrome extension concept for a comfortable on-screen keyboard that appears when a user focuses an editable field and hides after pressing Enter.
+ScrKeyboard is a Chrome Manifest V3 extension that gives operators of business web applications a comfortable on-screen keyboard on touch screens. It appears when a user focuses an editable field and hides after pressing Enter.
 
-Default language: English. Planned UI languages: English and Polish.
+Default language: English. Polish is shipped alongside it as a second UI locale.
+
+Current version: **v0.9.1**.
+
+## Screenshots
+
+The panels below are rendered by ScrKeyboard's own `createKeyboardView` code, unmodified, running over a
+sample warehouse form built for this documentation. They show the real keyboard styling, but they are not
+captured from the extension running in Chrome against a live customer site, and the form data is fictional.
+
+| Letters mode | Symbols mode | Diacritics mode |
+| --- | --- | --- |
+| ![Letters mode](docs/screenshots/keyboard-letters.png) | ![Symbols mode](docs/screenshots/keyboard-symbols.png) | ![Diacritics mode](docs/screenshots/keyboard-diacritics.png) |
+| *Letters mode: the keypad's punctuation column and row four (`?#`, `ĄĘ`, Close, Space, `⇥`, `↵`) alongside coloured phrase buttons.* | *Symbols mode: `/` and `_` lead row two, and CapsLock/Shift are greyed out because symbols mode has no case.* | *Diacritics mode: letters mapped to `ę ó ą ś ł ż ź ć ń`, with the `ĄĘ` key highlighted while the mode is armed.* |
 
 ## Repository Language
 
@@ -10,13 +23,16 @@ Default language: English. Planned UI languages: English and Polish.
 - Code, comments, documentation, README content, and English UI copy use British English.
 - The default product language is English (`en`), with Polish (`pl`) provided as an additional locale.
 
-## Planned Core Features
+## Core Features
 
-- Domain controls: whitelist and blacklist.
-- Automatic keyboard visibility for editable fields.
-- Enter-to-submit flow that hides the keyboard after input.
-- One-tap keyword and phrase buttons.
-- Setup/options page for domains, language, layout, and keyword presets.
+- Domain controls: whitelist and blacklist, with `*` wildcard and URL-fragment matching.
+- Automatic keyboard visibility for editable fields, with Enter-to-submit hiding the panel after input.
+- Three keyboard modes: letters (QWERTY with Shift and CapsLock), symbols (three rows of punctuation,
+  reached from the `?#` key), and a one-shot Polish diacritics mode (reached from the `ĄĘ` key).
+- A numeric keypad with a punctuation column (full stop, comma, hyphen, at sign) available in every mode.
+- A Tab key (`⇥`) that moves focus to the next editable field without closing the keyboard panel.
+- One-tap keyword and phrase buttons with operator-configurable button colours.
+- Setup/options page for domains, language, layout, keyword presets, and CSV export of rules and phrases.
 - Chrome Manifest V3 extension structure.
 
 ## Settings Model
@@ -82,8 +98,10 @@ The main keyboard has three modes:
   its diacritic slot is used for `ź` instead.
 
 A `⇥` key moves focus to the next editable field on the page without closing the keyboard panel, so an
-operator can complete a whole form without reaching for a physical keyboard. The newly focused field is
-scrolled above the keyboard the same way as the initially focused field.
+operator can complete a whole form without reaching for a physical keyboard. It only visits fields the
+keyboard would actually serve: disabled, read-only and hidden fields are skipped, as are password fields
+unless the site's rule explicitly allows them. Tab does not wrap — on the last eligible field, it does
+nothing. The newly focused field is scrolled above the keyboard the same way as the initially focused field.
 
 Global and site-specific phrase buttons can use operator-defined button colours from setup. ScrKeyboard
 normalises stored colours and automatically uses black or white text, whichever has the stronger contrast
@@ -95,6 +113,9 @@ depending on setup. Password fields are ignored unless the matching whitelist ru
 When the keyboard opens, ScrKeyboard measures the panel and scrolls the active field above it. While the
 keyboard is visible, the page gets a temporary bottom inset so footer fields in long forms can still scroll
 clear of the fixed keyboard panel.
+
+On windows narrower than 970px, the numeric keypad stacks below the main keyboard instead of sitting beside
+it, so every key stays reachable rather than being pushed off the visible panel.
 
 ## Manual WebForms Fixture
 
