@@ -204,15 +204,22 @@ describe('createKeyboardRows with diacritics active', () => {
 });
 
 describe('createNumpadRows', () => {
-  it('creates a right-hand numeric keypad layout', () => {
+  it('creates a right-hand numeric keypad with a symbol column', () => {
     const rows = createNumpadRows();
 
     expect(rows).toHaveLength(4);
-    expect(rows[0].map((key) => key.label)).toEqual(['7', '8', '9']);
-    expect(rows[1].map((key) => key.label)).toEqual(['4', '5', '6']);
-    expect(rows[2].map((key) => key.label)).toEqual(['1', '2', '3']);
-    expect(rows[3].map((key) => key.label)).toEqual(['0', BACKSPACE_SYMBOL_LABEL]);
+    expect(rows[0].map((key) => key.label)).toEqual(['7', '8', '9', '.']);
+    expect(rows[1].map((key) => key.label)).toEqual(['4', '5', '6', ',']);
+    expect(rows[2].map((key) => key.label)).toEqual(['1', '2', '3', '-']);
+    expect(rows[3].map((key) => key.label)).toEqual(['0', BACKSPACE_SYMBOL_LABEL, '@']);
     expect(rows[3][1].ariaLabel).toBe('Backspace');
     expect(rows[3][1].width).toBeUndefined();
+  });
+
+  it('inserts the symbol as a character action', () => {
+    const rows = createNumpadRows();
+
+    expect(rows[0][3].action).toEqual({ type: 'character', value: '.' });
+    expect(rows[0][3].id).toBe('keypad-symbol-.');
   });
 });

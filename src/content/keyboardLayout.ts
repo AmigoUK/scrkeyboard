@@ -69,6 +69,7 @@ const defaultCopy: KeyboardCopy = {
 
 export const SYMBOL_LAYER_LABEL = '?#';
 export const LETTERS_LAYER_LABEL = 'ABC';
+export const KEYPAD_SYMBOLS = ['.', ',', '-', '@'];
 
 const firstLetterRow = ['q', 'w', 'e', 'r', 't', 'y', 'u', 'i', 'o', 'p'];
 const secondLetterRow = ['a', 's', 'd', 'f', 'g', 'h', 'j', 'k', 'l'];
@@ -172,9 +173,9 @@ export function createKeyboardRows(
 
 export function createNumpadRows(copy: KeyboardCopy = defaultCopy): KeyboardKey[][] {
   return [
-    createDigitRow(['7', '8', '9']),
-    createDigitRow(['4', '5', '6']),
-    createDigitRow(['1', '2', '3']),
+    [...createDigitRow(['7', '8', '9']), createKeypadSymbolKey(KEYPAD_SYMBOLS[0])],
+    [...createDigitRow(['4', '5', '6']), createKeypadSymbolKey(KEYPAD_SYMBOLS[1])],
+    [...createDigitRow(['1', '2', '3']), createKeypadSymbolKey(KEYPAD_SYMBOLS[2])],
     [
       {
         id: 'numpad-0',
@@ -192,7 +193,8 @@ export function createNumpadRows(copy: KeyboardCopy = defaultCopy): KeyboardKey[
         action: {
           type: 'backspace'
         }
-      }
+      },
+      createKeypadSymbolKey(KEYPAD_SYMBOLS[3])
     ]
   ];
 }
@@ -226,6 +228,17 @@ function createSymbolRow(characters: string[]): KeyboardKey[] {
       value: character
     }
   }));
+}
+
+function createKeypadSymbolKey(character: string): KeyboardKey {
+  return {
+    id: `keypad-symbol-${character}`,
+    label: character,
+    action: {
+      type: 'character',
+      value: character
+    }
+  };
 }
 
 function createDigitRow(characters: string[]): KeyboardKey[] {
