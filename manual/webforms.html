@@ -18,6 +18,15 @@
         max-width: 520px;
       }
 
+      .form-spacer {
+        min-height: 760px;
+        border: 1px dashed #d7dde5;
+        border-radius: 6px;
+        padding: 16px;
+        color: #697480;
+        font-weight: 600;
+      }
+
       label {
         display: grid;
         gap: 6px;
@@ -58,6 +67,11 @@
       <label>
         Notes
         <textarea id="ctl00_MainContent_Notes" name="ctl00$MainContent$Notes" rows="4"></textarea>
+      </label>
+      <div class="form-spacer">Long WebForms content spacer</div>
+      <label>
+        Footer reference
+        <input id="ctl00_MainContent_FooterReference" name="ctl00$MainContent$FooterReference" type="text" />
       </label>
       <button type="submit">Submit</button>
     </form>

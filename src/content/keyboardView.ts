@@ -6,6 +6,7 @@ import { loadKeyboardRuntimeState, saveKeyboardRuntimeState } from './keyboardRu
 
 export interface KeyboardView {
   containsTarget(target: EventTarget | null): boolean;
+  getHeight(): number;
   hide(): void;
   show(phrases: Phrase[], language: LocaleCode): void;
 }
@@ -27,13 +28,15 @@ export function createKeyboardView(callbacks: KeyboardViewCallbacks): KeyboardVi
     shiftActive: false,
     visible: false
   };
+  let panelElement: HTMLElement | null = null;
 
   host.setAttribute('aria-hidden', 'true');
   host.style.display = 'none';
   document.documentElement.append(host);
 
   function render(): void {
-    shadowRoot.replaceChildren(createStyleElement(), createPanelElement());
+    panelElement = createPanelElement();
+    shadowRoot.replaceChildren(createStyleElement(), panelElement);
   }
 
   void loadKeyboardRuntimeState().then((runtimeState) => {
@@ -134,6 +137,9 @@ export function createKeyboardView(callbacks: KeyboardViewCallbacks): KeyboardVi
   return {
     containsTarget(target) {
       return target === host;
+    },
+    getHeight() {
+      return panelElement?.getBoundingClientRect().height ?? 0;
     },
     hide() {
       state.visible = false;

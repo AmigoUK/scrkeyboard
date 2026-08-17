@@ -8,6 +8,15 @@ The project follows semantic versioning during pre-production:
 - `0.x.0` for new features.
 - `x.0.0` for production releases, with `1.0.0` as the first production version.
 
+## 0.6.0 - 2026-08-17
+
+### Added
+
+- Added viewport-aware scrolling so the focused field is kept above the on-screen keyboard.
+- Added temporary page bottom inset while the keyboard is visible, allowing footer fields to scroll clear of the panel.
+- Added a long-form footer field to the WebForms manual fixture for keyboard overlap testing.
+- Added unit coverage for active-field visibility calculations.
+
 ## 0.5.0 - 2026-08-17
 
 ### Added

@@ -4,7 +4,9 @@ import { evaluateUrlRules } from '../shared/urlPattern';
 import { type EditableTarget, resolveEditableTarget } from './editableTarget';
 import { createKeyboardView, type KeyboardView } from './keyboardView';
 import type { KeyboardAction } from './keyboardLayout';
+import { applyKeyboardPageInset, clearKeyboardPageInset } from './pageInset';
 import { deleteBackward, dispatchEnter, insertText } from './textEditing';
+import { ensureTargetVisibleAboveKeyboard } from './viewportVisibility';
 
 const readyEventName = 'scrkeyboard:content-ready';
 
@@ -49,12 +51,12 @@ async function refreshEvaluation(): Promise<void> {
 
   if (!evaluation.active) {
     activeTarget = null;
-    keyboardView?.hide();
+    hideKeyboardPanel();
     return;
   }
 
   if (activeTarget) {
-    keyboardView?.show(evaluation.phrases, language);
+    showKeyboardForTarget(activeTarget);
   }
 }
 
@@ -74,7 +76,7 @@ function activateEditableTarget(target: EventTarget | null): void {
   }
 
   activeTarget = editableTarget;
-  getKeyboardView().show(evaluation.phrases, language);
+  showKeyboardForTarget(editableTarget);
 }
 
 function handleDocumentPointerDown(event: PointerEvent): void {
@@ -87,7 +89,7 @@ function handleDocumentPointerDown(event: PointerEvent): void {
   }
 
   activeTarget = null;
-  keyboardView.hide();
+  hideKeyboardPanel();
 }
 
 function getKeyboardView(): KeyboardView {
@@ -101,10 +103,33 @@ function getKeyboardView(): KeyboardView {
   return keyboardView;
 }
 
+function showKeyboardForTarget(target: EditableTarget): void {
+  if (!evaluation?.active) {
+    return;
+  }
+
+  const view = getKeyboardView();
+  view.show(evaluation.phrases, language);
+  window.requestAnimationFrame(() => {
+    if (activeTarget !== target) {
+      return;
+    }
+
+    const keyboardHeight = view.getHeight();
+    applyKeyboardPageInset(keyboardHeight);
+    ensureTargetVisibleAboveKeyboard(target, keyboardHeight);
+  });
+}
+
+function hideKeyboardPanel(): void {
+  keyboardView?.hide();
+  clearKeyboardPageInset();
+}
+
 function handleKeyboardAction(action: KeyboardAction): void {
   if (action.type === 'close') {
     activeTarget = null;
-    keyboardView?.hide();
+    hideKeyboardPanel();
     return;
   }
 
@@ -129,7 +154,7 @@ function handleKeyboardAction(action: KeyboardAction): void {
     case 'enter':
       dispatchEnter(activeTarget, confirmKeyMode === 'ctrlEnter');
       activeTarget = null;
-      keyboardView?.hide();
+      hideKeyboardPanel();
       break;
   }
 }

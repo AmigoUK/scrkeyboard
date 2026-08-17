@@ -70,6 +70,10 @@ so the operator gets the same CapsLock state after reopening the keyboard or rel
 Keyboard keys are sized for comfortable pointer and touch input. Enter dispatches either Enter or Ctrl+Enter
 depending on setup. Password fields are ignored unless the matching whitelist rule explicitly allows them.
 
+When the keyboard opens, scrkeyboard measures the panel and scrolls the active field above it. While the
+keyboard is visible, the page gets a temporary bottom inset so footer fields in long forms can still scroll
+clear of the fixed keyboard panel.
+
 ## Manual WebForms Fixture
 
 For a local smoke test, run a static server from the repository root and open the fixture:
@@ -80,7 +84,8 @@ python3 -m http.server 4173 --bind 127.0.0.1
 
 Then open `http://127.0.0.1:4173/manual/webforms.html`, approve the site through the scrkeyboard popup,
 and focus the Customer reference field. The keyboard should appear at the bottom of the page. The fixture
-shows the last key event so Enter and Ctrl+Enter behaviour can be checked visibly.
+shows the last key event so Enter and Ctrl+Enter behaviour can be checked visibly. It also includes a Footer
+reference field near the bottom of a long form for checking that the keyboard scrolls focused fields into view.
 
 ## Planning
 
