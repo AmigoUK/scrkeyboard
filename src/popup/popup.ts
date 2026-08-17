@@ -61,17 +61,14 @@ addCurrentSiteButton?.addEventListener('click', async () => {
     return;
   }
 
-  addCurrentSiteButton.disabled = true;
-
   try {
-    const hasPermission = await chrome.permissions.contains({
+    const permissionRequest = chrome.permissions.request({
       origins: [permissionPattern]
     });
-    const permissionGranted =
-      hasPermission ||
-      (await chrome.permissions.request({
-        origins: [permissionPattern]
-      }));
+
+    addCurrentSiteButton.disabled = true;
+
+    const permissionGranted = await permissionRequest;
 
     if (!permissionGranted) {
       setStatus('permissionDenied');
@@ -172,6 +169,7 @@ async function injectContentScriptIntoCurrentTab(): Promise<void> {
   await chrome.scripting.executeScript({
     files: ['assets/content.js'],
     target: {
+      allFrames: true,
       tabId: currentTabId
     }
   });

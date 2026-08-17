@@ -22,6 +22,7 @@ export async function syncKeyboardContentScriptRegistration(): Promise<void> {
 
   await chrome.scripting.registerContentScripts([
     {
+      allFrames: true,
       id: KEYBOARD_CONTENT_SCRIPT_ID,
       js: [KEYBOARD_CONTENT_SCRIPT_FILE],
       matches,
@@ -85,4 +86,3 @@ async function unregisterKeyboardContentScript(): Promise<void> {
     // Chrome throws when the script is not registered yet.
   }
 }
-

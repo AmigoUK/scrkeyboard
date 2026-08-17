@@ -8,6 +8,13 @@ The project follows semantic versioning during pre-production:
 - `0.x.0` for new features.
 - `x.0.0` for production releases, with `1.0.0` as the first production version.
 
+## 0.3.1 - 2026-08-17
+
+### Fixed
+
+- Kept the optional host permission request directly inside the popup click gesture so Chrome can show the site access prompt reliably.
+- Registered and injected the keyboard content script into all permitted frames so WebForms hosted inside frames can activate the keyboard.
+
 ## 0.3.0 - 2026-08-17
 
 ### Added

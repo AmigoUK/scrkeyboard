@@ -1,11 +1,51 @@
-import { describe, expect, it } from 'vitest';
+import { afterEach, beforeEach, describe, expect, it, vi } from 'vitest';
 import {
   getContentScriptMatchPatterns,
-  shouldSyncContentScriptsForStorageChange
+  shouldSyncContentScriptsForStorageChange,
+  syncKeyboardContentScriptRegistration
 } from './contentScriptRegistration';
 import { SETTINGS_STORAGE_KEY } from '../shared/settingsStorage';
 
 describe('contentScriptRegistration', () => {
+  beforeEach(() => {
+    vi.stubGlobal('chrome', {
+      permissions: {
+        contains: vi.fn(async () => true)
+      },
+      scripting: {
+        registerContentScripts: vi.fn(async () => undefined),
+        unregisterContentScripts: vi.fn(async () => undefined)
+      },
+      storage: {
+        sync: {
+          get: vi.fn(async (key: string) => ({
+            [key]: {
+              schemaVersion: 1,
+              enabled: true,
+              language: 'en',
+              confirmKeyMode: 'enter',
+              globalPhrases: [],
+              whitelist: [
+                {
+                  id: 'crm',
+                  pattern: 'https://crm.example.com/orders/*',
+                  enabled: true,
+                  allowPasswordFields: false,
+                  phrases: []
+                }
+              ],
+              blacklist: []
+            }
+          }))
+        }
+      }
+    });
+  });
+
+  afterEach(() => {
+    vi.unstubAllGlobals();
+  });
+
   it('creates origin match patterns from explicit URL rules', () => {
     expect(getContentScriptMatchPatterns('https://crm.example.com/orders/*')).toEqual([
       'https://crm.example.com/*'
@@ -36,5 +76,16 @@ describe('contentScriptRegistration', () => {
       )
     ).toBe(true);
   });
-});
 
+  it('registers the keyboard content script in all permitted frames', async () => {
+    await syncKeyboardContentScriptRegistration();
+
+    expect(chrome.scripting.registerContentScripts).toHaveBeenCalledWith([
+      expect.objectContaining({
+        allFrames: true,
+        js: ['assets/content.js'],
+        matches: ['https://crm.example.com/*']
+      })
+    ]);
+  });
+});
