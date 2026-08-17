@@ -40,6 +40,15 @@ The popup is the operator-friendly entry point:
 When the operator approves a site, scrkeyboard requests runtime access for that origin and stores a whitelist
 rule such as `https://crm.example.com/*`.
 
+## Keyboard Behaviour
+
+On approved pages, scrkeyboard injects a Shadow DOM keyboard panel docked to the bottom of the viewport.
+The panel appears when the operator focuses a supported editable field and hides when the operator presses
+Enter, selects Close, or clicks outside an editable field.
+
+The MVP keyboard includes digits, QWERTY letters, Shift, Backspace, Space, Enter, and configured phrase
+buttons. Password fields are ignored unless the matching whitelist rule explicitly allows them.
+
 ## Planning
 
 See [docs/PRODUCT_PLAN.md](docs/PRODUCT_PLAN.md).

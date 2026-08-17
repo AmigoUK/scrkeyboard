@@ -12,7 +12,6 @@ export default defineConfig({
     rollupOptions: {
       input: {
         serviceWorker: resolve(rootDir, 'src/background/serviceWorker.ts'),
-        content: resolve(rootDir, 'src/content/content.ts'),
         popup: resolve(rootDir, 'src/popup/popup.html'),
         options: resolve(rootDir, 'src/options/options.html')
       },
@@ -24,4 +23,3 @@ export default defineConfig({
     }
   }
 });
-

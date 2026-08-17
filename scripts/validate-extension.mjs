@@ -39,8 +39,14 @@ assert(
 await assertFileExists(resolve(distDir, manifest.action.default_popup));
 await assertFileExists(resolve(distDir, manifest.options_page));
 await assertFileExists(resolve(distDir, manifest.background.service_worker));
+await assertFileExists(resolve(distDir, 'assets/content.js'));
 await assertFileExists(resolve(distDir, '_locales/en/messages.json'));
 await assertFileExists(resolve(distDir, '_locales/pl/messages.json'));
 
-console.log('Extension build validation passed.');
+const contentScript = await readFile(resolve(distDir, 'assets/content.js'), 'utf8');
+assert(
+  !/^\s*import\s/m.test(contentScript),
+  'assets/content.js must be a bundled classic script without top-level import statements.'
+);
 
+console.log('Extension build validation passed.');

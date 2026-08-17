@@ -8,6 +8,17 @@ The project follows semantic versioning during pre-production:
 - `0.x.0` for new features.
 - `x.0.0` for production releases, with `1.0.0` as the first production version.
 
+## 0.3.0 - 2026-08-17
+
+### Added
+
+- Dynamic content script registration for approved whitelist origins.
+- Immediate content script injection after approving the current site from the popup.
+- Shadow DOM keyboard panel docked to the bottom of approved pages.
+- Editable target detection for common input types, textareas, and `contenteditable` elements.
+- QWERTY MVP keyboard with digits, Shift, Backspace, Space, Enter, Close, and phrase buttons.
+- Unit tests for keyboard layout and content script registration helpers.
+
 ## 0.2.0 - 2026-08-17
 
 ### Added

@@ -8,6 +8,7 @@ import {
   getDisplayHost,
   getOriginPermissionPattern
 } from '../shared/siteAccess';
+import { SYNC_CONTENT_SCRIPTS_MESSAGE } from '../shared/runtimeMessages';
 
 document.querySelectorAll<HTMLElement>('[data-i18n]').forEach((element) => {
   const messageName = element.dataset.i18n;
@@ -25,6 +26,7 @@ const addCurrentSiteButton = document.querySelector<HTMLButtonElement>('#add-cur
 
 let settings: ScrkeyboardSettings | null = null;
 let currentTabUrl: string | null = null;
+let currentTabId: number | null = null;
 
 document.querySelector<HTMLButtonElement>('#open-options')?.addEventListener('click', () => {
   chrome.runtime.openOptionsPage();
@@ -78,6 +80,8 @@ addCurrentSiteButton?.addEventListener('click', async () => {
 
     const result = upsertWhitelistRule(settings, whitelistRule);
     settings = await saveSettings(result.settings);
+    await syncContentScripts();
+    await injectContentScriptIntoCurrentTab();
     setStatus(result.created ? 'siteApproved' : 'siteAlreadyApproved', displayHost);
   } catch (error) {
     console.error('Failed to add the current site.', error);
@@ -94,6 +98,7 @@ async function initialisePopup(): Promise<void> {
     const [loadedSettings, activeTab] = await Promise.all([loadSettings(), getActiveTab()]);
     settings = loadedSettings;
     currentTabUrl = activeTab?.url ?? null;
+    currentTabId = activeTab?.id ?? null;
 
     renderEnabledState(settings.enabled);
     renderCurrentSite(currentTabUrl);
@@ -151,4 +156,23 @@ function setAddCurrentSiteEnabled(enabled: boolean): void {
   if (addCurrentSiteButton) {
     addCurrentSiteButton.disabled = !enabled;
   }
+}
+
+async function syncContentScripts(): Promise<void> {
+  await chrome.runtime.sendMessage({
+    type: SYNC_CONTENT_SCRIPTS_MESSAGE
+  });
+}
+
+async function injectContentScriptIntoCurrentTab(): Promise<void> {
+  if (currentTabId === null) {
+    return;
+  }
+
+  await chrome.scripting.executeScript({
+    files: ['assets/content.js'],
+    target: {
+      tabId: currentTabId
+    }
+  });
 }
