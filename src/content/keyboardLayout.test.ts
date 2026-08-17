@@ -5,12 +5,23 @@ import {
   CAPS_LOCK_SYMBOL_LABEL,
   ENTER_SYMBOL_LABEL,
   createKeyboardRows,
-  createNumpadRows
+  createNumpadRows,
+  type KeyboardLayoutState
 } from './keyboardLayout';
+
+function layoutState(overrides: Partial<KeyboardLayoutState> = {}): KeyboardLayoutState {
+  return {
+    capsLockActive: false,
+    diacriticsActive: false,
+    mode: 'letters',
+    shiftActive: false,
+    ...overrides
+  };
+}
 
 describe('createKeyboardRows', () => {
   it('creates the expected main keyboard rows', () => {
-    const rows = createKeyboardRows(false, false);
+    const rows = createKeyboardRows(layoutState());
 
     expect(rows).toHaveLength(4);
     expect(rows[0][0].label).toBe('q');
@@ -45,7 +56,7 @@ describe('createKeyboardRows', () => {
   });
 
   it('uppercases letter rows when shift is active', () => {
-    const rows = createKeyboardRows(true, false);
+    const rows = createKeyboardRows(layoutState({ shiftActive: true }));
 
     expect(rows[0][0].label).toBe('Q');
     expect(rows[1][0].label).toBe('A');
@@ -54,7 +65,7 @@ describe('createKeyboardRows', () => {
   });
 
   it('uppercases letter rows and marks CapsLock active when CapsLock is active', () => {
-    const rows = createKeyboardRows(false, true);
+    const rows = createKeyboardRows(layoutState({ capsLockActive: true }));
 
     expect(rows[0][0].label).toBe('Q');
     expect(rows[1][0].label).toBe('A');
@@ -63,7 +74,7 @@ describe('createKeyboardRows', () => {
   });
 
   it('uses configured language copy for special keys', () => {
-    const rows = createKeyboardRows(false, false, getKeyboardCopy('pl'));
+    const rows = createKeyboardRows(layoutState(), getKeyboardCopy('pl'));
 
     expect(rows[2][0].ariaLabel).toBe('CapsLock');
     expect(rows[3].map((key) => key.label)).toEqual(['Zamknij', 'Spacja', ENTER_SYMBOL_LABEL]);

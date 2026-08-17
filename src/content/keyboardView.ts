@@ -71,7 +71,15 @@ export function createKeyboardView(callbacks: KeyboardViewCallbacks): KeyboardVi
 
     const mainKeyboard = document.createElement('div');
     mainKeyboard.className = 'main-keyboard';
-    createKeyboardRows(state.shiftActive, state.capsLockActive, keyboardCopy).forEach((row) => {
+    createKeyboardRows(
+      {
+        capsLockActive: state.capsLockActive,
+        diacriticsActive: false,
+        mode: 'letters',
+        shiftActive: state.shiftActive
+      },
+      keyboardCopy
+    ).forEach((row) => {
       mainKeyboard.append(createKeyRow(row));
     });
 

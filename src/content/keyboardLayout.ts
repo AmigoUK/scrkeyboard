@@ -1,5 +1,14 @@
 import type { KeyboardCopy } from './keyboardCopy';
 
+export type KeyboardMode = 'letters' | 'symbols';
+
+export interface KeyboardLayoutState {
+  capsLockActive: boolean;
+  diacriticsActive: boolean;
+  mode: KeyboardMode;
+  shiftActive: boolean;
+}
+
 export type KeyboardAction =
   | {
       type: 'character';
@@ -51,10 +60,10 @@ const secondLetterRow = ['a', 's', 'd', 'f', 'g', 'h', 'j', 'k', 'l'];
 const thirdLetterRow = ['z', 'x', 'c', 'v', 'b', 'n', 'm'];
 
 export function createKeyboardRows(
-  shiftActive: boolean,
-  capsLockActive: boolean,
+  state: KeyboardLayoutState,
   copy: KeyboardCopy = defaultCopy
 ): KeyboardKey[][] {
+  const { capsLockActive, shiftActive } = state;
   const uppercaseActive = shiftActive || capsLockActive;
 
   return [
