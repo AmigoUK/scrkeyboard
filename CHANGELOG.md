@@ -8,6 +8,20 @@ The project follows semantic versioning during pre-production:
 - `0.x.0` for new features.
 - `x.0.0` for production releases, with `1.0.0` as the first production version.
 
+## 0.9.0 - 2026-08-17
+
+### Added
+
+- Added a symbols mode with full punctuation, reachable from the `?#` key.
+- Added a punctuation column to the numeric keypad for full stop, comma, hyphen and at sign.
+- Added a Polish diacritics mode reachable from the `ĄĘ` key, combining with Shift and CapsLock.
+- Added a Tab key that moves focus to the next editable field without closing the keyboard.
+- Added extension icons in 16, 32, 48 and 128 pixel sizes, validated during the build.
+
+### Changed
+
+- Changed `createKeyboardRows` to take a single layout state object instead of positional flags.
+
 ## 0.8.2 - 2026-08-17
 
 ### Changed

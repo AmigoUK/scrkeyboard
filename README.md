@@ -64,10 +64,26 @@ The panel appears when the operator focuses a supported editable field and hides
 Enter, selects Close, or clicks outside an editable field.
 
 The keyboard includes QWERTY letters, symbolic CapsLock, Shift, Space, a large Enter key, Close, configured
-phrase buttons, and a right-hand numeric keypad. The numeric keypad uses compact square number keys and a
-compact symbolic Backspace key. CapsLock state is remembered locally with
-`chrome.storage.local`, so the operator gets the same CapsLock state after reopening the keyboard or reloading
-the page.
+phrase buttons, and a right-hand numeric keypad. The numeric keypad uses compact square number keys, a
+punctuation column (full stop, comma, hyphen and at sign) present in every mode, and a compact symbolic
+Backspace key. CapsLock state is remembered locally with `chrome.storage.local`, so the operator gets the
+same CapsLock state after reopening the keyboard or reloading the page.
+
+The main keyboard has three modes:
+
+- **Letters** (default): QWERTY rows with Shift and CapsLock.
+- **Symbols**, reached from the `?#` key: full punctuation across three rows, covering marks the letters
+  mode and numeric keypad do not, such as `!`, `#`, `$`, `%`, `&`, `*`, `(`, `)`, `:`, `;`, `"`, `'`, `+`, `=`,
+  `<`, `>`, `[`, `]`, `?`, `~`, `^`, `|`, `\`, `{`, `}` and `§`. The key becomes `ABC` while in this mode,
+  returning to letters.
+- **Polish diacritics**, reached from the `ĄĘ` key: a one-shot mode. It swaps the next letter typed for its
+  Polish diacritic form (for example `a` becomes `ą`), then automatically reverts to plain letters. It
+  composes with Shift and CapsLock, so `Shift` + `ĄĘ` + `a` gives `Ą`. Because `x` does not occur in Polish,
+  its diacritic slot is used for `ź` instead.
+
+A `⇥` key moves focus to the next editable field on the page without closing the keyboard panel, so an
+operator can complete a whole form without reaching for a physical keyboard. The newly focused field is
+scrolled above the keyboard the same way as the initially focused field.
 
 Global and site-specific phrase buttons can use operator-defined button colours from setup. ScrKeyboard
 normalises stored colours and automatically uses black or white text, whichever has the stronger contrast
