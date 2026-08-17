@@ -12,11 +12,69 @@
     "description": "Popup heading"
   },
   "popupStatus": {
-    "message": "Szkielet rozszerzenia jest zaladowany. Kontrolki setupu zostana dodane w kolejnym etapie.",
+    "message": "Szkielet rozszerzenia jest załadowany. Kontrolki setupu zostaną dodane w kolejnym etapie.",
     "description": "Temporary popup status text"
   },
+  "popupLoading": {
+    "message": "Ładowanie ustawień bieżącej strony...",
+    "description": "Popup loading status"
+  },
+  "extensionStatus": {
+    "message": "Status rozszerzenia",
+    "description": "Label for the global enabled toggle"
+  },
+  "enabled": {
+    "message": "Włączone",
+    "description": "Enabled status label"
+  },
+  "disabled": {
+    "message": "Wyłączone",
+    "description": "Disabled status label"
+  },
+  "currentSite": {
+    "message": "Bieżąca strona",
+    "description": "Label for the current site displayed in the popup"
+  },
+  "unsupportedPage": {
+    "message": "Tej strony nie można zatwierdzić. Otwórz zwykłą stronę http lub https.",
+    "description": "Status text for unsupported pages"
+  },
+  "addCurrentSite": {
+    "message": "Dodaj bieżącą stronę",
+    "description": "Button label for adding the active site to the whitelist"
+  },
+  "siteApproved": {
+    "message": "Zatwierdzono $SITE$.",
+    "description": "Status text after adding a site",
+    "placeholders": {
+      "site": {
+        "content": "$1"
+      }
+    }
+  },
+  "siteAlreadyApproved": {
+    "message": "$SITE$ jest już zatwierdzona.",
+    "description": "Status text when a site is already on the whitelist",
+    "placeholders": {
+      "site": {
+        "content": "$1"
+      }
+    }
+  },
+  "permissionDenied": {
+    "message": "Dostęp do strony nie został przyznany.",
+    "description": "Status text when optional host permission is denied"
+  },
+  "settingsSaved": {
+    "message": "Ustawienia zapisane.",
+    "description": "Status text after saving popup settings"
+  },
+  "popupError": {
+    "message": "Coś poszło nie tak. Otwórz opcje i sprawdź konfigurację.",
+    "description": "Generic popup error"
+  },
   "openOptions": {
-    "message": "Otworz opcje",
+    "message": "Otwórz opcje",
     "description": "Button label for opening the options page"
   },
   "optionsTitle": {
@@ -24,7 +82,7 @@
     "description": "Options page heading"
   },
   "optionsStatus": {
-    "message": "Ustawienia beda dostepne po etapie settings core.",
+    "message": "Ustawienia będą dostępne po etapie settings core.",
     "description": "Temporary options page status text"
   },
   "contentReady": {
@@ -32,4 +90,3 @@
     "description": "Internal readiness message"
   }
 }
-

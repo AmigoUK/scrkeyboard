@@ -15,6 +15,64 @@
     "message": "Extension shell loaded. Setup controls will be added in the next milestone.",
     "description": "Temporary popup status text"
   },
+  "popupLoading": {
+    "message": "Loading current site settings...",
+    "description": "Popup loading status"
+  },
+  "extensionStatus": {
+    "message": "Extension status",
+    "description": "Label for the global enabled toggle"
+  },
+  "enabled": {
+    "message": "Enabled",
+    "description": "Enabled status label"
+  },
+  "disabled": {
+    "message": "Disabled",
+    "description": "Disabled status label"
+  },
+  "currentSite": {
+    "message": "Current site",
+    "description": "Label for the current site displayed in the popup"
+  },
+  "unsupportedPage": {
+    "message": "This page cannot be approved. Open a regular http or https site.",
+    "description": "Status text for unsupported pages"
+  },
+  "addCurrentSite": {
+    "message": "Add current site",
+    "description": "Button label for adding the active site to the whitelist"
+  },
+  "siteApproved": {
+    "message": "$SITE$ approved.",
+    "description": "Status text after adding a site",
+    "placeholders": {
+      "site": {
+        "content": "$1"
+      }
+    }
+  },
+  "siteAlreadyApproved": {
+    "message": "$SITE$ is already approved.",
+    "description": "Status text when a site is already on the whitelist",
+    "placeholders": {
+      "site": {
+        "content": "$1"
+      }
+    }
+  },
+  "permissionDenied": {
+    "message": "Site access was not granted.",
+    "description": "Status text when optional host permission is denied"
+  },
+  "settingsSaved": {
+    "message": "Settings saved.",
+    "description": "Status text after saving popup settings"
+  },
+  "popupError": {
+    "message": "Something went wrong. Open options and check the configuration.",
+    "description": "Generic popup error"
+  },
   "openOptions": {
     "message": "Open options",
     "description": "Button label for opening the options page"
@@ -32,4 +90,3 @@
     "description": "Internal readiness message"
   }
 }
-

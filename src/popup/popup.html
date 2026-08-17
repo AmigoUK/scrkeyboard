@@ -9,11 +9,20 @@
   <body>
     <main class="popup-shell">
       <h1 data-i18n="popupTitle">scrkeyboard</h1>
-      <p data-i18n="popupStatus">
-        Extension shell loaded. Setup controls will be added in the next milestone.
-      </p>
+      <section class="status-row" aria-live="polite">
+        <span data-i18n="extensionStatus">Extension status</span>
+        <label class="toggle">
+          <input type="checkbox" id="enabled-toggle" />
+          <span id="enabled-label" data-i18n="enabled">Enabled</span>
+        </label>
+      </section>
+      <section class="site-row">
+        <span data-i18n="currentSite">Current site</span>
+        <strong id="current-site">-</strong>
+      </section>
+      <p id="status-message" data-i18n="popupLoading">Loading current site settings...</p>
+      <button type="button" id="add-current-site" data-i18n="addCurrentSite">Add current site</button>
       <button type="button" id="open-options" data-i18n="openOptions">Open options</button>
     </main>
   </body>
 </html>
-

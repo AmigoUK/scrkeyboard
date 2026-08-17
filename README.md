@@ -28,6 +28,18 @@ URL rules are matched against the full page URL and support `*` wildcards. For o
 rules without a scheme are treated as URL fragments, so `crm.example.com/orders/*` can match
 `https://crm.example.com/orders/123`.
 
+## Popup Workflow
+
+The popup is the operator-friendly entry point:
+
+- enable or disable scrkeyboard without deleting settings;
+- inspect the current site host;
+- approve the current site with one button;
+- open the full options page.
+
+When the operator approves a site, scrkeyboard requests runtime access for that origin and stores a whitelist
+rule such as `https://crm.example.com/*`.
+
 ## Planning
 
 See [docs/PRODUCT_PLAN.md](docs/PRODUCT_PLAN.md).

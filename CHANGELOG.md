@@ -8,6 +8,16 @@ The project follows semantic versioning during pre-production:
 - `0.x.0` for new features.
 - `x.0.0` for production releases, with `1.0.0` as the first production version.
 
+## 0.2.0 - 2026-08-17
+
+### Added
+
+- Operator popup with global enable/disable control.
+- Current-site detection for regular HTTP and HTTPS pages.
+- One-click current site approval through runtime optional host permissions.
+- Whitelist upsert behaviour that avoids duplicate site rules.
+- Unit tests for site access helpers and whitelist mutations.
+
 ## 0.1.0 - 2026-08-17
 
 ### Added
