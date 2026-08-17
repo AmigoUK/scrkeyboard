@@ -1,17 +1,17 @@
 import { createDefaultSettings } from './settingsDefaults';
-import type { ScrkeyboardSettings } from './settingsTypes';
+import type { ScrKeyboardSettings } from './settingsTypes';
 import { normaliseSettings } from './settingsValidation';
 
 export const SETTINGS_STORAGE_KEY = 'scrkeyboard.settings.v1';
 
-export async function loadSettings(): Promise<ScrkeyboardSettings> {
+export async function loadSettings(): Promise<ScrKeyboardSettings> {
   const storage = getSyncStorage();
   const stored = await storage.get(SETTINGS_STORAGE_KEY);
 
   return normaliseSettings(stored[SETTINGS_STORAGE_KEY]);
 }
 
-export async function saveSettings(settings: ScrkeyboardSettings): Promise<ScrkeyboardSettings> {
+export async function saveSettings(settings: ScrKeyboardSettings): Promise<ScrKeyboardSettings> {
   const normalisedSettings = normaliseSettings(settings);
   await getSyncStorage().set({
     [SETTINGS_STORAGE_KEY]: normalisedSettings
@@ -20,7 +20,7 @@ export async function saveSettings(settings: ScrkeyboardSettings): Promise<Scrke
   return normalisedSettings;
 }
 
-export async function initialiseSettings(): Promise<ScrkeyboardSettings> {
+export async function initialiseSettings(): Promise<ScrKeyboardSettings> {
   const storage = getSyncStorage();
   const stored = await storage.get(SETTINGS_STORAGE_KEY);
   const existingSettings = stored[SETTINGS_STORAGE_KEY];

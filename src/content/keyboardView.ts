@@ -48,7 +48,7 @@ export function createKeyboardView(callbacks: KeyboardViewCallbacks): KeyboardVi
   function createPanelElement(): HTMLElement {
     const panel = document.createElement('section');
     panel.className = 'panel';
-    panel.setAttribute('aria-label', 'scrkeyboard');
+    panel.setAttribute('aria-label', 'ScrKeyboard');
 
     const phraseRow = document.createElement('div');
     phraseRow.className = 'phrase-row';

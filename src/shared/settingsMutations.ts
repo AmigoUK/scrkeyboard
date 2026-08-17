@@ -1,15 +1,15 @@
-import type { ScrkeyboardSettings, UrlRule } from './settingsTypes';
+import type { ScrKeyboardSettings, UrlRule } from './settingsTypes';
 
 export interface UpsertWhitelistRuleResult {
-  settings: ScrkeyboardSettings;
+  settings: ScrKeyboardSettings;
   rule: UrlRule;
   created: boolean;
 }
 
 export function setExtensionEnabled(
-  settings: ScrkeyboardSettings,
+  settings: ScrKeyboardSettings,
   enabled: boolean
-): ScrkeyboardSettings {
+): ScrKeyboardSettings {
   return {
     ...settings,
     enabled
@@ -17,7 +17,7 @@ export function setExtensionEnabled(
 }
 
 export function upsertWhitelistRule(
-  settings: ScrkeyboardSettings,
+  settings: ScrKeyboardSettings,
   rule: UrlRule
 ): UpsertWhitelistRuleResult {
   const existingIndex = settings.whitelist.findIndex(

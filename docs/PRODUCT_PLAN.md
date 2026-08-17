@@ -1,4 +1,4 @@
-# scrkeyboard Product Plan
+# ScrKeyboard Product Plan
 
 ## Goal
 

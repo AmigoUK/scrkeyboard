@@ -1,4 +1,4 @@
-import type { BlockRule, Phrase, ScrkeyboardSettings, UrlRule, UrlRuleEvaluation } from './settingsTypes';
+import type { BlockRule, Phrase, ScrKeyboardSettings, UrlRule, UrlRuleEvaluation } from './settingsTypes';
 
 const supportedProtocols = new Set(['http:', 'https:']);
 
@@ -33,7 +33,7 @@ export function wildcardPatternToRegExp(pattern: string): RegExp {
   return new RegExp(source, 'i');
 }
 
-export function evaluateUrlRules(settings: ScrkeyboardSettings, url: string): UrlRuleEvaluation {
+export function evaluateUrlRules(settings: ScrKeyboardSettings, url: string): UrlRuleEvaluation {
   const disabledEvaluation = createInactiveEvaluation();
 
   if (!settings.enabled || !isSupportedPageUrl(url)) {

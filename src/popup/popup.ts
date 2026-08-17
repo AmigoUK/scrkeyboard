@@ -2,7 +2,7 @@ import './popup.css';
 import { translate } from '../shared/i18n';
 import { loadSettings, saveSettings } from '../shared/settingsStorage';
 import { setExtensionEnabled, upsertWhitelistRule } from '../shared/settingsMutations';
-import type { ScrkeyboardSettings } from '../shared/settingsTypes';
+import type { ScrKeyboardSettings } from '../shared/settingsTypes';
 import {
   createWhitelistRuleForPage,
   getDisplayHost,
@@ -24,7 +24,7 @@ const currentSiteElement = document.querySelector<HTMLElement>('#current-site');
 const statusMessage = document.querySelector<HTMLElement>('#status-message');
 const addCurrentSiteButton = document.querySelector<HTMLButtonElement>('#add-current-site');
 
-let settings: ScrkeyboardSettings | null = null;
+let settings: ScrKeyboardSettings | null = null;
 let currentTabUrl: string | null = null;
 let currentTabId: number | null = null;
 

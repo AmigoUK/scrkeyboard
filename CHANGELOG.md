@@ -8,6 +8,12 @@ The project follows semantic versioning during pre-production:
 - `0.x.0` for new features.
 - `x.0.0` for production releases, with `1.0.0` as the first production version.
 
+## 0.8.1 - 2026-08-17
+
+### Fixed
+
+- Updated visible product branding from `scrkeyboard` to `ScrKeyboard`.
+
 ## 0.8.0 - 2026-08-17
 
 ### Added

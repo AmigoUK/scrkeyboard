@@ -4,7 +4,7 @@ import type {
   ConfirmKeyMode,
   LocaleCode,
   Phrase,
-  ScrkeyboardSettings,
+  ScrKeyboardSettings,
   UrlRule
 } from './settingsTypes';
 import { normaliseButtonColour } from './phraseColours';
@@ -13,7 +13,7 @@ import { normalisePattern } from './urlPattern';
 const supportedLanguages = new Set<LocaleCode>(['en', 'pl']);
 const supportedConfirmKeyModes = new Set<ConfirmKeyMode>(['enter', 'ctrlEnter']);
 
-export function normaliseSettings(input: unknown): ScrkeyboardSettings {
+export function normaliseSettings(input: unknown): ScrKeyboardSettings {
   const defaults = createDefaultSettings();
 
   if (!isRecord(input)) {

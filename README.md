@@ -1,6 +1,6 @@
-# scrkeyboard
+# ScrKeyboard
 
-scrkeyboard is a Chrome extension concept for a comfortable on-screen keyboard that appears when a user focuses an editable field and hides after pressing Enter.
+ScrKeyboard is a Chrome extension concept for a comfortable on-screen keyboard that appears when a user focuses an editable field and hides after pressing Enter.
 
 Default language: English. Planned UI languages: English and Polish.
 
@@ -21,7 +21,7 @@ Default language: English. Planned UI languages: English and Polish.
 
 ## Settings Model
 
-scrkeyboard stores configuration in `chrome.storage.sync` under the `scrkeyboard.settings.v1` key.
+ScrKeyboard stores configuration in `chrome.storage.sync` under the `scrkeyboard.settings.v1` key.
 The whitelist is empty by default, so the keyboard stays inactive until the operator adds an approved site.
 
 URL rules are matched against the full page URL and support `*` wildcards. For operator-friendly setup,
@@ -32,12 +32,12 @@ rules without a scheme are treated as URL fragments, so `crm.example.com/orders/
 
 The popup is the operator-friendly entry point:
 
-- enable or disable scrkeyboard without deleting settings;
+- enable or disable ScrKeyboard without deleting settings;
 - inspect the current site host;
 - approve the current site with one button;
 - open the full options page.
 
-When the operator approves a site, scrkeyboard requests runtime access for that origin and stores a whitelist
+When the operator approves a site, ScrKeyboard requests runtime access for that origin and stores a whitelist
 rule such as `https://crm.example.com/*`.
 
 ## Setup Page
@@ -59,7 +59,7 @@ must still be granted from the popup while the target site is open.
 
 ## Keyboard Behaviour
 
-On approved pages, scrkeyboard injects a Shadow DOM keyboard panel docked to the bottom of the viewport.
+On approved pages, ScrKeyboard injects a Shadow DOM keyboard panel docked to the bottom of the viewport.
 The panel appears when the operator focuses a supported editable field and hides when the operator presses
 Enter, selects Close, or clicks outside an editable field.
 
@@ -69,14 +69,14 @@ compact symbolic Backspace key. CapsLock state is remembered locally with
 `chrome.storage.local`, so the operator gets the same CapsLock state after reopening the keyboard or reloading
 the page.
 
-Global and site-specific phrase buttons can use operator-defined button colours from setup. scrkeyboard
+Global and site-specific phrase buttons can use operator-defined button colours from setup. ScrKeyboard
 normalises stored colours and automatically uses black or white text, whichever has the stronger contrast
 against the selected button colour.
 
 Keyboard keys are sized for comfortable pointer and touch input. Enter dispatches either Enter or Ctrl+Enter
 depending on setup. Password fields are ignored unless the matching whitelist rule explicitly allows them.
 
-When the keyboard opens, scrkeyboard measures the panel and scrolls the active field above it. While the
+When the keyboard opens, ScrKeyboard measures the panel and scrolls the active field above it. While the
 keyboard is visible, the page gets a temporary bottom inset so footer fields in long forms can still scroll
 clear of the fixed keyboard panel.
 
@@ -88,7 +88,7 @@ For a local smoke test, run a static server from the repository root and open th
 python3 -m http.server 4173 --bind 127.0.0.1
 ```
 
-Then open `http://127.0.0.1:4173/manual/webforms.html`, approve the site through the scrkeyboard popup,
+Then open `http://127.0.0.1:4173/manual/webforms.html`, approve the site through the ScrKeyboard popup,
 and focus the Customer reference field. The keyboard should appear at the bottom of the page. The fixture
 shows the last key event so Enter and Ctrl+Enter behaviour can be checked visibly. It also includes a Footer
 reference field near the bottom of a long form for checking that the keyboard scrolls focused fields into view.
@@ -126,7 +126,7 @@ The build output is written to `dist/`.
 2. Enable Developer mode.
 3. Select Load unpacked.
 4. Choose the `dist/` directory from this repository.
-5. Confirm that `scrkeyboard` appears without manifest or service-worker errors.
+5. Confirm that `ScrKeyboard` appears without manifest or service-worker errors.
 
 ## Permissions
 

@@ -1,9 +1,9 @@
-import type { ScrkeyboardSettings } from './settingsTypes';
+import type { ScrKeyboardSettings } from './settingsTypes';
 import { DEFAULT_PHRASE_BUTTON_COLOUR } from './phraseColours';
 
 export const SETTINGS_SCHEMA_VERSION = 1;
 
-export const DEFAULT_SETTINGS: ScrkeyboardSettings = {
+export const DEFAULT_SETTINGS: ScrKeyboardSettings = {
   schemaVersion: SETTINGS_SCHEMA_VERSION,
   enabled: true,
   language: 'en',
@@ -28,6 +28,6 @@ export const DEFAULT_SETTINGS: ScrkeyboardSettings = {
   blacklist: []
 };
 
-export function createDefaultSettings(): ScrkeyboardSettings {
+export function createDefaultSettings(): ScrKeyboardSettings {
   return structuredClone(DEFAULT_SETTINGS);
 }

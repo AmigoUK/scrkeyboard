@@ -1,6 +1,6 @@
 {
   "extensionName": {
-    "message": "scrkeyboard",
+    "message": "ScrKeyboard",
     "description": "Extension name"
   },
   "extensionDescription": {
@@ -8,7 +8,7 @@
     "description": "Extension description"
   },
   "popupTitle": {
-    "message": "scrkeyboard",
+    "message": "ScrKeyboard",
     "description": "Popup heading"
   },
   "popupStatus": {
@@ -78,7 +78,7 @@
     "description": "Button label for opening the options page"
   },
   "optionsTitle": {
-    "message": "scrkeyboard options",
+    "message": "ScrKeyboard options",
     "description": "Options page heading"
   },
   "optionsStatus": {
@@ -86,7 +86,7 @@
     "description": "Temporary options page status text"
   },
   "contentReady": {
-    "message": "scrkeyboard content script ready",
+    "message": "ScrKeyboard content script ready",
     "description": "Internal readiness message"
   }
 }

@@ -5,7 +5,7 @@ import type {
   ConfirmKeyMode,
   LocaleCode,
   Phrase,
-  ScrkeyboardSettings,
+  ScrKeyboardSettings,
   UrlRule
 } from '../shared/settingsTypes';
 
@@ -45,18 +45,18 @@ export function createEmptyBlacklistRule(): BlockRule {
   };
 }
 
-export function cloneSettings(settings: ScrkeyboardSettings): ScrkeyboardSettings {
+export function cloneSettings(settings: ScrKeyboardSettings): ScrKeyboardSettings {
   return structuredClone(settings);
 }
 
 export function createSettingsFromControls(
-  settings: ScrkeyboardSettings,
+  settings: ScrKeyboardSettings,
   controls: {
     enabled: boolean;
     language: LocaleCode;
     confirmKeyMode: ConfirmKeyMode;
   }
-): ScrkeyboardSettings {
+): ScrKeyboardSettings {
   return {
     ...settings,
     schemaVersion: SETTINGS_SCHEMA_VERSION,
@@ -66,7 +66,7 @@ export function createSettingsFromControls(
   };
 }
 
-export function settingsToCsv(settings: ScrkeyboardSettings): string {
+export function settingsToCsv(settings: ScrKeyboardSettings): string {
   const rows = [
     ['type', 'scope', 'enabled', 'pattern', 'allow_password_fields', 'label', 'value', 'button_colour'],
     ...settings.globalPhrases.map((phrase) =>

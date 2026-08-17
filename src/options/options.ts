@@ -8,7 +8,7 @@ import type {
   ConfirmKeyMode,
   LocaleCode,
   Phrase,
-  ScrkeyboardSettings,
+  ScrKeyboardSettings,
   UrlRule
 } from '../shared/settingsTypes';
 import {
@@ -72,7 +72,7 @@ const copyByLanguage: Record<LocaleCode, OptionsCopy> = {
     addSite: 'Add approved site',
     allowPasswordFields: 'Allow password fields',
     approvedSitesDescription:
-      'scrkeyboard runs only on approved URL patterns. Use * as a wildcard when the same application has many paths.',
+      'ScrKeyboard runs only on approved URL patterns. Use * as a wildcard when the same application has many paths.',
     approvedSitesTitle: 'Approved sites',
     blockedSitesDescription: 'Blocked patterns always win, even when the same URL also matches an approved site.',
     blockedSitesTitle: 'Blocked sites',
@@ -83,7 +83,7 @@ const copyByLanguage: Record<LocaleCode, OptionsCopy> = {
     emptyGlobalPhrases: 'No global phrases yet.',
     emptySitePhrases: 'No site phrases yet.',
     emptyWhitelist: 'No approved sites yet. The keyboard stays inactive until a site is approved.',
-    enabled: 'Enable scrkeyboard',
+    enabled: 'Enable ScrKeyboard',
     enterMode: 'Enter',
     exportCsv: 'Export CSV',
     grantAccess: 'Grant access',
@@ -99,7 +99,7 @@ const copyByLanguage: Record<LocaleCode, OptionsCopy> = {
     save: 'Save settings',
     saved: 'Settings saved.',
     setupDescription: 'Manage operator-friendly domain rules, keyboard behaviour, and one-tap phrases.',
-    setupTitle: 'scrkeyboard setup',
+    setupTitle: 'ScrKeyboard setup',
     sitePhrases: 'Site phrases',
     statusCsvExported: 'CSV export prepared.',
     statusGrantDenied: 'Chrome site access was not granted.',
@@ -115,7 +115,7 @@ const copyByLanguage: Record<LocaleCode, OptionsCopy> = {
     addSite: 'Dodaj zatwierdzoną stronę',
     allowPasswordFields: 'Zezwól na pola haseł',
     approvedSitesDescription:
-      'scrkeyboard działa tylko na zatwierdzonych wzorcach URL. Użyj * jako wildcard dla wielu ścieżek aplikacji.',
+      'ScrKeyboard działa tylko na zatwierdzonych wzorcach URL. Użyj * jako wildcard dla wielu ścieżek aplikacji.',
     approvedSitesTitle: 'Zatwierdzone strony',
     blockedSitesDescription: 'Wzorce blokowane mają pierwszeństwo, nawet gdy URL pasuje też do zatwierdzonej strony.',
     blockedSitesTitle: 'Blokowane strony',
@@ -126,7 +126,7 @@ const copyByLanguage: Record<LocaleCode, OptionsCopy> = {
     emptyGlobalPhrases: 'Brak fraz globalnych.',
     emptySitePhrases: 'Brak fraz dla tej strony.',
     emptyWhitelist: 'Brak zatwierdzonych stron. Klawiatura pozostaje nieaktywna do czasu zatwierdzenia strony.',
-    enabled: 'Włącz scrkeyboard',
+    enabled: 'Włącz ScrKeyboard',
     enterMode: 'Enter',
     exportCsv: 'Eksport CSV',
     grantAccess: 'Przyznaj dostęp',
@@ -142,7 +142,7 @@ const copyByLanguage: Record<LocaleCode, OptionsCopy> = {
     save: 'Zapisz ustawienia',
     saved: 'Ustawienia zapisane.',
     setupDescription: 'Zarządzaj domenami, zachowaniem klawiatury i frazami dla operatora.',
-    setupTitle: 'Setup scrkeyboard',
+    setupTitle: 'Setup ScrKeyboard',
     sitePhrases: 'Frazy strony',
     statusCsvExported: 'Eksport CSV przygotowany.',
     statusGrantDenied: 'Dostęp Chrome do strony nie został przyznany.',
@@ -160,7 +160,7 @@ if (!root) {
 }
 
 const optionsRoot = root;
-let settings: ScrkeyboardSettings | null = null;
+let settings: ScrKeyboardSettings | null = null;
 let statusText = copyByLanguage.en.loading;
 
 void initialiseOptions();
@@ -719,7 +719,7 @@ function exportSettingsCsv(): void {
     })
   );
   const anchor = document.createElement('a');
-  anchor.download = 'scrkeyboard-settings.csv';
+  anchor.download = 'ScrKeyboard-settings.csv';
   anchor.href = url;
   anchor.click();
 
@@ -746,7 +746,7 @@ function markDirty(): void {
   }
 }
 
-function settingsOrThrow(): ScrkeyboardSettings {
+function settingsOrThrow(): ScrKeyboardSettings {
   if (!settings) {
     throw new Error('Settings are not loaded.');
   }

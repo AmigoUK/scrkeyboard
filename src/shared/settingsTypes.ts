@@ -24,7 +24,7 @@ export interface BlockRule {
   enabled: boolean;
 }
 
-export interface ScrkeyboardSettings {
+export interface ScrKeyboardSettings {
   schemaVersion: 1;
   enabled: boolean;
   language: LocaleCode;

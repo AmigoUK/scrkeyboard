@@ -10,13 +10,13 @@ chrome.runtime.onInstalled.addListener(() => {
   void initialiseSettings()
     .then(() => syncKeyboardContentScriptRegistration())
     .catch((error: unknown) => {
-      console.error('Failed to initialise scrkeyboard settings.', error);
+      console.error('Failed to initialise ScrKeyboard settings.', error);
     });
 });
 
 chrome.runtime.onStartup.addListener(() => {
   void syncKeyboardContentScriptRegistration().catch((error: unknown) => {
-    console.error('Failed to sync scrkeyboard content script registration.', error);
+    console.error('Failed to sync ScrKeyboard content script registration.', error);
   });
 });
 
@@ -26,13 +26,13 @@ chrome.storage.onChanged.addListener((changes, areaName) => {
   }
 
   void syncKeyboardContentScriptRegistration().catch((error: unknown) => {
-    console.error('Failed to sync scrkeyboard content scripts after settings change.', error);
+    console.error('Failed to sync ScrKeyboard content scripts after settings change.', error);
   });
 });
 
 chrome.permissions.onAdded.addListener(() => {
   void syncAndInjectKeyboardContentScriptIntoOpenTabs().catch((error: unknown) => {
-    console.error('Failed to activate scrkeyboard after a new site permission was granted.', error);
+    console.error('Failed to activate ScrKeyboard after a new site permission was granted.', error);
   });
 });
 
@@ -44,7 +44,7 @@ chrome.runtime.onMessage.addListener((message: unknown, _sender, sendResponse) =
   void syncKeyboardContentScriptRegistration()
     .then(() => sendResponse({ ok: true }))
     .catch((error: unknown) => {
-      console.error('Failed to sync scrkeyboard content scripts on request.', error);
+      console.error('Failed to sync ScrKeyboard content scripts on request.', error);
       sendResponse({ ok: false });
     });
 
