@@ -1,5 +1,5 @@
 import { SETTINGS_STORAGE_KEY, loadSettings } from '../shared/settingsStorage';
-import type { Phrase, UrlRuleEvaluation } from '../shared/settingsTypes';
+import type { ConfirmKeyMode, LocaleCode, Phrase, UrlRuleEvaluation } from '../shared/settingsTypes';
 import { evaluateUrlRules } from '../shared/urlPattern';
 import { type EditableTarget, resolveEditableTarget } from './editableTarget';
 import { createKeyboardView, type KeyboardView } from './keyboardView';
@@ -9,8 +9,10 @@ import { deleteBackward, dispatchEnter, insertText } from './textEditing';
 const readyEventName = 'scrkeyboard:content-ready';
 
 let activeTarget: EditableTarget | null = null;
+let confirmKeyMode: ConfirmKeyMode = 'enter';
 let evaluation: UrlRuleEvaluation | null = null;
 let keyboardView: KeyboardView | null = null;
+let language: LocaleCode = 'en';
 
 if (!document.documentElement.dataset.scrkeyboardContentReady) {
   document.documentElement.dataset.scrkeyboardContentReady = 'true';
@@ -40,12 +42,19 @@ async function initialiseContentScript(): Promise<void> {
 
 async function refreshEvaluation(): Promise<void> {
   const settings = await loadSettings();
+  confirmKeyMode = settings.confirmKeyMode;
+  language = settings.language;
   evaluation = evaluateUrlRules(settings, window.location.href);
   document.documentElement.dataset.scrkeyboardActive = String(evaluation.active);
 
   if (!evaluation.active) {
     activeTarget = null;
     keyboardView?.hide();
+    return;
+  }
+
+  if (activeTarget) {
+    keyboardView?.show(evaluation.phrases, language);
   }
 }
 
@@ -65,7 +74,7 @@ function activateEditableTarget(target: EventTarget | null): void {
   }
 
   activeTarget = editableTarget;
-  getKeyboardView().show(evaluation.phrases);
+  getKeyboardView().show(evaluation.phrases, language);
 }
 
 function handleDocumentPointerDown(event: PointerEvent): void {
@@ -118,7 +127,7 @@ function handleKeyboardAction(action: KeyboardAction): void {
     case 'capsLock':
       break;
     case 'enter':
-      dispatchEnter(activeTarget, false);
+      dispatchEnter(activeTarget, confirmKeyMode === 'ctrlEnter');
       activeTarget = null;
       keyboardView?.hide();
       break;

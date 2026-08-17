@@ -33,6 +33,18 @@
         padding: 10px 12px;
         font: inherit;
       }
+
+      .event-log {
+        box-sizing: border-box;
+        max-width: 520px;
+        margin-top: 18px;
+        border: 1px solid #d7dde5;
+        border-radius: 6px;
+        padding: 10px 12px;
+        background: #f7f8fa;
+        color: #2f3a45;
+        font-size: 14px;
+      }
     </style>
   </head>
   <body>
@@ -49,6 +61,19 @@
       </label>
       <button type="submit">Submit</button>
     </form>
+    <p id="event-log" class="event-log" aria-live="polite">Last event: none</p>
+    <script>
+      const form = document.querySelector('#aspnetForm');
+      const eventLog = document.querySelector('#event-log');
+
+      form.addEventListener('keydown', (event) => {
+        eventLog.textContent = `Last keydown: ${event.key} ctrl=${event.ctrlKey}`;
+      });
+
+      form.addEventListener('submit', (event) => {
+        event.preventDefault();
+        eventLog.textContent = 'Last event: submit prevented';
+      });
+    </script>
   </body>
 </html>
-

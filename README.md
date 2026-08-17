@@ -40,6 +40,23 @@ The popup is the operator-friendly entry point:
 When the operator approves a site, scrkeyboard requests runtime access for that origin and stores a whitelist
 rule such as `https://crm.example.com/*`.
 
+## Setup Page
+
+The options page is the main setup surface for non-technical operators. It supports:
+
+- global enable/disable control;
+- UI language selection for English and Polish, with English as the default;
+- Enter or Ctrl+Enter confirmation mode;
+- global quick phrases;
+- approved site rules with `*` wildcard support;
+- site-specific quick phrases;
+- blocked site rules that take precedence over approved rules;
+- Chrome site-access grant controls for explicit HTTP/HTTPS rules;
+- CSV export of configured rules and phrases.
+
+Fragment rules such as `crm.example.com/orders/*` can match URLs during evaluation, but Chrome host access
+must still be granted from the popup while the target site is open.
+
 ## Keyboard Behaviour
 
 On approved pages, scrkeyboard injects a Shadow DOM keyboard panel docked to the bottom of the viewport.
@@ -50,8 +67,8 @@ The keyboard includes QWERTY letters, CapsLock, Shift, Backspace, Space, Enter, 
 buttons, and a right-hand numeric keypad. CapsLock state is remembered locally with `chrome.storage.local`,
 so the operator gets the same CapsLock state after reopening the keyboard or reloading the page.
 
-Keyboard keys are sized for comfortable pointer and touch input. Password fields are ignored unless the
-matching whitelist rule explicitly allows them.
+Keyboard keys are sized for comfortable pointer and touch input. Enter dispatches either Enter or Ctrl+Enter
+depending on setup. Password fields are ignored unless the matching whitelist rule explicitly allows them.
 
 ## Manual WebForms Fixture
 
@@ -62,7 +79,8 @@ python3 -m http.server 4173 --bind 127.0.0.1
 ```
 
 Then open `http://127.0.0.1:4173/manual/webforms.html`, approve the site through the scrkeyboard popup,
-and focus the Customer reference field. The keyboard should appear at the bottom of the page.
+and focus the Customer reference field. The keyboard should appear at the bottom of the page. The fixture
+shows the last key event so Enter and Ctrl+Enter behaviour can be checked visibly.
 
 ## Planning
 

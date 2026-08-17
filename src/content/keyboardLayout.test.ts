@@ -1,4 +1,5 @@
 import { describe, expect, it } from 'vitest';
+import { getKeyboardCopy } from './keyboardCopy';
 import { createKeyboardRows, createNumpadRows } from './keyboardLayout';
 
 describe('createKeyboardRows', () => {
@@ -38,6 +39,13 @@ describe('createKeyboardRows', () => {
     expect(rows[1][0].label).toBe('A');
     expect(rows[2][2].label).toBe('Z');
     expect(rows[2][0].active).toBe(true);
+  });
+
+  it('uses configured language copy for special keys', () => {
+    const rows = createKeyboardRows(false, false, getKeyboardCopy('pl'));
+
+    expect(rows[2][9].label).toBe('Usuń');
+    expect(rows[3].map((key) => key.label)).toEqual(['Zamknij', 'Spacja', 'Enter']);
   });
 });
 

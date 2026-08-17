@@ -8,6 +8,21 @@ The project follows semantic versioning during pre-production:
 - `0.x.0` for new features.
 - `x.0.0` for production releases, with `1.0.0` as the first production version.
 
+## 0.5.0 - 2026-08-17
+
+### Added
+
+- Added a full setup/options page for managing extension status, language, Enter mode, quick phrases, approved sites, blocked sites, and site-specific phrases.
+- Added CSV export for configured rules and phrases.
+- Added site-access grant controls for approved URL rules that can be mapped to Chrome host permissions.
+- Added shared host-permission pattern helpers with unit coverage.
+- Added visible key-event logging to the WebForms manual fixture.
+
+### Changed
+
+- Applied the configured Enter mode when dispatching keyboard Enter events, including Ctrl+Enter.
+- Applied the configured language to keyboard special-key labels.
+
 ## 0.4.0 - 2026-08-17
 
 ### Added

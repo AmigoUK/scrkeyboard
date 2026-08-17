@@ -1,6 +1,9 @@
 import { SETTINGS_STORAGE_KEY, loadSettings } from '../shared/settingsStorage';
 import type { UrlRule } from '../shared/settingsTypes';
-import { evaluateUrlRules, normalisePattern } from '../shared/urlPattern';
+import { getContentScriptMatchPatterns } from '../shared/hostPermissions';
+import { evaluateUrlRules } from '../shared/urlPattern';
+
+export { getContentScriptMatchPatterns } from '../shared/hostPermissions';
 
 const KEYBOARD_CONTENT_SCRIPT_ID = 'scrkeyboard-keyboard';
 const KEYBOARD_CONTENT_SCRIPT_FILE = 'assets/content.js';
@@ -65,27 +68,6 @@ export function shouldSyncContentScriptsForStorageChange(
   areaName: string
 ): boolean {
   return areaName === 'sync' && SETTINGS_STORAGE_KEY in changes;
-}
-
-export function getContentScriptMatchPatterns(rulePattern: string): string[] {
-  const pattern = normalisePattern(rulePattern);
-  const match = pattern.match(/^(\*|https?|http):\/\/([^/]+)(?:\/.*)?$/i);
-
-  if (!match) {
-    return [];
-  }
-
-  const [, scheme, host] = match;
-
-  if (!host || host === '*') {
-    return [];
-  }
-
-  if (scheme === '*') {
-    return [`http://${host}/*`, `https://${host}/*`];
-  }
-
-  return [`${scheme.toLowerCase()}://${host}/*`];
 }
 
 async function collectPermittedMatchPatterns(rules: UrlRule[]): Promise<string[]> {

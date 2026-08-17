@@ -1,3 +1,5 @@
+import type { KeyboardCopy } from './keyboardCopy';
+
 export type KeyboardAction =
   | {
       type: 'character';
@@ -30,11 +32,24 @@ export interface KeyboardKey {
   active?: boolean;
 }
 
+const defaultCopy: KeyboardCopy = {
+  backspace: 'Backspace',
+  capsLock: 'CapsLock',
+  close: 'Close',
+  enter: 'Enter',
+  shift: 'Shift',
+  space: 'Space'
+};
+
 const firstLetterRow = ['q', 'w', 'e', 'r', 't', 'y', 'u', 'i', 'o', 'p'];
 const secondLetterRow = ['a', 's', 'd', 'f', 'g', 'h', 'j', 'k', 'l'];
 const thirdLetterRow = ['z', 'x', 'c', 'v', 'b', 'n', 'm'];
 
-export function createKeyboardRows(shiftActive: boolean, capsLockActive: boolean): KeyboardKey[][] {
+export function createKeyboardRows(
+  shiftActive: boolean,
+  capsLockActive: boolean,
+  copy: KeyboardCopy = defaultCopy
+): KeyboardKey[][] {
   const uppercaseActive = shiftActive || capsLockActive;
 
   return [
@@ -43,7 +58,7 @@ export function createKeyboardRows(shiftActive: boolean, capsLockActive: boolean
     [
       {
         id: 'caps-lock',
-        label: 'CapsLock',
+        label: copy.capsLock,
         action: {
           type: 'capsLock'
         },
@@ -52,7 +67,7 @@ export function createKeyboardRows(shiftActive: boolean, capsLockActive: boolean
       },
       {
         id: 'shift',
-        label: 'Shift',
+        label: copy.shift,
         action: {
           type: 'shift'
         },
@@ -62,7 +77,7 @@ export function createKeyboardRows(shiftActive: boolean, capsLockActive: boolean
       ...createCharacterRow(thirdLetterRow, uppercaseActive),
       {
         id: 'backspace',
-        label: 'Backspace',
+        label: copy.backspace,
         action: {
           type: 'backspace'
         },
@@ -72,7 +87,7 @@ export function createKeyboardRows(shiftActive: boolean, capsLockActive: boolean
     [
       {
         id: 'close',
-        label: 'Close',
+        label: copy.close,
         action: {
           type: 'close'
         },
@@ -80,7 +95,7 @@ export function createKeyboardRows(shiftActive: boolean, capsLockActive: boolean
       },
       {
         id: 'space',
-        label: 'Space',
+        label: copy.space,
         action: {
           type: 'space'
         },
@@ -88,7 +103,7 @@ export function createKeyboardRows(shiftActive: boolean, capsLockActive: boolean
       },
       {
         id: 'enter',
-        label: 'Enter',
+        label: copy.enter,
         action: {
           type: 'enter'
         },
@@ -98,7 +113,7 @@ export function createKeyboardRows(shiftActive: boolean, capsLockActive: boolean
   ];
 }
 
-export function createNumpadRows(): KeyboardKey[][] {
+export function createNumpadRows(copy: KeyboardCopy = defaultCopy): KeyboardKey[][] {
   return [
     createDigitRow(['7', '8', '9']),
     createDigitRow(['4', '5', '6']),
@@ -115,7 +130,7 @@ export function createNumpadRows(): KeyboardKey[][] {
       },
       {
         id: 'numpad-backspace',
-        label: 'Backspace',
+        label: copy.backspace,
         action: {
           type: 'backspace'
         },

@@ -1,11 +1,13 @@
 import type { Phrase } from '../shared/settingsTypes';
+import type { LocaleCode } from '../shared/settingsTypes';
+import { getKeyboardCopy } from './keyboardCopy';
 import { createKeyboardRows, createNumpadRows, type KeyboardAction, type KeyboardKey } from './keyboardLayout';
 import { loadKeyboardRuntimeState, saveKeyboardRuntimeState } from './keyboardRuntimeState';
 
 export interface KeyboardView {
   containsTarget(target: EventTarget | null): boolean;
   hide(): void;
-  show(phrases: Phrase[]): void;
+  show(phrases: Phrase[], language: LocaleCode): void;
 }
 
 export interface KeyboardViewCallbacks {
@@ -20,6 +22,7 @@ export function createKeyboardView(callbacks: KeyboardViewCallbacks): KeyboardVi
   });
   const state = {
     capsLockActive: false,
+    language: 'en' as LocaleCode,
     phrases: [] as Phrase[],
     shiftActive: false,
     visible: false
@@ -57,16 +60,17 @@ export function createKeyboardView(callbacks: KeyboardViewCallbacks): KeyboardVi
 
     const keyboardGrid = document.createElement('div');
     keyboardGrid.className = 'keyboard-grid';
+    const keyboardCopy = getKeyboardCopy(state.language);
 
     const mainKeyboard = document.createElement('div');
     mainKeyboard.className = 'main-keyboard';
-    createKeyboardRows(state.shiftActive, state.capsLockActive).forEach((row) => {
+    createKeyboardRows(state.shiftActive, state.capsLockActive, keyboardCopy).forEach((row) => {
       mainKeyboard.append(createKeyRow(row));
     });
 
     const numpad = document.createElement('div');
     numpad.className = 'numpad';
-    createNumpadRows().forEach((row) => {
+    createNumpadRows(keyboardCopy).forEach((row) => {
       numpad.append(createKeyRow(row));
     });
 
@@ -136,7 +140,8 @@ export function createKeyboardView(callbacks: KeyboardViewCallbacks): KeyboardVi
       host.style.display = 'none';
       host.setAttribute('aria-hidden', 'true');
     },
-    show(phrases) {
+    show(phrases, language) {
+      state.language = language;
       state.phrases = phrases;
       state.visible = true;
       host.style.display = 'block';
