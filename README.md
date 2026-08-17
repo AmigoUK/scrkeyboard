@@ -19,6 +19,15 @@ Default language: English. Planned UI languages: English and Polish.
 - Setup/options page for domains, language, layout, and keyword presets.
 - Chrome Manifest V3 extension structure.
 
+## Settings Model
+
+scrkeyboard stores configuration in `chrome.storage.sync` under the `scrkeyboard.settings.v1` key.
+The whitelist is empty by default, so the keyboard stays inactive until the operator adds an approved site.
+
+URL rules are matched against the full page URL and support `*` wildcards. For operator-friendly setup,
+rules without a scheme are treated as URL fragments, so `crm.example.com/orders/*` can match
+`https://crm.example.com/orders/123`.
+
 ## Planning
 
 See [docs/PRODUCT_PLAN.md](docs/PRODUCT_PLAN.md).

@@ -8,6 +8,16 @@ The project follows semantic versioning during pre-production:
 - `0.x.0` for new features.
 - `x.0.0` for production releases, with `1.0.0` as the first production version.
 
+## 0.1.0 - 2026-08-17
+
+### Added
+
+- Settings schema for extension enablement, language, confirm key mode, global phrases, whitelist, and blacklist.
+- URL wildcard matching for full URLs and operator-friendly URL fragments.
+- Whitelist/blacklist evaluation with blacklist precedence and inactive-by-default whitelist behaviour.
+- `chrome.storage.sync` load, save, and initialisation helpers.
+- Unit tests for settings normalisation, URL rule evaluation, and storage behaviour.
+
 ## 0.0.0 - 2026-08-17
 
 ### Added
@@ -17,4 +27,3 @@ The project follows semantic versioning during pre-production:
 - Popup, options page, background service worker, and content script entrypoints.
 - English and Polish Chrome i18n locale files.
 - README development, local loading, and permission notes.
-

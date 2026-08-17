@@ -1,6 +1,9 @@
+import { initialiseSettings } from '../shared/settingsStorage';
+
 chrome.runtime.onInstalled.addListener(() => {
-  // The settings core milestone will initialise persistent configuration.
+  void initialiseSettings().catch((error: unknown) => {
+    console.error('Failed to initialise scrkeyboard settings.', error);
+  });
 });
 
 export {};
-
