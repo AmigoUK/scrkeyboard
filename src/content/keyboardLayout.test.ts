@@ -3,6 +3,7 @@ import { getKeyboardCopy } from './keyboardCopy';
 import {
   BACKSPACE_SYMBOL_LABEL,
   CAPS_LOCK_SYMBOL_LABEL,
+  DIACRITICS_SYMBOL_LABEL,
   ENTER_SYMBOL_LABEL,
   LETTERS_LAYER_LABEL,
   SYMBOL_LAYER_LABEL,
@@ -53,12 +54,13 @@ describe('createKeyboardRows', () => {
     ]);
     expect(rows[3].map((key) => key.label)).toEqual([
       SYMBOL_LAYER_LABEL,
+      DIACRITICS_SYMBOL_LABEL,
       'Close',
       'Space',
       ENTER_SYMBOL_LABEL
     ]);
-    expect(rows[3][3].ariaLabel).toBe('Enter');
-    expect(rows[3][3].width).toBe('wide');
+    expect(rows[3][4].ariaLabel).toBe('Enter');
+    expect(rows[3][4].width).toBe('wide');
     expect(rows.flat().some((key) => key.id === 'backspace')).toBe(false);
   });
 
@@ -86,11 +88,12 @@ describe('createKeyboardRows', () => {
     expect(rows[2][0].ariaLabel).toBe('CapsLock');
     expect(rows[3].map((key) => key.label)).toEqual([
       SYMBOL_LAYER_LABEL,
+      DIACRITICS_SYMBOL_LABEL,
       'Zamknij',
       'Spacja',
       ENTER_SYMBOL_LABEL
     ]);
-    expect(rows[3][3].ariaLabel).toBe('Enter');
+    expect(rows[3][4].ariaLabel).toBe('Enter');
   });
 });
 
@@ -140,6 +143,61 @@ describe('createKeyboardRows in symbols mode', () => {
 
   it('leaves symbol keys unaffected by shift', () => {
     const rows = createKeyboardRows(layoutState({ mode: 'symbols', shiftActive: true }));
+
+    expect(rows[0][0].label).toBe('!');
+  });
+});
+
+describe('createKeyboardRows with diacritics active', () => {
+  it('maps only the letters that have a Polish variant', () => {
+    const rows = createKeyboardRows(layoutState({ diacriticsActive: true }));
+
+    expect(rows[0].map((key) => key.label)).toEqual([
+      'q', 'w', 'ę', 'r', 't', 'y', 'u', 'i', 'ó', 'p'
+    ]);
+    expect(rows[1].map((key) => key.label)).toEqual([
+      'ą', 'ś', 'd', 'f', 'g', 'h', 'j', 'k', 'ł'
+    ]);
+    expect(rows[2].slice(2).map((key) => key.label)).toEqual([
+      'ż', 'ź', 'ć', 'v', 'b', 'ń', 'm'
+    ]);
+  });
+
+  it('inserts the mapped character, not the base letter', () => {
+    const rows = createKeyboardRows(layoutState({ diacriticsActive: true }));
+
+    expect(rows[1][0].action).toEqual({ type: 'character', value: 'ą' });
+  });
+
+  it('produces upper-case variants when shift is also active', () => {
+    const rows = createKeyboardRows(
+      layoutState({ diacriticsActive: true, shiftActive: true })
+    );
+
+    expect(rows[1][0].label).toBe('Ą');
+    expect(rows[1][0].action).toEqual({ type: 'character', value: 'Ą' });
+  });
+
+  it('marks the diacritics key active and keeps it in every mode', () => {
+    const letters = createKeyboardRows(layoutState({ diacriticsActive: true }));
+    const symbols = createKeyboardRows(layoutState({ mode: 'symbols' }));
+
+    expect(letters[3][1]).toEqual(
+      expect.objectContaining({
+        action: { type: 'diacritics' },
+        active: true,
+        id: 'diacritics',
+        label: DIACRITICS_SYMBOL_LABEL
+      })
+    );
+    expect(symbols[3][1].label).toBe(DIACRITICS_SYMBOL_LABEL);
+    expect(symbols[3][1].active).toBe(false);
+  });
+
+  it('leaves symbol rows untouched when diacritics are active', () => {
+    const rows = createKeyboardRows(
+      layoutState({ diacriticsActive: true, mode: 'symbols' })
+    );
 
     expect(rows[0][0].label).toBe('!');
   });

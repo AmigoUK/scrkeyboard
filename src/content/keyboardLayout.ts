@@ -1,3 +1,4 @@
+import { applyDiacritic } from './diacritics';
 import type { KeyboardCopy } from './keyboardCopy';
 
 export type KeyboardMode = 'letters' | 'symbols';
@@ -34,6 +35,9 @@ export type KeyboardAction =
     }
   | {
       type: 'symbolLayer';
+    }
+  | {
+      type: 'diacritics';
     };
 
 export interface KeyboardKey {
@@ -48,12 +52,14 @@ export interface KeyboardKey {
 
 export const BACKSPACE_SYMBOL_LABEL = '⌫';
 export const CAPS_LOCK_SYMBOL_LABEL = '⇪';
+export const DIACRITICS_SYMBOL_LABEL = 'ĄĘ';
 export const ENTER_SYMBOL_LABEL = '↵';
 
 const defaultCopy: KeyboardCopy = {
   backspace: 'Backspace',
   capsLock: 'CapsLock',
   close: 'Close',
+  diacritics: 'Polish characters',
   enter: 'Enter',
   lettersMode: 'Letters',
   shift: 'Shift',
@@ -76,19 +82,19 @@ export function createKeyboardRows(
   state: KeyboardLayoutState,
   copy: KeyboardCopy = defaultCopy
 ): KeyboardKey[][] {
-  const { capsLockActive, shiftActive } = state;
+  const { capsLockActive, diacriticsActive, shiftActive } = state;
   const uppercaseActive = shiftActive || capsLockActive;
 
   const symbolsMode = state.mode === 'symbols';
   const firstRow = symbolsMode
     ? createSymbolRow(firstSymbolRow)
-    : createCharacterRow(firstLetterRow, uppercaseActive);
+    : createCharacterRow(firstLetterRow, uppercaseActive, diacriticsActive);
   const secondRow = symbolsMode
     ? createSymbolRow(secondSymbolRow)
-    : createCharacterRow(secondLetterRow, uppercaseActive);
+    : createCharacterRow(secondLetterRow, uppercaseActive, diacriticsActive);
   const thirdRow = symbolsMode
     ? createSymbolRow(thirdSymbolRow)
-    : createCharacterRow(thirdLetterRow, uppercaseActive);
+    : createCharacterRow(thirdLetterRow, uppercaseActive, diacriticsActive);
 
   return [
     firstRow,
@@ -125,6 +131,15 @@ export function createKeyboardRows(
         action: {
           type: 'symbolLayer'
         }
+      },
+      {
+        id: 'diacritics',
+        label: DIACRITICS_SYMBOL_LABEL,
+        ariaLabel: copy.diacritics,
+        action: {
+          type: 'diacritics'
+        },
+        active: state.diacriticsActive
       },
       {
         id: 'close',
@@ -182,9 +197,14 @@ export function createNumpadRows(copy: KeyboardCopy = defaultCopy): KeyboardKey[
   ];
 }
 
-function createCharacterRow(characters: string[], shiftActive: boolean): KeyboardKey[] {
+function createCharacterRow(
+  characters: string[],
+  shiftActive: boolean,
+  diacriticsActive: boolean
+): KeyboardKey[] {
   return characters.map((character) => {
-    const value = shiftActive ? character.toUpperCase() : character;
+    const cased = shiftActive ? character.toUpperCase() : character;
+    const value = diacriticsActive ? applyDiacritic(cased) : cased;
 
     return {
       id: `character-${character}`,

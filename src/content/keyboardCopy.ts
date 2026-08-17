@@ -4,6 +4,7 @@ export interface KeyboardCopy {
   backspace: string;
   capsLock: string;
   close: string;
+  diacritics: string;
   enter: string;
   lettersMode: string;
   shift: string;
@@ -16,6 +17,7 @@ const copyByLanguage: Record<LocaleCode, KeyboardCopy> = {
     backspace: 'Backspace',
     capsLock: 'CapsLock',
     close: 'Close',
+    diacritics: 'Polish characters',
     enter: 'Enter',
     lettersMode: 'Letters',
     shift: 'Shift',
@@ -26,6 +28,7 @@ const copyByLanguage: Record<LocaleCode, KeyboardCopy> = {
     backspace: 'Usuń',
     capsLock: 'CapsLock',
     close: 'Zamknij',
+    diacritics: 'Polskie znaki',
     enter: 'Enter',
     lettersMode: 'Litery',
     shift: 'Shift',
