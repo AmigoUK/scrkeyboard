@@ -115,6 +115,8 @@ function handleKeyboardAction(action: KeyboardAction): void {
       break;
     case 'shift':
       break;
+    case 'capsLock':
+      break;
     case 'enter':
       dispatchEnter(activeTarget, false);
       activeTarget = null;

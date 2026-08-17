@@ -1,5 +1,6 @@
 import type { Phrase } from '../shared/settingsTypes';
-import { createKeyboardRows, type KeyboardAction, type KeyboardKey } from './keyboardLayout';
+import { createKeyboardRows, createNumpadRows, type KeyboardAction, type KeyboardKey } from './keyboardLayout';
+import { loadKeyboardRuntimeState, saveKeyboardRuntimeState } from './keyboardRuntimeState';
 
 export interface KeyboardView {
   containsTarget(target: EventTarget | null): boolean;
@@ -18,6 +19,7 @@ export function createKeyboardView(callbacks: KeyboardViewCallbacks): KeyboardVi
     mode: 'closed'
   });
   const state = {
+    capsLockActive: false,
     phrases: [] as Phrase[],
     shiftActive: false,
     visible: false
@@ -30,6 +32,11 @@ export function createKeyboardView(callbacks: KeyboardViewCallbacks): KeyboardVi
   function render(): void {
     shadowRoot.replaceChildren(createStyleElement(), createPanelElement());
   }
+
+  void loadKeyboardRuntimeState().then((runtimeState) => {
+    state.capsLockActive = runtimeState.capsLockActive;
+    render();
+  });
 
   function createPanelElement(): HTMLElement {
     const panel = document.createElement('section');
@@ -48,26 +55,55 @@ export function createKeyboardView(callbacks: KeyboardViewCallbacks): KeyboardVi
 
     panel.append(phraseRow);
 
-    createKeyboardRows(state.shiftActive).forEach((row) => {
-      const rowElement = document.createElement('div');
-      rowElement.className = 'key-row';
+    const keyboardGrid = document.createElement('div');
+    keyboardGrid.className = 'keyboard-grid';
 
-      row.forEach((key) => {
-        rowElement.append(createKeyButton(key));
-      });
-
-      panel.append(rowElement);
+    const mainKeyboard = document.createElement('div');
+    mainKeyboard.className = 'main-keyboard';
+    createKeyboardRows(state.shiftActive, state.capsLockActive).forEach((row) => {
+      mainKeyboard.append(createKeyRow(row));
     });
+
+    const numpad = document.createElement('div');
+    numpad.className = 'numpad';
+    createNumpadRows().forEach((row) => {
+      numpad.append(createKeyRow(row));
+    });
+
+    keyboardGrid.append(mainKeyboard, numpad);
+    panel.append(keyboardGrid);
 
     return panel;
   }
 
+  function createKeyRow(row: KeyboardKey[]): HTMLElement {
+    const rowElement = document.createElement('div');
+    rowElement.className = 'key-row';
+
+    row.forEach((key) => {
+      rowElement.append(createKeyButton(key));
+    });
+
+    return rowElement;
+  }
+
   function createKeyButton(key: KeyboardKey): HTMLButtonElement {
-    const button = createButton(key.label, `key key-${key.width ?? 'regular'}`);
+    const button = createButton(
+      key.label,
+      `key key-${key.width ?? 'regular'}${key.active ? ' key-active' : ''}`
+    );
     button.dataset.keyId = key.id;
     button.addEventListener('click', () => {
       if (key.action.type === 'shift') {
         state.shiftActive = !state.shiftActive;
+        render();
+      }
+
+      if (key.action.type === 'capsLock') {
+        state.capsLockActive = !state.capsLockActive;
+        void saveKeyboardRuntimeState({
+          capsLockActive: state.capsLockActive
+        });
         render();
       }
 
@@ -124,7 +160,7 @@ function createStyleElement(): HTMLStyleElement {
       left: 0;
       z-index: 2147483647;
       box-sizing: border-box;
-      padding: 10px;
+      padding: 14px;
       border-top: 1px solid #c8ced6;
       background: #f7f8fa;
       box-shadow: 0 -6px 24px rgba(23, 32, 42, 0.16);
@@ -136,26 +172,49 @@ function createStyleElement(): HTMLStyleElement {
     .key-row {
       display: flex;
       justify-content: center;
-      gap: 6px;
-      margin: 0 auto 6px;
-      max-width: 980px;
+      gap: 8px;
+      margin: 0 auto 8px;
     }
 
     .phrase-row[hidden] {
       display: none;
     }
 
+    .keyboard-grid {
+      display: flex;
+      align-items: stretch;
+      justify-content: center;
+      gap: 14px;
+      max-width: 1220px;
+      margin: 0 auto;
+    }
+
+    .main-keyboard {
+      flex: 1 1 860px;
+      max-width: 920px;
+    }
+
+    .numpad {
+      flex: 0 0 auto;
+      padding-left: 14px;
+      border-left: 1px solid #d5dbe3;
+    }
+
+    .numpad .key-row {
+      justify-content: flex-start;
+    }
+
     .key,
     .phrase-button {
-      min-width: 44px;
-      min-height: 42px;
+      min-width: 58px;
+      min-height: 56px;
       border: 1px solid #b8c0cc;
       border-radius: 6px;
       background: #ffffff;
       color: #17202a;
       cursor: pointer;
       font: inherit;
-      font-size: 15px;
+      font-size: 17px;
       font-weight: 650;
       touch-action: manipulation;
       user-select: none;
@@ -172,6 +231,12 @@ function createStyleElement(): HTMLStyleElement {
       background: #dbe7ff;
     }
 
+    .key-active {
+      border-color: #276ef1;
+      background: #dbe7ff;
+      color: #123f8c;
+    }
+
     .key:focus-visible,
     .phrase-button:focus-visible {
       outline: 3px solid rgba(39, 110, 241, 0.28);
@@ -179,12 +244,12 @@ function createStyleElement(): HTMLStyleElement {
     }
 
     .key-wide {
-      min-width: 96px;
+      min-width: 122px;
     }
 
     .key-extraWide {
       flex: 1;
-      max-width: 460px;
+      max-width: 520px;
     }
 
     .phrase-button {
@@ -194,8 +259,19 @@ function createStyleElement(): HTMLStyleElement {
       text-overflow: ellipsis;
       white-space: nowrap;
     }
+
+    @media (max-width: 860px) {
+      .keyboard-grid {
+        align-items: center;
+        flex-direction: column;
+      }
+
+      .numpad {
+        padding-left: 0;
+        border-left: 0;
+      }
+    }
   `;
 
   return style;
 }
-

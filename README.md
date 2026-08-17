@@ -46,8 +46,12 @@ On approved pages, scrkeyboard injects a Shadow DOM keyboard panel docked to the
 The panel appears when the operator focuses a supported editable field and hides when the operator presses
 Enter, selects Close, or clicks outside an editable field.
 
-The MVP keyboard includes digits, QWERTY letters, Shift, Backspace, Space, Enter, and configured phrase
-buttons. Password fields are ignored unless the matching whitelist rule explicitly allows them.
+The keyboard includes QWERTY letters, CapsLock, Shift, Backspace, Space, Enter, Close, configured phrase
+buttons, and a right-hand numeric keypad. CapsLock state is remembered locally with `chrome.storage.local`,
+so the operator gets the same CapsLock state after reopening the keyboard or reloading the page.
+
+Keyboard keys are sized for comfortable pointer and touch input. Password fields are ignored unless the
+matching whitelist rule explicitly allows them.
 
 ## Manual WebForms Fixture
 
@@ -99,7 +103,7 @@ The build output is written to `dist/`.
 
 The MVP uses the smallest permission set needed for the agreed workflow:
 
-- `storage`: stores extension settings in `chrome.storage.sync`.
+- `storage`: stores extension settings in `chrome.storage.sync` and local runtime state, such as the remembered CapsLock setting, in `chrome.storage.local`.
 - `activeTab`: lets the popup read the currently active page after the user clicks the extension action.
 - `scripting`: injects or registers the keyboard content script only for approved pages.
 - `optional_host_permissions`: requests access to user-approved HTTP/HTTPS sites at runtime instead of requesting broad access during installation.

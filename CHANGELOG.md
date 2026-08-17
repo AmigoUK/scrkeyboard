@@ -8,6 +8,18 @@ The project follows semantic versioning during pre-production:
 - `0.x.0` for new features.
 - `x.0.0` for production releases, with `1.0.0` as the first production version.
 
+## 0.4.0 - 2026-08-17
+
+### Added
+
+- Added a CapsLock key to the on-screen keyboard.
+- Persisted the CapsLock runtime state in local Chrome storage.
+- Added a right-hand numeric keypad.
+
+### Changed
+
+- Increased keyboard key sizing for easier operator input.
+
 ## 0.3.2 - 2026-08-17
 
 ### Fixed
