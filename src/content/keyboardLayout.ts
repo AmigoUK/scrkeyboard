@@ -31,6 +31,9 @@ export type KeyboardAction =
     }
   | {
       type: 'close';
+    }
+  | {
+      type: 'symbolLayer';
     };
 
 export interface KeyboardKey {
@@ -40,6 +43,7 @@ export interface KeyboardKey {
   ariaLabel?: string;
   width?: 'regular' | 'wide' | 'extraWide';
   active?: boolean;
+  disabled?: boolean;
 }
 
 export const BACKSPACE_SYMBOL_LABEL = '⌫';
@@ -51,13 +55,22 @@ const defaultCopy: KeyboardCopy = {
   capsLock: 'CapsLock',
   close: 'Close',
   enter: 'Enter',
+  lettersMode: 'Letters',
   shift: 'Shift',
-  space: 'Space'
+  space: 'Space',
+  symbolsMode: 'Symbols'
 };
+
+export const SYMBOL_LAYER_LABEL = '?#';
+export const LETTERS_LAYER_LABEL = 'ABC';
 
 const firstLetterRow = ['q', 'w', 'e', 'r', 't', 'y', 'u', 'i', 'o', 'p'];
 const secondLetterRow = ['a', 's', 'd', 'f', 'g', 'h', 'j', 'k', 'l'];
 const thirdLetterRow = ['z', 'x', 'c', 'v', 'b', 'n', 'm'];
+
+const firstSymbolRow = ['!', '#', '$', '%', '&', '*', '(', ')', ':', ';'];
+const secondSymbolRow = ['"', "'", '+', '=', '<', '>', '[', ']', '?'];
+const thirdSymbolRow = ['~', '^', '|', '\\', '{', '}', '§'];
 
 export function createKeyboardRows(
   state: KeyboardLayoutState,
@@ -66,9 +79,20 @@ export function createKeyboardRows(
   const { capsLockActive, shiftActive } = state;
   const uppercaseActive = shiftActive || capsLockActive;
 
+  const symbolsMode = state.mode === 'symbols';
+  const firstRow = symbolsMode
+    ? createSymbolRow(firstSymbolRow)
+    : createCharacterRow(firstLetterRow, uppercaseActive);
+  const secondRow = symbolsMode
+    ? createSymbolRow(secondSymbolRow)
+    : createCharacterRow(secondLetterRow, uppercaseActive);
+  const thirdRow = symbolsMode
+    ? createSymbolRow(thirdSymbolRow)
+    : createCharacterRow(thirdLetterRow, uppercaseActive);
+
   return [
-    createCharacterRow(firstLetterRow, uppercaseActive),
-    createCharacterRow(secondLetterRow, uppercaseActive),
+    firstRow,
+    secondRow,
     [
       {
         id: 'caps-lock',
@@ -78,7 +102,8 @@ export function createKeyboardRows(
           type: 'capsLock'
         },
         width: 'wide',
-        active: capsLockActive
+        active: capsLockActive,
+        ...(symbolsMode ? { disabled: true } : {})
       },
       {
         id: 'shift',
@@ -87,11 +112,20 @@ export function createKeyboardRows(
           type: 'shift'
         },
         width: 'wide',
-        active: shiftActive
+        active: shiftActive,
+        ...(symbolsMode ? { disabled: true } : {})
       },
-      ...createCharacterRow(thirdLetterRow, uppercaseActive)
+      ...thirdRow
     ],
     [
+      {
+        id: 'symbol-layer',
+        label: symbolsMode ? LETTERS_LAYER_LABEL : SYMBOL_LAYER_LABEL,
+        ariaLabel: symbolsMode ? copy.lettersMode : copy.symbolsMode,
+        action: {
+          type: 'symbolLayer'
+        }
+      },
       {
         id: 'close',
         label: copy.close,
@@ -161,6 +195,17 @@ function createCharacterRow(characters: string[], shiftActive: boolean): Keyboar
       }
     };
   });
+}
+
+function createSymbolRow(characters: string[]): KeyboardKey[] {
+  return characters.map((character) => ({
+    id: `symbol-${character}`,
+    label: character,
+    action: {
+      type: 'character',
+      value: character
+    }
+  }));
 }
 
 function createDigitRow(characters: string[]): KeyboardKey[] {

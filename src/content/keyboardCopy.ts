@@ -5,8 +5,10 @@ export interface KeyboardCopy {
   capsLock: string;
   close: string;
   enter: string;
+  lettersMode: string;
   shift: string;
   space: string;
+  symbolsMode: string;
 }
 
 const copyByLanguage: Record<LocaleCode, KeyboardCopy> = {
@@ -15,16 +17,20 @@ const copyByLanguage: Record<LocaleCode, KeyboardCopy> = {
     capsLock: 'CapsLock',
     close: 'Close',
     enter: 'Enter',
+    lettersMode: 'Letters',
     shift: 'Shift',
-    space: 'Space'
+    space: 'Space',
+    symbolsMode: 'Symbols'
   },
   pl: {
     backspace: 'Usuń',
     capsLock: 'CapsLock',
     close: 'Zamknij',
     enter: 'Enter',
+    lettersMode: 'Litery',
     shift: 'Shift',
-    space: 'Spacja'
+    space: 'Spacja',
+    symbolsMode: 'Symbole'
   }
 };
 

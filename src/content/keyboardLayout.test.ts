@@ -4,6 +4,8 @@ import {
   BACKSPACE_SYMBOL_LABEL,
   CAPS_LOCK_SYMBOL_LABEL,
   ENTER_SYMBOL_LABEL,
+  LETTERS_LAYER_LABEL,
+  SYMBOL_LAYER_LABEL,
   createKeyboardRows,
   createNumpadRows,
   type KeyboardLayoutState
@@ -49,9 +51,14 @@ describe('createKeyboardRows', () => {
       'n',
       'm'
     ]);
-    expect(rows[3].map((key) => key.label)).toEqual(['Close', 'Space', ENTER_SYMBOL_LABEL]);
-    expect(rows[3][2].ariaLabel).toBe('Enter');
-    expect(rows[3][2].width).toBe('wide');
+    expect(rows[3].map((key) => key.label)).toEqual([
+      SYMBOL_LAYER_LABEL,
+      'Close',
+      'Space',
+      ENTER_SYMBOL_LABEL
+    ]);
+    expect(rows[3][3].ariaLabel).toBe('Enter');
+    expect(rows[3][3].width).toBe('wide');
     expect(rows.flat().some((key) => key.id === 'backspace')).toBe(false);
   });
 
@@ -77,8 +84,64 @@ describe('createKeyboardRows', () => {
     const rows = createKeyboardRows(layoutState(), getKeyboardCopy('pl'));
 
     expect(rows[2][0].ariaLabel).toBe('CapsLock');
-    expect(rows[3].map((key) => key.label)).toEqual(['Zamknij', 'Spacja', ENTER_SYMBOL_LABEL]);
-    expect(rows[3][2].ariaLabel).toBe('Enter');
+    expect(rows[3].map((key) => key.label)).toEqual([
+      SYMBOL_LAYER_LABEL,
+      'Zamknij',
+      'Spacja',
+      ENTER_SYMBOL_LABEL
+    ]);
+    expect(rows[3][3].ariaLabel).toBe('Enter');
+  });
+});
+
+describe('createKeyboardRows in symbols mode', () => {
+  it('replaces the letter rows with symbol rows', () => {
+    const rows = createKeyboardRows(layoutState({ mode: 'symbols' }));
+
+    expect(rows).toHaveLength(4);
+    expect(rows[0].map((key) => key.label)).toEqual([
+      '!', '#', '$', '%', '&', '*', '(', ')', ':', ';'
+    ]);
+    expect(rows[1].map((key) => key.label)).toEqual([
+      '"', "'", '+', '=', '<', '>', '[', ']', '?'
+    ]);
+    expect(rows[2].map((key) => key.label)).toEqual([
+      CAPS_LOCK_SYMBOL_LABEL, 'Shift', '~', '^', '|', '\\', '{', '}', '§'
+    ]);
+  });
+
+  it('disables CapsLock and Shift in symbols mode but keeps their positions', () => {
+    const rows = createKeyboardRows(layoutState({ mode: 'symbols' }));
+
+    expect(rows[2][0].disabled).toBe(true);
+    expect(rows[2][1].disabled).toBe(true);
+    expect(rows[2][2].disabled).toBeUndefined();
+  });
+
+  it('does not disable CapsLock and Shift in letters mode', () => {
+    const rows = createKeyboardRows(layoutState());
+
+    expect(rows[2][0].disabled).toBeUndefined();
+    expect(rows[2][1].disabled).toBeUndefined();
+  });
+
+  it('labels the mode key ?# in letters mode and ABC in symbols mode', () => {
+    expect(createKeyboardRows(layoutState())[3][0]).toEqual(
+      expect.objectContaining({
+        action: { type: 'symbolLayer' },
+        id: 'symbol-layer',
+        label: SYMBOL_LAYER_LABEL
+      })
+    );
+    expect(createKeyboardRows(layoutState({ mode: 'symbols' }))[3][0].label).toBe(
+      LETTERS_LAYER_LABEL
+    );
+  });
+
+  it('leaves symbol keys unaffected by shift', () => {
+    const rows = createKeyboardRows(layoutState({ mode: 'symbols', shiftActive: true }));
+
+    expect(rows[0][0].label).toBe('!');
   });
 });
 
