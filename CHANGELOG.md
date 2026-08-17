@@ -8,6 +8,18 @@ The project follows semantic versioning during pre-production:
 - `0.x.0` for new features.
 - `x.0.0` for production releases, with `1.0.0` as the first production version.
 
+## 0.9.1 - 2026-08-17
+
+### Fixed
+
+- Fixed the numeric keypad's punctuation column (full stop, comma, hyphen, at sign) and the outermost
+  main-keyboard keys being pushed off-screen and unreachable on windows roughly 861 to 963 pixels wide, by
+  widening the point at which the keypad stacks below the main keyboard instead of sitting beside it.
+- Fixed Tab being able to move focus onto a password field on a site whose rule forbids password fields,
+  when that field also carried `contenteditable="true"`.
+- Fixed the Polish diacritics mode staying armed after the keyboard panel is closed, so the next letter typed
+  in a different field could silently come out as a diacritic instead of a plain letter.
+
 ## 0.9.0 - 2026-08-17
 
 ### Added

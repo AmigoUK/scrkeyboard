@@ -6,9 +6,9 @@ Branch: `main`
 
 Remote: `https://github.com/AmigoUK/scrkeyboard.git`
 
-Current extension version: `0.9.0`
+Current extension version: `0.9.1`
 
-Baseline code commit before this handover note: `2280721 feat: add extension icons and validate them during the build`
+Baseline code commit before this handover note: `88f6b90 fix: restore mid-width keypad reachability, tighten Tab's contenteditable shim, and clear diacritics on close`
 
 ## Current Product State
 
@@ -28,15 +28,24 @@ Baseline code commit before this handover note: `2280721 feat: add extension ico
 - Global and per-site phrase buttons support user-defined colours with automatic black or white text for readable contrast.
 - CSV export includes configured site rules, phrases, and phrase button colours.
 - The extension ships icons in 16, 32, 48 and 128 pixel sizes, generated from `icons/source.svg` and checked
-  by the build's validation step.
+  by the build's validation step. Only the packed PNGs are copied into the built extension; `icons/source.svg`
+  stays out of the artefact sent to the Chrome Web Store.
 - Visible user-facing branding is `ScrKeyboard`. Lowercase `scrkeyboard` remains only in technical identifiers, where renaming would require a migration.
 
 ## Latest Verification
 
 - `npm run check` passed after the latest code changes before this handover note (TypeScript, Vitest unit
-  tests — 76 at time of writing — production build, and extension package validation).
+  tests — 79 at time of writing — production build, and extension package validation).
+- v0.9.1 is a patch release fixing three defects found in a final whole-branch review of v0.9.0: the
+  keypad's punctuation column and the outermost main-keyboard keys being unreachable on windows roughly
+  861 to 963 pixels wide, Tab being able to reach a password field on a site whose rule forbids password
+  fields when that field also carried `contenteditable="true"`, and the Polish diacritics mode staying
+  armed after the keyboard panel was closed. The mid-width layout fix was checked with headless Chromium
+  screenshots of a standalone demo page at 900px and 1024px window widths, confirming every key is on
+  screen and none is clipped — this is a headless rendering check, not manual verification in a real
+  Chrome browser, which still has not been performed for this branch.
 - Manual browser verification against `manual/webforms.html` as an unpacked extension was **not** performed
-  for this v0.9.0 release; it requires a real Chrome session and could not be driven from this environment.
+  for this v0.9.0/v0.9.1 work; it requires a real Chrome session and could not be driven from this environment.
   The five acceptance criteria in the Acceptance Criteria section of
   `docs/superpowers/specs/2026-08-17-v0.9-input-coverage-design.md`
   — Customer reference punctuation, an email address, Polish diacritics composing with Shift, Tab moving
@@ -62,8 +71,8 @@ Baseline code commit before this handover note: `2280721 feat: add extension ico
 
 ## Next Suggested Work
 
-v0.9.0 (iteration 1 of the store roadmap) is complete; the next iteration is `v0.10.0` — "a company can
-deploy it" — per `docs/superpowers/specs/2026-08-17-roadmap-to-store-design.md`:
+v0.9.0 and its v0.9.1 fix wave (iteration 1 of the store roadmap) are complete; the next iteration is
+`v0.10.0` — "a company can deploy it" — per `docs/superpowers/specs/2026-08-17-roadmap-to-store-design.md`:
 
 - Confirm the five v0.9.0 manual acceptance criteria in a real Chrome session against `manual/webforms.html`
   before wider rollout (see Latest Verification above).
