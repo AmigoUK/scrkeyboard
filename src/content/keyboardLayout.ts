@@ -31,6 +31,9 @@ export type KeyboardAction =
       type: 'enter';
     }
   | {
+      type: 'tab';
+    }
+  | {
       type: 'close';
     }
   | {
@@ -54,6 +57,7 @@ export const BACKSPACE_SYMBOL_LABEL = '⌫';
 export const CAPS_LOCK_SYMBOL_LABEL = '⇪';
 export const DIACRITICS_SYMBOL_LABEL = 'ĄĘ';
 export const ENTER_SYMBOL_LABEL = '↵';
+export const TAB_SYMBOL_LABEL = '⇥';
 
 const defaultCopy: KeyboardCopy = {
   backspace: 'Backspace',
@@ -64,7 +68,8 @@ const defaultCopy: KeyboardCopy = {
   lettersMode: 'Letters',
   shift: 'Shift',
   space: 'Space',
-  symbolsMode: 'Symbols'
+  symbolsMode: 'Symbols',
+  tab: 'Next field'
 };
 
 export const SYMBOL_LAYER_LABEL = '?#';
@@ -157,6 +162,14 @@ export function createKeyboardRows(
           type: 'space'
         },
         width: 'extraWide'
+      },
+      {
+        id: 'tab',
+        label: TAB_SYMBOL_LABEL,
+        ariaLabel: copy.tab,
+        action: {
+          type: 'tab'
+        }
       },
       {
         id: 'enter',

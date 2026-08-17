@@ -7,6 +7,7 @@ import {
   ENTER_SYMBOL_LABEL,
   LETTERS_LAYER_LABEL,
   SYMBOL_LAYER_LABEL,
+  TAB_SYMBOL_LABEL,
   createKeyboardRows,
   createNumpadRows,
   type KeyboardLayoutState
@@ -57,10 +58,11 @@ describe('createKeyboardRows', () => {
       DIACRITICS_SYMBOL_LABEL,
       'Close',
       'Space',
+      TAB_SYMBOL_LABEL,
       ENTER_SYMBOL_LABEL
     ]);
-    expect(rows[3][4].ariaLabel).toBe('Enter');
-    expect(rows[3][4].width).toBe('wide');
+    expect(rows[3][5].ariaLabel).toBe('Enter');
+    expect(rows[3][5].width).toBe('wide');
     expect(rows.flat().some((key) => key.id === 'backspace')).toBe(false);
   });
 
@@ -91,9 +93,39 @@ describe('createKeyboardRows', () => {
       DIACRITICS_SYMBOL_LABEL,
       'Zamknij',
       'Spacja',
+      TAB_SYMBOL_LABEL,
       ENTER_SYMBOL_LABEL
     ]);
-    expect(rows[3][4].ariaLabel).toBe('Enter');
+    expect(rows[3][5].ariaLabel).toBe('Enter');
+  });
+
+  describe('the Tab key', () => {
+    it('sits between Space and Enter in every mode', () => {
+      const letters = createKeyboardRows(layoutState());
+      const symbols = createKeyboardRows(layoutState({ mode: 'symbols' }));
+
+      expect(letters[3].map((key) => key.label)).toEqual([
+        SYMBOL_LAYER_LABEL,
+        DIACRITICS_SYMBOL_LABEL,
+        'Close',
+        'Space',
+        TAB_SYMBOL_LABEL,
+        ENTER_SYMBOL_LABEL
+      ]);
+      expect(symbols[3][4].label).toBe(TAB_SYMBOL_LABEL);
+    });
+
+    it('carries a tab action and an accessible label', () => {
+      const rows = createKeyboardRows(layoutState());
+
+      expect(rows[3][4]).toEqual(
+        expect.objectContaining({
+          action: { type: 'tab' },
+          ariaLabel: 'Next field',
+          id: 'tab'
+        })
+      );
+    });
   });
 });
 

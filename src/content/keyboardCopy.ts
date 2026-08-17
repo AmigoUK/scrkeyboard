@@ -10,6 +10,7 @@ export interface KeyboardCopy {
   shift: string;
   space: string;
   symbolsMode: string;
+  tab: string;
 }
 
 const copyByLanguage: Record<LocaleCode, KeyboardCopy> = {
@@ -22,7 +23,8 @@ const copyByLanguage: Record<LocaleCode, KeyboardCopy> = {
     lettersMode: 'Letters',
     shift: 'Shift',
     space: 'Space',
-    symbolsMode: 'Symbols'
+    symbolsMode: 'Symbols',
+    tab: 'Next field'
   },
   pl: {
     backspace: 'Usuń',
@@ -33,7 +35,8 @@ const copyByLanguage: Record<LocaleCode, KeyboardCopy> = {
     lettersMode: 'Litery',
     shift: 'Shift',
     space: 'Spacja',
-    symbolsMode: 'Symbole'
+    symbolsMode: 'Symbole',
+    tab: 'Następne pole'
   }
 };
 
