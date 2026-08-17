@@ -2,7 +2,13 @@ import type { Phrase } from '../shared/settingsTypes';
 import type { LocaleCode } from '../shared/settingsTypes';
 import { getReadableTextColour, normaliseButtonColour } from '../shared/phraseColours';
 import { getKeyboardCopy } from './keyboardCopy';
-import { createKeyboardRows, createNumpadRows, type KeyboardAction, type KeyboardKey } from './keyboardLayout';
+import {
+  createKeyboardRows,
+  createNumpadRows,
+  type KeyboardAction,
+  type KeyboardKey,
+  type KeyboardMode
+} from './keyboardLayout';
 import { loadKeyboardRuntimeState, saveKeyboardRuntimeState } from './keyboardRuntimeState';
 
 export interface KeyboardView {
@@ -24,7 +30,9 @@ export function createKeyboardView(callbacks: KeyboardViewCallbacks): KeyboardVi
   });
   const state = {
     capsLockActive: false,
+    diacriticsActive: false,
     language: 'en' as LocaleCode,
+    mode: 'letters' as KeyboardMode,
     phrases: [] as Phrase[],
     shiftActive: false,
     visible: false
@@ -74,8 +82,8 @@ export function createKeyboardView(callbacks: KeyboardViewCallbacks): KeyboardVi
     createKeyboardRows(
       {
         capsLockActive: state.capsLockActive,
-        diacriticsActive: false,
-        mode: 'letters',
+        diacriticsActive: state.diacriticsActive,
+        mode: state.mode,
         shiftActive: state.shiftActive
       },
       keyboardCopy
@@ -115,7 +123,24 @@ export function createKeyboardView(callbacks: KeyboardViewCallbacks): KeyboardVi
       button.setAttribute('aria-label', key.ariaLabel);
     }
     button.dataset.keyId = key.id;
+    if (key.disabled) {
+      button.disabled = true;
+    }
     button.addEventListener('click', () => {
+      if (key.action.type === 'symbolLayer') {
+        state.mode = state.mode === 'letters' ? 'symbols' : 'letters';
+        state.diacriticsActive = false;
+        render();
+        return;
+      }
+
+      if (key.action.type === 'diacritics') {
+        state.diacriticsActive = !state.diacriticsActive;
+        state.mode = 'letters';
+        render();
+        return;
+      }
+
       if (key.action.type === 'shift') {
         state.shiftActive = !state.shiftActive;
         render();
@@ -126,6 +151,11 @@ export function createKeyboardView(callbacks: KeyboardViewCallbacks): KeyboardVi
         void saveKeyboardRuntimeState({
           capsLockActive: state.capsLockActive
         });
+        render();
+      }
+
+      if (key.action.type === 'character' && state.diacriticsActive) {
+        state.diacriticsActive = false;
         render();
       }
 
@@ -289,6 +319,18 @@ function createStyleElement(): HTMLStyleElement {
       color: #123f8c;
     }
 
+    .key:disabled {
+      border-color: #dde2e9;
+      background: #f0f2f5;
+      color: #9aa4b2;
+      cursor: default;
+    }
+
+    .key:disabled:hover {
+      border-color: #dde2e9;
+      background: #f0f2f5;
+    }
+
     .key:focus-visible,
     .phrase-button:focus-visible {
       outline: 3px solid rgba(39, 110, 241, 0.28);
@@ -297,7 +339,8 @@ function createStyleElement(): HTMLStyleElement {
 
     .key[data-key-id='numpad-backspace'],
     .key[data-key-id='caps-lock'],
-    .key[data-key-id='enter'] {
+    .key[data-key-id='enter'],
+    .key[data-key-id='tab'] {
       font-size: 24px;
       line-height: 1;
     }
