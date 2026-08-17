@@ -126,7 +126,7 @@ p {
 }
 
 .phrase-row {
-  grid-template-columns: 110px minmax(160px, 1fr) minmax(220px, 1.4fr) auto;
+  grid-template-columns: 90px minmax(140px, 1fr) minmax(200px, 1.3fr) minmax(190px, 220px) auto;
 }
 
 .rule-grid {
@@ -143,6 +143,7 @@ p {
 }
 
 .field input[type='text'],
+.field input[type='color'],
 .field select {
   box-sizing: border-box;
   width: 100%;
@@ -154,10 +155,48 @@ p {
   background: #ffffff;
 }
 
+.field input[type='color'] {
+  padding: 3px;
+}
+
 .field input[type='checkbox'] {
   width: 22px;
   height: 22px;
   margin: 8px 0;
+}
+
+.colour-control {
+  display: grid;
+  grid-template-columns: 44px 1fr;
+  align-items: center;
+  gap: 8px;
+}
+
+.colour-presets {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 5px;
+}
+
+.colour-preset {
+  box-sizing: border-box;
+  width: 24px;
+  min-width: 24px;
+  height: 24px;
+  min-height: 24px;
+  border: 1px solid #8f9baa;
+  border-radius: 5px;
+  padding: 0;
+}
+
+.colour-preset.selected {
+  outline: 2px solid #276ef1;
+  outline-offset: 2px;
+}
+
+.colour-preset:focus-visible {
+  outline: 3px solid rgba(39, 110, 241, 0.34);
+  outline-offset: 2px;
 }
 
 .rule-card {

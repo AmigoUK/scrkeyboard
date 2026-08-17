@@ -1,5 +1,6 @@
 import type { Phrase } from '../shared/settingsTypes';
 import type { LocaleCode } from '../shared/settingsTypes';
+import { getReadableTextColour, normaliseButtonColour } from '../shared/phraseColours';
 import { getKeyboardCopy } from './keyboardCopy';
 import { createKeyboardRows, createNumpadRows, type KeyboardAction, type KeyboardKey } from './keyboardLayout';
 import { loadKeyboardRuntimeState, saveKeyboardRuntimeState } from './keyboardRuntimeState';
@@ -55,6 +56,9 @@ export function createKeyboardView(callbacks: KeyboardViewCallbacks): KeyboardVi
 
     state.phrases.forEach((phrase) => {
       const button = createButton(phrase.label, 'phrase-button');
+      const buttonColour = normaliseButtonColour(phrase.buttonColour);
+      button.style.backgroundColor = buttonColour;
+      button.style.color = getReadableTextColour(buttonColour);
       button.addEventListener('click', () => callbacks.onPhrase(phrase));
       phraseRow.append(button);
     });
@@ -300,9 +304,12 @@ function createStyleElement(): HTMLStyleElement {
     }
 
     .phrase-button {
+      min-width: 48px;
+      min-height: 40px;
       max-width: 220px;
       overflow: hidden;
       padding: 0 14px;
+      font-size: 14px;
     }
 
     .phrase-button .button-label {

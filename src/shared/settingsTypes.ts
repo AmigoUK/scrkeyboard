@@ -6,6 +6,7 @@ export interface Phrase {
   id: string;
   label: string;
   value: string;
+  buttonColour: string;
   enabled: boolean;
 }
 
@@ -41,4 +42,3 @@ export interface UrlRuleEvaluation {
   matchedWhitelistRule: UrlRule | null;
   matchedBlacklistRule: BlockRule | null;
 }
-

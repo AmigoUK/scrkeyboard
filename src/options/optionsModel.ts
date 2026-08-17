@@ -1,4 +1,5 @@
 import { SETTINGS_SCHEMA_VERSION } from '../shared/settingsDefaults';
+import { DEFAULT_PHRASE_BUTTON_COLOUR, normaliseButtonColour } from '../shared/phraseColours';
 import type {
   BlockRule,
   ConfirmKeyMode,
@@ -11,7 +12,8 @@ import type {
 export function mergePhrasePatch(phrase: Phrase, patch: Partial<Phrase>): Phrase {
   return {
     ...phrase,
-    ...patch
+    ...patch,
+    buttonColour: normaliseButtonColour(patch.buttonColour ?? phrase.buttonColour)
   };
 }
 
@@ -20,6 +22,7 @@ export function createEmptyPhrase(prefix = 'phrase'): Phrase {
     id: createEntityId(prefix),
     label: '',
     value: '',
+    buttonColour: DEFAULT_PHRASE_BUTTON_COLOUR,
     enabled: true
   };
 }
@@ -65,14 +68,15 @@ export function createSettingsFromControls(
 
 export function settingsToCsv(settings: ScrkeyboardSettings): string {
   const rows = [
-    ['type', 'scope', 'enabled', 'pattern', 'allow_password_fields', 'label', 'value'],
+    ['type', 'scope', 'enabled', 'pattern', 'allow_password_fields', 'label', 'value', 'button_colour'],
     ...settings.globalPhrases.map((phrase) =>
       createCsvRow({
         type: 'global_phrase',
         scope: 'global',
         enabled: phrase.enabled,
         label: phrase.label,
-        value: phrase.value
+        value: phrase.value,
+        buttonColour: phrase.buttonColour
       })
     ),
     ...settings.whitelist.flatMap((rule) => [
@@ -90,7 +94,8 @@ export function settingsToCsv(settings: ScrkeyboardSettings): string {
           enabled: phrase.enabled,
           pattern: rule.pattern,
           label: phrase.label,
-          value: phrase.value
+          value: phrase.value,
+          buttonColour: phrase.buttonColour
         })
       )
     ]),
@@ -115,6 +120,7 @@ function createCsvRow(input: {
   allowPasswordFields?: boolean;
   label?: string;
   value?: string;
+  buttonColour?: string;
 }): string[] {
   return [
     input.type,
@@ -123,7 +129,8 @@ function createCsvRow(input: {
     input.pattern ?? '',
     input.allowPasswordFields === undefined ? '' : String(input.allowPasswordFields),
     input.label ?? '',
-    input.value ?? ''
+    input.value ?? '',
+    input.buttonColour ?? ''
   ];
 }
 

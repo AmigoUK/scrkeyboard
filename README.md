@@ -47,9 +47,9 @@ The options page is the main setup surface for non-technical operators. It suppo
 - global enable/disable control;
 - UI language selection for English and Polish, with English as the default;
 - Enter or Ctrl+Enter confirmation mode;
-- global quick phrases;
+- global quick phrases with configurable button colours;
 - approved site rules with `*` wildcard support;
-- site-specific quick phrases;
+- site-specific quick phrases with configurable button colours;
 - blocked site rules that take precedence over approved rules;
 - Chrome site-access grant controls for explicit HTTP/HTTPS rules;
 - CSV export of configured rules and phrases.
@@ -68,6 +68,10 @@ phrase buttons, and a right-hand numeric keypad. The numeric keypad uses compact
 compact symbolic Backspace key. CapsLock state is remembered locally with
 `chrome.storage.local`, so the operator gets the same CapsLock state after reopening the keyboard or reloading
 the page.
+
+Global and site-specific phrase buttons can use operator-defined button colours from setup. scrkeyboard
+normalises stored colours and automatically uses black or white text, whichever has the stronger contrast
+against the selected button colour.
 
 Keyboard keys are sized for comfortable pointer and touch input. Enter dispatches either Enter or Ctrl+Enter
 depending on setup. Password fields are ignored unless the matching whitelist rule explicitly allows them.

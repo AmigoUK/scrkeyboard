@@ -27,6 +27,7 @@ describe('normaliseSettings', () => {
               id: 'phrase-1',
               label: 'Ready',
               value: 'Ready',
+              buttonColour: '#06f',
               enabled: true
             },
             {
@@ -53,7 +54,21 @@ describe('normaliseSettings', () => {
     expect(settings.whitelist[0].pattern).toBe('https://crm.example.com/orders/*');
     expect(settings.whitelist[0].allowPasswordFields).toBe(true);
     expect(settings.whitelist[0].phrases).toHaveLength(1);
+    expect(settings.whitelist[0].phrases[0].buttonColour).toBe('#0066ff');
     expect(settings.blacklist).toHaveLength(1);
   });
-});
 
+  it('uses the default phrase colour when a stored colour is invalid', () => {
+    const settings = normaliseSettings({
+      globalPhrases: [
+        {
+          label: 'Ready',
+          value: 'Ready',
+          buttonColour: 'blue'
+        }
+      ]
+    });
+
+    expect(settings.globalPhrases[0].buttonColour).toBe('#ffffff');
+  });
+});

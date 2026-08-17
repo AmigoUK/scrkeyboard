@@ -8,6 +8,15 @@ The project follows semantic versioning during pre-production:
 - `0.x.0` for new features.
 - `x.0.0` for production releases, with `1.0.0` as the first production version.
 
+## 0.8.0 - 2026-08-17
+
+### Added
+
+- Added user-configurable colours for global and site-specific phrase buttons.
+- Added compact colour presets to the setup page.
+- Added automatic black or white phrase-button text selection for stronger colour contrast.
+- Added CSV export support for phrase button colours.
+
 ## 0.7.1 - 2026-08-17
 
 ### Fixed

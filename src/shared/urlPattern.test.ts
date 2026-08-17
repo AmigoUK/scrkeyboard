@@ -45,6 +45,7 @@ describe('evaluateUrlRules', () => {
               id: 'crm-ready',
               label: 'Ready',
               value: 'Ready',
+              buttonColour: '#276ef1',
               enabled: true
             }
           ]
@@ -86,4 +87,3 @@ describe('evaluateUrlRules', () => {
     expect(evaluation.matchedBlacklistRule?.id).toBe('crm-admin');
   });
 });
-

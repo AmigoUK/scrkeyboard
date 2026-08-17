@@ -1,4 +1,5 @@
 import type { ScrkeyboardSettings } from './settingsTypes';
+import { DEFAULT_PHRASE_BUTTON_COLOUR } from './phraseColours';
 
 export const SETTINGS_SCHEMA_VERSION = 1;
 
@@ -12,12 +13,14 @@ export const DEFAULT_SETTINGS: ScrkeyboardSettings = {
       id: 'global-ok',
       label: 'OK',
       value: 'OK',
+      buttonColour: DEFAULT_PHRASE_BUTTON_COLOUR,
       enabled: true
     },
     {
       id: 'global-done',
       label: 'Done',
       value: 'Done',
+      buttonColour: DEFAULT_PHRASE_BUTTON_COLOUR,
       enabled: true
     }
   ],
@@ -28,4 +31,3 @@ export const DEFAULT_SETTINGS: ScrkeyboardSettings = {
 export function createDefaultSettings(): ScrkeyboardSettings {
   return structuredClone(DEFAULT_SETTINGS);
 }
-

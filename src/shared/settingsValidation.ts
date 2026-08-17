@@ -7,6 +7,7 @@ import type {
   ScrkeyboardSettings,
   UrlRule
 } from './settingsTypes';
+import { normaliseButtonColour } from './phraseColours';
 import { normalisePattern } from './urlPattern';
 
 const supportedLanguages = new Set<LocaleCode>(['en', 'pl']);
@@ -114,6 +115,7 @@ function readPhrase(input: unknown, index: number, prefix: string): Phrase | nul
     id: readString(input.id, `${prefix}-phrase-${index + 1}`),
     label,
     value,
+    buttonColour: normaliseButtonColour(input.buttonColour),
     enabled: readBoolean(input.enabled, true)
   };
 }
@@ -149,4 +151,3 @@ function readString(input: unknown, fallback: string): string {
 function isRecord(input: unknown): input is Record<string, unknown> {
   return typeof input === 'object' && input !== null && !Array.isArray(input);
 }
-

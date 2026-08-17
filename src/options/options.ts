@@ -1,5 +1,6 @@
 import './options.css';
 import { getContentScriptMatchPatterns } from '../shared/hostPermissions';
+import { PHRASE_BUTTON_COLOUR_PRESETS, getReadableTextColour, normaliseButtonColour } from '../shared/phraseColours';
 import { SYNC_CONTENT_SCRIPTS_MESSAGE } from '../shared/runtimeMessages';
 import { loadSettings, saveSettings } from '../shared/settingsStorage';
 import type {
@@ -30,6 +31,7 @@ interface OptionsCopy {
   approvedSitesTitle: string;
   blockedSitesDescription: string;
   blockedSitesTitle: string;
+  buttonColour: string;
   confirmKeyMode: string;
   ctrlEnterMode: string;
   emptyBlockedSites: string;
@@ -74,6 +76,7 @@ const copyByLanguage: Record<LocaleCode, OptionsCopy> = {
     approvedSitesTitle: 'Approved sites',
     blockedSitesDescription: 'Blocked patterns always win, even when the same URL also matches an approved site.',
     blockedSitesTitle: 'Blocked sites',
+    buttonColour: 'Button colour',
     confirmKeyMode: 'Confirm key',
     ctrlEnterMode: 'Ctrl+Enter',
     emptyBlockedSites: 'No blocked sites yet.',
@@ -116,6 +119,7 @@ const copyByLanguage: Record<LocaleCode, OptionsCopy> = {
     approvedSitesTitle: 'Zatwierdzone strony',
     blockedSitesDescription: 'Wzorce blokowane mają pierwszeństwo, nawet gdy URL pasuje też do zatwierdzonej strony.',
     blockedSitesTitle: 'Blokowane strony',
+    buttonColour: 'Kolor przycisku',
     confirmKeyMode: 'Klawisz zatwierdzania',
     ctrlEnterMode: 'Ctrl+Enter',
     emptyBlockedSites: 'Brak blokowanych stron.',
@@ -484,12 +488,18 @@ function createPhraseRow(
       value
     });
   });
+  const colourInput = createColourInput(phrase.buttonColour, copy.buttonColour, (buttonColour) => {
+    updatePhrase({
+      buttonColour
+    });
+  });
   const removeButton = createButton(copy.remove, 'danger-button', callbacks.onRemove);
 
   row.append(
     createField(copy.enabled, enabledInput),
     createField(copy.label, labelInput),
     createField(copy.value, valueInput),
+    createField(copy.buttonColour, colourInput),
     removeButton
   );
   return row;
@@ -572,6 +582,53 @@ function createTextInput(
     onInput(input.value);
   });
   return input;
+}
+
+function createColourInput(
+  value: string,
+  label: string,
+  onInput: (value: string) => void
+): HTMLElement {
+  let selectedColour = normaliseButtonColour(value);
+  const wrapper = createElement('div', 'colour-control');
+  const input = document.createElement('input');
+  const presetList = createElement('div', 'colour-presets');
+
+  const updatePresetSelection = (): void => {
+    presetList.querySelectorAll<HTMLButtonElement>('.colour-preset').forEach((button) => {
+      button.classList.toggle('selected', button.dataset.colour === selectedColour);
+    });
+  };
+
+  input.type = 'color';
+  input.value = selectedColour;
+  input.setAttribute('aria-label', label);
+  input.addEventListener('input', () => {
+    selectedColour = normaliseButtonColour(input.value);
+    onInput(selectedColour);
+    updatePresetSelection();
+  });
+
+  PHRASE_BUTTON_COLOUR_PRESETS.forEach((colour) => {
+    const preset = document.createElement('button');
+    preset.className = 'colour-preset';
+    preset.dataset.colour = colour;
+    preset.style.backgroundColor = colour;
+    preset.style.color = getReadableTextColour(colour);
+    preset.type = 'button';
+    preset.setAttribute('aria-label', `${label}: ${colour}`);
+    preset.addEventListener('click', () => {
+      selectedColour = colour;
+      input.value = selectedColour;
+      onInput(selectedColour);
+      updatePresetSelection();
+    });
+    presetList.append(preset);
+  });
+
+  wrapper.append(input, presetList);
+  updatePresetSelection();
+  return wrapper;
 }
 
 function createElement<K extends keyof HTMLElementTagNameMap>(
