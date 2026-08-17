@@ -34,7 +34,7 @@ Baseline code commit before this handover note: `2280721 feat: add extension ico
 ## Latest Verification
 
 - `npm run check` passed after the latest code changes before this handover note (TypeScript, Vitest unit
-  tests — 75 at time of writing — production build, and extension package validation).
+  tests — 76 at time of writing — production build, and extension package validation).
 - Manual browser verification against `manual/webforms.html` as an unpacked extension was **not** performed
   for this v0.9.0 release; it requires a real Chrome session and could not be driven from this environment.
   The five acceptance criteria in `.superpowers/sdd/2026-08-17-v0.9-input-coverage/task-10-brief.md` (Step 1)

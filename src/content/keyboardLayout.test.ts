@@ -190,8 +190,10 @@ describe('createKeyboardRows in symbols mode', () => {
     );
 
     // '/' and '.' for a slashed date (12/03), '-' for a hyphenated reference
-    // (ORD-2024/15), and '@' and '.' plus letters for an email address
-    // (a.smith@example.com). ':' covers times on the same forms.
+    // (ORD-2024/15), '_' for reference formats that use an underscore instead
+    // of a hyphen (ORD_2024/15), and '@' and '.' plus letters for an email
+    // address (a.smith@example.com). ':' covers times on the same forms, and
+    // ',' covers thousands or decimal separators in numeric fields.
     for (const character of ['/', '_', '.', ',', '-', '@', ':']) {
       expect(typeableCharacters.has(character)).toBe(true);
     }
