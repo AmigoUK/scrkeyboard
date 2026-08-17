@@ -49,6 +49,17 @@ Enter, selects Close, or clicks outside an editable field.
 The MVP keyboard includes digits, QWERTY letters, Shift, Backspace, Space, Enter, and configured phrase
 buttons. Password fields are ignored unless the matching whitelist rule explicitly allows them.
 
+## Manual WebForms Fixture
+
+For a local smoke test, run a static server from the repository root and open the fixture:
+
+```sh
+python3 -m http.server 4173 --bind 127.0.0.1
+```
+
+Then open `http://127.0.0.1:4173/manual/webforms.html`, approve the site through the scrkeyboard popup,
+and focus the Customer reference field. The keyboard should appear at the bottom of the page.
+
 ## Planning
 
 See [docs/PRODUCT_PLAN.md](docs/PRODUCT_PLAN.md).

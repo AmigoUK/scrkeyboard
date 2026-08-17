@@ -1,6 +1,6 @@
 {
   "name": "scrkeyboard",
-  "version": "0.3.1",
+  "version": "0.3.2",
   "private": true,
   "description": "A Chrome Manifest V3 on-screen keyboard extension for approved business application domains.",
   "type": "module",

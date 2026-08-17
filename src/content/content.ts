@@ -27,6 +27,7 @@ async function initialiseContentScript(): Promise<void> {
   });
 
   await refreshEvaluation();
+  activateEditableTarget(document.activeElement);
 
   document.dispatchEvent(
     new CustomEvent(readyEventName, {
@@ -40,6 +41,7 @@ async function initialiseContentScript(): Promise<void> {
 async function refreshEvaluation(): Promise<void> {
   const settings = await loadSettings();
   evaluation = evaluateUrlRules(settings, window.location.href);
+  document.documentElement.dataset.scrkeyboardActive = String(evaluation.active);
 
   if (!evaluation.active) {
     activeTarget = null;
@@ -48,11 +50,15 @@ async function refreshEvaluation(): Promise<void> {
 }
 
 function handleFocusIn(event: FocusEvent): void {
+  activateEditableTarget(event.target);
+}
+
+function activateEditableTarget(target: EventTarget | null): void {
   if (!evaluation?.active) {
     return;
   }
 
-  const editableTarget = resolveEditableTarget(event.target, evaluation.allowPasswordFields);
+  const editableTarget = resolveEditableTarget(target, evaluation.allowPasswordFields);
 
   if (!editableTarget) {
     return;

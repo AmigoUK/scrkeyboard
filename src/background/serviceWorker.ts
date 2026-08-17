@@ -1,6 +1,7 @@
 import { initialiseSettings } from '../shared/settingsStorage';
 import {
   shouldSyncContentScriptsForStorageChange,
+  syncAndInjectKeyboardContentScriptIntoOpenTabs,
   syncKeyboardContentScriptRegistration
 } from './contentScriptRegistration';
 import { isSyncContentScriptsMessage } from '../shared/runtimeMessages';
@@ -26,6 +27,12 @@ chrome.storage.onChanged.addListener((changes, areaName) => {
 
   void syncKeyboardContentScriptRegistration().catch((error: unknown) => {
     console.error('Failed to sync scrkeyboard content scripts after settings change.', error);
+  });
+});
+
+chrome.permissions.onAdded.addListener(() => {
+  void syncAndInjectKeyboardContentScriptIntoOpenTabs().catch((error: unknown) => {
+    console.error('Failed to activate scrkeyboard after a new site permission was granted.', error);
   });
 });
 

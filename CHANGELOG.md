@@ -8,6 +8,19 @@ The project follows semantic versioning during pre-production:
 - `0.x.0` for new features.
 - `x.0.0` for production releases, with `1.0.0` as the first production version.
 
+## 0.3.2 - 2026-08-17
+
+### Fixed
+
+- Persisted the current-site whitelist rule before Chrome shows the optional permission prompt, so popup closure after approval no longer loses activation.
+- Reactivated dynamic content scripts when Chrome grants a new site permission.
+- Injected the keyboard into already-open matching tabs after a new permission is granted.
+- Showed the keyboard when the content script is injected while an editable field is already focused.
+
+### Added
+
+- Local WebForms-style manual test fixture.
+
 ## 0.3.1 - 2026-08-17
 
 ### Fixed

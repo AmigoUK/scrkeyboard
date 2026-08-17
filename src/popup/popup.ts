@@ -62,10 +62,12 @@ addCurrentSiteButton?.addEventListener('click', async () => {
   }
 
   try {
+    const result = upsertWhitelistRule(settings, whitelistRule);
+    settings = await saveSettings(result.settings);
+
     const permissionRequest = chrome.permissions.request({
       origins: [permissionPattern]
     });
-
     addCurrentSiteButton.disabled = true;
 
     const permissionGranted = await permissionRequest;
@@ -75,9 +77,9 @@ addCurrentSiteButton?.addEventListener('click', async () => {
       return;
     }
 
-    const result = upsertWhitelistRule(settings, whitelistRule);
-    settings = await saveSettings(result.settings);
-    await syncContentScripts();
+    await syncContentScripts().catch((error: unknown) => {
+      console.error('Failed to sync content scripts after approving the current site.', error);
+    });
     await injectContentScriptIntoCurrentTab();
     setStatus(result.created ? 'siteApproved' : 'siteAlreadyApproved', displayHost);
   } catch (error) {

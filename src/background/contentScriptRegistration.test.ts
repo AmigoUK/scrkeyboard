@@ -2,6 +2,7 @@ import { afterEach, beforeEach, describe, expect, it, vi } from 'vitest';
 import {
   getContentScriptMatchPatterns,
   shouldSyncContentScriptsForStorageChange,
+  syncAndInjectKeyboardContentScriptIntoOpenTabs,
   syncKeyboardContentScriptRegistration
 } from './contentScriptRegistration';
 import { SETTINGS_STORAGE_KEY } from '../shared/settingsStorage';
@@ -13,6 +14,7 @@ describe('contentScriptRegistration', () => {
         contains: vi.fn(async () => true)
       },
       scripting: {
+        executeScript: vi.fn(async () => undefined),
         registerContentScripts: vi.fn(async () => undefined),
         unregisterContentScripts: vi.fn(async () => undefined)
       },
@@ -38,6 +40,18 @@ describe('contentScriptRegistration', () => {
             }
           }))
         }
+      },
+      tabs: {
+        query: vi.fn(async () => [
+          {
+            id: 123,
+            url: 'https://crm.example.com/orders/123'
+          },
+          {
+            id: 456,
+            url: 'https://other.example.com/orders/123'
+          }
+        ])
       }
     });
   });
@@ -87,5 +101,18 @@ describe('contentScriptRegistration', () => {
         matches: ['https://crm.example.com/*']
       })
     ]);
+  });
+
+  it('injects the keyboard content script into open tabs that match active whitelist rules', async () => {
+    await syncAndInjectKeyboardContentScriptIntoOpenTabs();
+
+    expect(chrome.scripting.executeScript).toHaveBeenCalledTimes(1);
+    expect(chrome.scripting.executeScript).toHaveBeenCalledWith({
+      files: ['assets/content.js'],
+      target: {
+        allFrames: true,
+        tabId: 123
+      }
+    });
   });
 });

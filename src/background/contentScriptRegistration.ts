@@ -1,6 +1,6 @@
 import { SETTINGS_STORAGE_KEY, loadSettings } from '../shared/settingsStorage';
 import type { UrlRule } from '../shared/settingsTypes';
-import { normalisePattern } from '../shared/urlPattern';
+import { evaluateUrlRules, normalisePattern } from '../shared/urlPattern';
 
 const KEYBOARD_CONTENT_SCRIPT_ID = 'scrkeyboard-keyboard';
 const KEYBOARD_CONTENT_SCRIPT_FILE = 'assets/content.js';
@@ -30,6 +30,34 @@ export async function syncKeyboardContentScriptRegistration(): Promise<void> {
       runAt: 'document_idle'
     }
   ]);
+}
+
+export async function syncAndInjectKeyboardContentScriptIntoOpenTabs(): Promise<void> {
+  await syncKeyboardContentScriptRegistration();
+
+  const settings = await loadSettings();
+
+  if (!settings.enabled) {
+    return;
+  }
+
+  const tabs = await chrome.tabs.query({});
+
+  await Promise.allSettled(
+    tabs.map(async (tab) => {
+      if (!tab.id || !tab.url || !evaluateUrlRules(settings, tab.url).active) {
+        return;
+      }
+
+      await chrome.scripting.executeScript({
+        files: [KEYBOARD_CONTENT_SCRIPT_FILE],
+        target: {
+          allFrames: true,
+          tabId: tab.id
+        }
+      });
+    })
+  );
 }
 
 export function shouldSyncContentScriptsForStorageChange(
