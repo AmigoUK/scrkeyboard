@@ -1,0 +1,25 @@
+{
+  "name": "scrkeyboard",
+  "version": "0.0.0",
+  "private": true,
+  "description": "A Chrome Manifest V3 on-screen keyboard extension for approved business application domains.",
+  "type": "module",
+  "scripts": {
+    "build": "vite build && node scripts/copy-extension-assets.mjs",
+    "check": "npm run typecheck && npm test && npm run build && npm run validate:extension",
+    "clean": "node scripts/clean.mjs",
+    "test": "vitest run",
+    "typecheck": "tsc --noEmit",
+    "validate:extension": "node scripts/validate-extension.mjs"
+  },
+  "engines": {
+    "node": ">=22.0.0"
+  },
+  "devDependencies": {
+    "@types/chrome": "^0.2.6",
+    "@types/node": "^26.2.0",
+    "typescript": "^7.0.2",
+    "vite": "^8.2.1",
+    "vitest": "^4.1.10"
+  }
+}

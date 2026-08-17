@@ -22,3 +22,45 @@ Default language: English. Planned UI languages: English and Polish.
 ## Planning
 
 See [docs/PRODUCT_PLAN.md](docs/PRODUCT_PLAN.md).
+
+## Development
+
+The project is a Chrome Manifest V3 extension built with TypeScript, Vite, and vanilla browser APIs.
+
+### Requirements
+
+- Node.js 22 or newer.
+- Google Chrome or another Chromium browser for local unpacked-extension testing.
+
+### Install
+
+```sh
+npm install
+```
+
+### Build
+
+```sh
+npm run build
+```
+
+The build output is written to `dist/`.
+
+### Load The Extension In Chrome
+
+1. Open `chrome://extensions`.
+2. Enable Developer mode.
+3. Select Load unpacked.
+4. Choose the `dist/` directory from this repository.
+5. Confirm that `scrkeyboard` appears without manifest or service-worker errors.
+
+## Permissions
+
+The MVP uses the smallest permission set needed for the agreed workflow:
+
+- `storage`: stores extension settings in `chrome.storage.sync`.
+- `activeTab`: lets the popup read the currently active page after the user clicks the extension action.
+- `scripting`: injects or registers the keyboard content script only for approved pages.
+- `optional_host_permissions`: requests access to user-approved HTTP/HTTPS sites at runtime instead of requesting broad access during installation.
+
+The extension does not use analytics, does not send data to a backend, and does not store text typed by the operator.

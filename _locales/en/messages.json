@@ -1,0 +1,35 @@
+{
+  "extensionName": {
+    "message": "scrkeyboard",
+    "description": "Extension name"
+  },
+  "extensionDescription": {
+    "message": "Comfortable on-screen keyboard for approved business application domains.",
+    "description": "Extension description"
+  },
+  "popupTitle": {
+    "message": "scrkeyboard",
+    "description": "Popup heading"
+  },
+  "popupStatus": {
+    "message": "Extension shell loaded. Setup controls will be added in the next milestone.",
+    "description": "Temporary popup status text"
+  },
+  "openOptions": {
+    "message": "Open options",
+    "description": "Button label for opening the options page"
+  },
+  "optionsTitle": {
+    "message": "scrkeyboard options",
+    "description": "Options page heading"
+  },
+  "optionsStatus": {
+    "message": "Settings will be available after the settings core milestone.",
+    "description": "Temporary options page status text"
+  },
+  "contentReady": {
+    "message": "scrkeyboard content script ready",
+    "description": "Internal readiness message"
+  }
+}
+

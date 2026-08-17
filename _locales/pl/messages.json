@@ -1,0 +1,35 @@
+{
+  "extensionName": {
+    "message": "scrkeyboard",
+    "description": "Extension name"
+  },
+  "extensionDescription": {
+    "message": "Wygodna klawiatura ekranowa dla zatwierdzonych domen aplikacji firmowych.",
+    "description": "Extension description"
+  },
+  "popupTitle": {
+    "message": "scrkeyboard",
+    "description": "Popup heading"
+  },
+  "popupStatus": {
+    "message": "Szkielet rozszerzenia jest zaladowany. Kontrolki setupu zostana dodane w kolejnym etapie.",
+    "description": "Temporary popup status text"
+  },
+  "openOptions": {
+    "message": "Otworz opcje",
+    "description": "Button label for opening the options page"
+  },
+  "optionsTitle": {
+    "message": "Opcje scrkeyboard",
+    "description": "Options page heading"
+  },
+  "optionsStatus": {
+    "message": "Ustawienia beda dostepne po etapie settings core.",
+    "description": "Temporary options page status text"
+  },
+  "contentReady": {
+    "message": "Content script scrkeyboard gotowy",
+    "description": "Internal readiness message"
+  }
+}
+
