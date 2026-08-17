@@ -81,8 +81,8 @@ const secondLetterRow = ['a', 's', 'd', 'f', 'g', 'h', 'j', 'k', 'l'];
 const thirdLetterRow = ['z', 'x', 'c', 'v', 'b', 'n', 'm'];
 
 const firstSymbolRow = ['!', '#', '$', '%', '&', '*', '(', ')', ':', ';'];
-const secondSymbolRow = ['"', "'", '+', '=', '<', '>', '[', ']', '?'];
-const thirdSymbolRow = ['~', '^', '|', '\\', '{', '}', '§'];
+const secondSymbolRow = ['/', '_', '"', "'", '+', '=', '<', '>', '[', ']'];
+const thirdSymbolRow = ['~', '^', '|', '\\', '{', '}', '?'];
 
 export function createKeyboardRows(
   state: KeyboardLayoutState,

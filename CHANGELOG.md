@@ -12,7 +12,8 @@ The project follows semantic versioning during pre-production:
 
 ### Added
 
-- Added a symbols mode with full punctuation, reachable from the `?#` key.
+- Added a symbols mode with full punctuation, reachable from the `?#` key, including the forward slash
+  and underscore needed for slashed dates and hyphenated references.
 - Added a punctuation column to the numeric keypad for full stop, comma, hyphen and at sign.
 - Added a Polish diacritics mode reachable from the `ĄĘ` key, combining with Shift and CapsLock.
 - Added a Tab key that moves focus to the next editable field without closing the keyboard.

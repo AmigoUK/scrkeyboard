@@ -138,10 +138,10 @@ describe('createKeyboardRows in symbols mode', () => {
       '!', '#', '$', '%', '&', '*', '(', ')', ':', ';'
     ]);
     expect(rows[1].map((key) => key.label)).toEqual([
-      '"', "'", '+', '=', '<', '>', '[', ']', '?'
+      '/', '_', '"', "'", '+', '=', '<', '>', '[', ']'
     ]);
     expect(rows[2].map((key) => key.label)).toEqual([
-      CAPS_LOCK_SYMBOL_LABEL, 'Shift', '~', '^', '|', '\\', '{', '}', '§'
+      CAPS_LOCK_SYMBOL_LABEL, 'Shift', '~', '^', '|', '\\', '{', '}', '?'
     ]);
   });
 
@@ -177,6 +177,24 @@ describe('createKeyboardRows in symbols mode', () => {
     const rows = createKeyboardRows(layoutState({ mode: 'symbols', shiftActive: true }));
 
     expect(rows[0][0].label).toBe('!');
+  });
+
+  it('makes every character needed for an email address, a slashed date and a hyphenated reference reachable', () => {
+    const symbolRows = createKeyboardRows(layoutState({ mode: 'symbols' }));
+    const numpadRows = createNumpadRows();
+
+    const typeableCharacters = new Set(
+      [...symbolRows.flat(), ...numpadRows.flat()]
+        .filter((key) => key.action.type === 'character')
+        .map((key) => (key.action as { type: 'character'; value: string }).value)
+    );
+
+    // '/' and '.' for a slashed date (12/03), '-' for a hyphenated reference
+    // (ORD-2024/15), and '@' and '.' plus letters for an email address
+    // (a.smith@example.com). ':' covers times on the same forms.
+    for (const character of ['/', '_', '.', ',', '-', '@', ':']) {
+      expect(typeableCharacters.has(character)).toBe(true);
+    }
   });
 });
 

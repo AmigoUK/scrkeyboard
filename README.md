@@ -73,9 +73,9 @@ The main keyboard has three modes:
 
 - **Letters** (default): QWERTY rows with Shift and CapsLock.
 - **Symbols**, reached from the `?#` key: full punctuation across three rows, covering marks the letters
-  mode and numeric keypad do not, such as `!`, `#`, `$`, `%`, `&`, `*`, `(`, `)`, `:`, `;`, `"`, `'`, `+`, `=`,
-  `<`, `>`, `[`, `]`, `?`, `~`, `^`, `|`, `\`, `{`, `}` and `§`. The key becomes `ABC` while in this mode,
-  returning to letters.
+  mode and numeric keypad do not, such as `!`, `#`, `$`, `%`, `&`, `*`, `(`, `)`, `:`, `;`, `/`, `_`, `"`,
+  `'`, `+`, `=`, `<`, `>`, `[`, `]`, `~`, `^`, `|`, `\`, `{`, `}` and `?`. The key becomes `ABC` while in
+  this mode, returning to letters.
 - **Polish diacritics**, reached from the `ĄĘ` key: a one-shot mode. It swaps the next letter typed for its
   Polish diacritic form (for example `a` becomes `ą`), then automatically reverts to plain letters. It
   composes with Shift and CapsLock, so `Shift` + `ĄĘ` + `a` gives `Ą`. Because `x` does not occur in Polish,
