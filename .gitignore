@@ -5,3 +5,6 @@ build/
 .vite/
 *.log
 coverage/
+
+# Subagent-driven development scratch
+.superpowers/
