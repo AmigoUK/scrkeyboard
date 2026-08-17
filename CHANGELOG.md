@@ -8,6 +8,14 @@ The project follows semantic versioning during pre-production:
 - `0.x.0` for new features.
 - `x.0.0` for production releases, with `1.0.0` as the first production version.
 
+## 0.7.0 - 2026-08-17
+
+### Changed
+
+- Changed the main keyboard Backspace key to the same compact symbolic style as the numeric keypad.
+- Changed CapsLock to a symbolic key while preserving its persisted active state.
+- Changed Enter to a larger return-shaped key.
+
 ## 0.6.1 - 2026-08-17
 
 ### Fixed

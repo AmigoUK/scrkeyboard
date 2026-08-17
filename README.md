@@ -63,10 +63,11 @@ On approved pages, scrkeyboard injects a Shadow DOM keyboard panel docked to the
 The panel appears when the operator focuses a supported editable field and hides when the operator presses
 Enter, selects Close, or clicks outside an editable field.
 
-The keyboard includes QWERTY letters, CapsLock, Shift, Backspace, Space, Enter, Close, configured phrase
-buttons, and a right-hand numeric keypad. The numeric keypad uses compact square number keys and a compact
-symbolic Backspace key. CapsLock state is remembered locally with `chrome.storage.local`, so the operator
-gets the same CapsLock state after reopening the keyboard or reloading the page.
+The keyboard includes QWERTY letters, symbolic CapsLock and Backspace keys, Shift, Space, a larger return-shaped
+Enter key, Close, configured phrase buttons, and a right-hand numeric keypad. The numeric keypad uses compact
+square number keys and a compact symbolic Backspace key. CapsLock state is remembered locally with
+`chrome.storage.local`, so the operator gets the same CapsLock state after reopening the keyboard or reloading
+the page.
 
 Keyboard keys are sized for comfortable pointer and touch input. Enter dispatches either Enter or Ctrl+Enter
 depending on setup. Password fields are ignored unless the matching whitelist rule explicitly allows them.

@@ -29,11 +29,14 @@ export interface KeyboardKey {
   label: string;
   action: KeyboardAction;
   ariaLabel?: string;
+  shape?: 'enterL';
   width?: 'regular' | 'wide' | 'extraWide';
   active?: boolean;
 }
 
-export const NUMPAD_BACKSPACE_LABEL = '⌫';
+export const BACKSPACE_SYMBOL_LABEL = '⌫';
+export const CAPS_LOCK_SYMBOL_LABEL = '⇪';
+export const ENTER_SYMBOL_LABEL = '↵';
 
 const defaultCopy: KeyboardCopy = {
   backspace: 'Backspace',
@@ -61,7 +64,8 @@ export function createKeyboardRows(
     [
       {
         id: 'caps-lock',
-        label: copy.capsLock,
+        label: CAPS_LOCK_SYMBOL_LABEL,
+        ariaLabel: copy.capsLock,
         action: {
           type: 'capsLock'
         },
@@ -80,11 +84,11 @@ export function createKeyboardRows(
       ...createCharacterRow(thirdLetterRow, uppercaseActive),
       {
         id: 'backspace',
-        label: copy.backspace,
+        label: BACKSPACE_SYMBOL_LABEL,
+        ariaLabel: copy.backspace,
         action: {
           type: 'backspace'
-        },
-        width: 'wide'
+        }
       }
     ],
     [
@@ -106,11 +110,12 @@ export function createKeyboardRows(
       },
       {
         id: 'enter',
-        label: copy.enter,
+        label: ENTER_SYMBOL_LABEL,
+        ariaLabel: copy.enter,
         action: {
           type: 'enter'
         },
-        width: 'wide'
+        shape: 'enterL'
       }
     ]
   ];
@@ -133,7 +138,7 @@ export function createNumpadRows(copy: KeyboardCopy = defaultCopy): KeyboardKey[
       },
       {
         id: 'numpad-backspace',
-        label: NUMPAD_BACKSPACE_LABEL,
+        label: BACKSPACE_SYMBOL_LABEL,
         ariaLabel: copy.backspace,
         action: {
           type: 'backspace'

@@ -95,9 +95,10 @@ export function createKeyboardView(callbacks: KeyboardViewCallbacks): KeyboardVi
   }
 
   function createKeyButton(key: KeyboardKey): HTMLButtonElement {
+    const shapeClass = key.shape ? ` key-shape-${key.shape}` : '';
     const button = createButton(
       key.label,
-      `key key-${key.width ?? 'regular'}${key.active ? ' key-active' : ''}`
+      `key key-${key.width ?? 'regular'}${shapeClass}${key.active ? ' key-active' : ''}`
     );
     if (key.ariaLabel) {
       button.setAttribute('aria-label', key.ariaLabel);
@@ -125,9 +126,13 @@ export function createKeyboardView(callbacks: KeyboardViewCallbacks): KeyboardVi
 
   function createButton(label: string, className: string): HTMLButtonElement {
     const button = document.createElement('button');
+    const labelElement = document.createElement('span');
+
     button.className = className;
-    button.textContent = label;
     button.type = 'button';
+    labelElement.className = 'button-label';
+    labelElement.textContent = label;
+    button.append(labelElement);
     button.addEventListener('pointerdown', (event) => {
       event.preventDefault();
     });
@@ -229,10 +234,17 @@ function createStyleElement(): HTMLStyleElement {
 
     .key,
     .phrase-button {
+      position: relative;
+      box-sizing: border-box;
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
       min-width: 58px;
       min-height: 56px;
+      padding: 0 12px;
       border: 1px solid #b8c0cc;
       border-radius: 6px;
+      appearance: none;
       background: #ffffff;
       color: #17202a;
       cursor: pointer;
@@ -241,6 +253,12 @@ function createStyleElement(): HTMLStyleElement {
       font-weight: 650;
       touch-action: manipulation;
       user-select: none;
+    }
+
+    .button-label {
+      position: relative;
+      z-index: 1;
+      pointer-events: none;
     }
 
     .key:hover,
@@ -266,6 +284,84 @@ function createStyleElement(): HTMLStyleElement {
       outline-offset: 2px;
     }
 
+    .key[data-key-id='backspace'],
+    .key[data-key-id='numpad-backspace'],
+    .key[data-key-id='caps-lock'] {
+      font-size: 24px;
+      line-height: 1;
+    }
+
+    .main-keyboard .key-row:last-child {
+      justify-content: flex-end;
+    }
+
+    .key-shape-enterL {
+      align-self: flex-start;
+      justify-content: center;
+      align-items: flex-end;
+      width: 132px;
+      min-width: 132px;
+      height: 120px;
+      min-height: 120px;
+      margin-top: -64px;
+      padding: 0 0 16px 44px;
+      border: 0;
+      background: transparent;
+      font-size: 28px;
+      line-height: 1;
+    }
+
+    .key-shape-enterL:hover,
+    .key-shape-enterL:active {
+      background: transparent;
+    }
+
+    .key-shape-enterL::before,
+    .key-shape-enterL::after {
+      content: "";
+      position: absolute;
+      z-index: 0;
+      box-sizing: border-box;
+      border: 1px solid #b8c0cc;
+      background: #ffffff;
+    }
+
+    .key-shape-enterL::before {
+      top: 0;
+      right: 0;
+      width: 64px;
+      height: 65px;
+      border-bottom: 0;
+      border-radius: 6px 6px 0 0;
+    }
+
+    .key-shape-enterL::after {
+      right: 0;
+      bottom: 0;
+      width: 132px;
+      height: 65px;
+      border-radius: 6px 0 6px 6px;
+    }
+
+    .key-shape-enterL:hover::before,
+    .key-shape-enterL:hover::after {
+      border-color: #276ef1;
+      background: #edf2ff;
+    }
+
+    .key-shape-enterL:active::before,
+    .key-shape-enterL:active::after {
+      background: #dbe7ff;
+    }
+
+    .key-shape-enterL:focus-visible {
+      outline: none;
+    }
+
+    .key-shape-enterL:focus-visible::after {
+      box-shadow: 0 0 0 3px rgba(39, 110, 241, 0.28);
+    }
+
     .key-wide {
       min-width: 122px;
     }
@@ -279,6 +375,12 @@ function createStyleElement(): HTMLStyleElement {
       max-width: 220px;
       overflow: hidden;
       padding: 0 14px;
+    }
+
+    .phrase-button .button-label {
+      display: block;
+      max-width: 100%;
+      overflow: hidden;
       text-overflow: ellipsis;
       white-space: nowrap;
     }
