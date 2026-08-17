@@ -2,6 +2,7 @@ import { SETTINGS_STORAGE_KEY, loadSettings } from '../shared/settingsStorage';
 import type { ConfirmKeyMode, LocaleCode, Phrase, UrlRuleEvaluation } from '../shared/settingsTypes';
 import { evaluateUrlRules } from '../shared/urlPattern';
 import { type EditableTarget, resolveEditableTarget } from './editableTarget';
+import { findNextEditableField } from './fieldNavigation';
 import { createKeyboardView, type KeyboardView } from './keyboardView';
 import type { KeyboardAction } from './keyboardLayout';
 import { applyKeyboardPageInset, clearKeyboardPageInset } from './pageInset';
@@ -148,9 +149,20 @@ function handleKeyboardAction(action: KeyboardAction): void {
       insertText(activeTarget, ' ');
       break;
     case 'shift':
-      break;
     case 'capsLock':
+    case 'symbolLayer':
+    case 'diacritics':
       break;
+    case 'tab': {
+      const nextField = findNextEditableField(
+        document,
+        activeTarget,
+        evaluation?.allowPasswordFields ?? false
+      );
+
+      nextField?.focus();
+      break;
+    }
     case 'enter':
       dispatchEnter(activeTarget, confirmKeyMode === 'ctrlEnter');
       activeTarget = null;
