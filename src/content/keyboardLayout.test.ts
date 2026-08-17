@@ -27,12 +27,21 @@ describe('createKeyboardRows', () => {
         label: 'Shift'
       })
     );
-    expect(rows[2][9].label).toBe(BACKSPACE_SYMBOL_LABEL);
-    expect(rows[2][9].ariaLabel).toBe('Backspace');
-    expect(rows[2][9].width).toBeUndefined();
+    expect(rows[2].map((key) => key.label)).toEqual([
+      CAPS_LOCK_SYMBOL_LABEL,
+      'Shift',
+      'z',
+      'x',
+      'c',
+      'v',
+      'b',
+      'n',
+      'm'
+    ]);
     expect(rows[3].map((key) => key.label)).toEqual(['Close', 'Space', ENTER_SYMBOL_LABEL]);
     expect(rows[3][2].ariaLabel).toBe('Enter');
-    expect(rows[3][2].shape).toBe('enterL');
+    expect(rows[3][2].width).toBe('wide');
+    expect(rows.flat().some((key) => key.id === 'backspace')).toBe(false);
   });
 
   it('uppercases letter rows when shift is active', () => {
@@ -57,8 +66,6 @@ describe('createKeyboardRows', () => {
     const rows = createKeyboardRows(false, false, getKeyboardCopy('pl'));
 
     expect(rows[2][0].ariaLabel).toBe('CapsLock');
-    expect(rows[2][9].label).toBe(BACKSPACE_SYMBOL_LABEL);
-    expect(rows[2][9].ariaLabel).toBe('Usuń');
     expect(rows[3].map((key) => key.label)).toEqual(['Zamknij', 'Spacja', ENTER_SYMBOL_LABEL]);
     expect(rows[3][2].ariaLabel).toBe('Enter');
   });

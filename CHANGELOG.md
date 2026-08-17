@@ -8,6 +8,13 @@ The project follows semantic versioning during pre-production:
 - `0.x.0` for new features.
 - `x.0.0` for production releases, with `1.0.0` as the first production version.
 
+## 0.7.1 - 2026-08-17
+
+### Fixed
+
+- Removed the duplicate Backspace key from the main keyboard.
+- Simplified Enter back to a large regular key for a cleaner main keyboard layout.
+
 ## 0.7.0 - 2026-08-17
 
 ### Changed

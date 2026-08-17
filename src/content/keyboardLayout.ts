@@ -29,7 +29,6 @@ export interface KeyboardKey {
   label: string;
   action: KeyboardAction;
   ariaLabel?: string;
-  shape?: 'enterL';
   width?: 'regular' | 'wide' | 'extraWide';
   active?: boolean;
 }
@@ -81,15 +80,7 @@ export function createKeyboardRows(
         width: 'wide',
         active: shiftActive
       },
-      ...createCharacterRow(thirdLetterRow, uppercaseActive),
-      {
-        id: 'backspace',
-        label: BACKSPACE_SYMBOL_LABEL,
-        ariaLabel: copy.backspace,
-        action: {
-          type: 'backspace'
-        }
-      }
+      ...createCharacterRow(thirdLetterRow, uppercaseActive)
     ],
     [
       {
@@ -115,7 +106,7 @@ export function createKeyboardRows(
         action: {
           type: 'enter'
         },
-        shape: 'enterL'
+        width: 'wide'
       }
     ]
   ];
