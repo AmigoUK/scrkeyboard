@@ -13,6 +13,7 @@ const manifest = JSON.parse(await readFile(resolve('manifest.json'), 'utf8'));
 await mkdir(distDir, { recursive: true });
 await writeFile(resolve(distDir, 'manifest.json'), `${JSON.stringify(manifest, null, 2)}\n`);
 await cp(resolve('_locales'), resolve(distDir, '_locales'), { recursive: true });
+await cp(resolve('icons'), resolve(distDir, 'icons'), { recursive: true });
 
 await copyFileToDist('README.md', 'README.md');
 await copyFileToDist('CHANGELOG.md', 'CHANGELOG.md');

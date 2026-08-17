@@ -43,6 +43,17 @@ await assertFileExists(resolve(distDir, 'assets/content.js'));
 await assertFileExists(resolve(distDir, '_locales/en/messages.json'));
 await assertFileExists(resolve(distDir, '_locales/pl/messages.json'));
 
+assert(manifest.icons, 'manifest.json must declare icons.');
+assert(manifest.action.default_icon, 'manifest.json must declare an action default_icon.');
+
+for (const iconPath of Object.values(manifest.icons)) {
+  await assertFileExists(resolve(distDir, iconPath));
+}
+
+for (const iconPath of Object.values(manifest.action.default_icon)) {
+  await assertFileExists(resolve(distDir, iconPath));
+}
+
 const contentScript = await readFile(resolve(distDir, 'assets/content.js'), 'utf8');
 assert(
   !/^\s*import\s/m.test(contentScript),

@@ -128,6 +128,17 @@ The build output is written to `dist/`.
 4. Choose the `dist/` directory from this repository.
 5. Confirm that `ScrKeyboard` appears without manifest or service-worker errors.
 
+### Icons
+
+`icons/source.svg` is the single source for the extension icons. The raster
+sizes are committed; regenerate them after editing the SVG:
+
+```sh
+for size in 16 32 48 128; do
+  convert -background none icons/source.svg -resize "${size}x${size}" "icons/icon-${size}.png"
+done
+```
+
 ## Permissions
 
 The MVP uses the smallest permission set needed for the agreed workflow:
