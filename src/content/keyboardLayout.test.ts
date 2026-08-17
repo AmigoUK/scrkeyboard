@@ -1,6 +1,6 @@
 import { describe, expect, it } from 'vitest';
 import { getKeyboardCopy } from './keyboardCopy';
-import { createKeyboardRows, createNumpadRows } from './keyboardLayout';
+import { NUMPAD_BACKSPACE_LABEL, createKeyboardRows, createNumpadRows } from './keyboardLayout';
 
 describe('createKeyboardRows', () => {
   it('creates the expected main keyboard rows', () => {
@@ -57,6 +57,8 @@ describe('createNumpadRows', () => {
     expect(rows[0].map((key) => key.label)).toEqual(['7', '8', '9']);
     expect(rows[1].map((key) => key.label)).toEqual(['4', '5', '6']);
     expect(rows[2].map((key) => key.label)).toEqual(['1', '2', '3']);
-    expect(rows[3].map((key) => key.label)).toEqual(['0', 'Backspace']);
+    expect(rows[3].map((key) => key.label)).toEqual(['0', NUMPAD_BACKSPACE_LABEL]);
+    expect(rows[3][1].ariaLabel).toBe('Backspace');
+    expect(rows[3][1].width).toBeUndefined();
   });
 });

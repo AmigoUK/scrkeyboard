@@ -99,6 +99,9 @@ export function createKeyboardView(callbacks: KeyboardViewCallbacks): KeyboardVi
       key.label,
       `key key-${key.width ?? 'regular'}${key.active ? ' key-active' : ''}`
     );
+    if (key.ariaLabel) {
+      button.setAttribute('aria-label', key.ariaLabel);
+    }
     button.dataset.keyId = key.id;
     button.addEventListener('click', () => {
       if (key.action.type === 'shift') {
@@ -213,6 +216,15 @@ function createStyleElement(): HTMLStyleElement {
 
     .numpad .key-row {
       justify-content: flex-start;
+    }
+
+    .numpad .key-regular {
+      box-sizing: border-box;
+      width: 58px;
+      min-width: 58px;
+      height: 58px;
+      min-height: 58px;
+      padding: 0;
     }
 
     .key,

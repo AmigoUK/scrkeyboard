@@ -28,9 +28,12 @@ export interface KeyboardKey {
   id: string;
   label: string;
   action: KeyboardAction;
+  ariaLabel?: string;
   width?: 'regular' | 'wide' | 'extraWide';
   active?: boolean;
 }
+
+export const NUMPAD_BACKSPACE_LABEL = '⌫';
 
 const defaultCopy: KeyboardCopy = {
   backspace: 'Backspace',
@@ -130,11 +133,11 @@ export function createNumpadRows(copy: KeyboardCopy = defaultCopy): KeyboardKey[
       },
       {
         id: 'numpad-backspace',
-        label: copy.backspace,
+        label: NUMPAD_BACKSPACE_LABEL,
+        ariaLabel: copy.backspace,
         action: {
           type: 'backspace'
-        },
-        width: 'wide'
+        }
       }
     ]
   ];
