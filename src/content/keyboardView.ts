@@ -192,6 +192,8 @@ export function createKeyboardView(callbacks: KeyboardViewCallbacks): KeyboardVi
     },
     hide() {
       state.visible = false;
+      state.diacriticsActive = false;
+      state.mode = 'letters';
       host.style.display = 'none';
       host.setAttribute('aria-hidden', 'true');
     },
@@ -371,10 +373,20 @@ function createStyleElement(): HTMLStyleElement {
       white-space: nowrap;
     }
 
-    @media (max-width: 860px) {
+    @media (max-width: 970px) {
       .keyboard-grid {
         align-items: center;
         flex-direction: column;
+      }
+
+      .main-keyboard {
+        /* .main-keyboard's flex-basis of 860px sizes the row layout's
+           width. Flex-basis always sizes the main axis, so once
+           flex-direction switches to column above it would otherwise set
+           an 860px height instead, leaving a large blank gap and pushing
+           the keys themselves above the fixed-position panel's visible
+           area. Reset it to the block's natural content height here. */
+        flex-basis: auto;
       }
 
       .numpad {

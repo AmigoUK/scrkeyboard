@@ -37,7 +37,8 @@ Baseline code commit before this handover note: `2280721 feat: add extension ico
   tests — 76 at time of writing — production build, and extension package validation).
 - Manual browser verification against `manual/webforms.html` as an unpacked extension was **not** performed
   for this v0.9.0 release; it requires a real Chrome session and could not be driven from this environment.
-  The five acceptance criteria in `.superpowers/sdd/2026-08-17-v0.9-input-coverage/task-10-brief.md` (Step 1)
+  The five acceptance criteria in the Acceptance Criteria section of
+  `docs/superpowers/specs/2026-08-17-v0.9-input-coverage-design.md`
   — Customer reference punctuation, an email address, Polish diacritics composing with Shift, Tab moving
   focus through the WebForms fixture, and the toolbar showing the real ScrKeyboard icon — remain outstanding
   for the project owner to confirm in a real browser before wider rollout.

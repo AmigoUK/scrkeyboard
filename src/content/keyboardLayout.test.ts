@@ -116,12 +116,16 @@ describe('createKeyboardRows', () => {
     });
 
     it('carries a tab action and an accessible label', () => {
-      const rows = createKeyboardRows(layoutState());
+      // Asserted against the real 'en' copy (not the layout function's
+      // `defaultCopy` parameter default) so a typo in keyboardCopy.ts fails
+      // this test rather than shipping unnoticed.
+      const enCopy = getKeyboardCopy('en');
+      const rows = createKeyboardRows(layoutState(), enCopy);
 
       expect(rows[3][4]).toEqual(
         expect.objectContaining({
           action: { type: 'tab' },
-          ariaLabel: 'Next field',
+          ariaLabel: enCopy.tab,
           id: 'tab'
         })
       );

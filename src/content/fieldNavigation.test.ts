@@ -71,6 +71,24 @@ describe('findNextEditableField', () => {
     expect(findNextEditableField(document, field('a'), false)).toBe(field('b'));
   });
 
+  it('skips elements with contenteditable="false"', () => {
+    setBody('<input id="a"><div id="b" contenteditable="false"></div><input id="c">');
+
+    expect(findNextEditableField(document, field('a'), false)).toBe(field('c'));
+  });
+
+  it('skips a bare contenteditable attribute with no value', () => {
+    setBody('<input id="a"><div id="b" contenteditable></div><input id="c">');
+
+    expect(findNextEditableField(document, field('a'), false)).toBe(field('c'));
+  });
+
+  it('skips a password field carrying contenteditable="true" when the rule forbids password fields', () => {
+    setBody('<input id="a"><input id="b" type="password" contenteditable="true"><input id="c">');
+
+    expect(findNextEditableField(document, field('a'), false)).toBe(field('c'));
+  });
+
   it('returns the first field when the active element is not a field', () => {
     setBody('<button id="btn"></button><input id="a">');
 
