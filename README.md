@@ -12,10 +12,20 @@ The panels below are rendered by ScrKeyboard's own `createKeyboardView` code, un
 sample warehouse form built for this documentation. They show the real keyboard styling, but they are not
 captured from the extension running in Chrome against a live customer site, and the form data is fictional.
 
-| Letters mode | Symbols mode | Diacritics mode |
-| --- | --- | --- |
-| ![Letters mode](docs/screenshots/keyboard-letters.png) | ![Symbols mode](docs/screenshots/keyboard-symbols.png) | ![Diacritics mode](docs/screenshots/keyboard-diacritics.png) |
-| *Letters mode: the keypad's punctuation column and row four (`?#`, `ĄĘ`, Close, Space, `⇥`, `↵`) alongside coloured phrase buttons.* | *Symbols mode: `/` and `_` lead row two, and CapsLock/Shift are greyed out because symbols mode has no case.* | *Diacritics mode: letters mapped to `ę ó ą ś ł ż ź ć ń`, with the `ĄĘ` key highlighted while the mode is armed.* |
+**Letters mode** — the keypad's punctuation column (`.` `,` `-` `@`) and row four
+(`?#`, `ĄĘ`, Close, Space, `⇥`, `↵`), alongside coloured phrase buttons.
+
+![Letters mode](docs/screenshots/keyboard-letters.png)
+
+**Symbols mode** — `/` and `_` lead row two, and CapsLock and Shift are greyed out
+because symbols have no case.
+
+![Symbols mode](docs/screenshots/keyboard-symbols.png)
+
+**Diacritics mode** — letters mapped to `ę ó ą ś ł ż ź ć ń`, with the `ĄĘ` key
+highlighted while the mode is armed.
+
+![Diacritics mode](docs/screenshots/keyboard-diacritics.png)
 
 ## Repository Language
 
