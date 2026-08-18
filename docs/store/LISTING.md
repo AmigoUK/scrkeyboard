@@ -178,20 +178,42 @@ current policy text, not any particular hosting.
 
 ---
 
+## Assets — ready to upload
+
+Everything the dashboard asks for is committed in `docs/store/assets/`, already at the exact
+sizes the store requires. Upload them as-is.
+
+| Dashboard field | File | Size |
+| --- | --- | --- |
+| Store icon | `store-icon-128x128.png` | 128 × 128, 96 × 96 artwork on transparent padding |
+| Screenshot 1 | `screenshot-1-letters-1280x800.png` | 1280 × 800 |
+| Screenshot 2 | `screenshot-2-symbols-1280x800.png` | 1280 × 800 |
+| Screenshot 3 | `screenshot-3-diacritics-1280x800.png` | 1280 × 800 |
+| Screenshot 4 | `screenshot-4-setup-1280x800.png` | 1280 × 800 |
+| Small promo tile | `promo-small-440x280.png` | 440 × 280 |
+| Marquee promo tile (optional) | `promo-marquee-1400x560.png` | 1400 × 560 |
+
+The screenshots were captured from the extension's own rendering code — the real
+`createKeyboardView` with its unmodified shadow-DOM styles, and the real built options page —
+over a sample warehouse form. They are not mock-ups, and they are not captures of a live
+customer system.
+
+There is no YouTube video. That field is optional; leave it blank.
+
 ## Pre-submission checklist
 
 Concrete things to check or do before hitting Publish — not text to paste, work to do:
 
-1. **Screenshots are the wrong size for the store.** `docs/screenshots/*.png` are
+1. ~~**Screenshots are the wrong size for the store.**~~ **DONE** — re-rendered at 1280 × 800 and committed to `docs/store/assets/`. Original note kept for context: `docs/screenshots/*.png` are
    `1280 × 860`. The Chrome Web Store requires listing screenshots at exactly `1280 × 800` or
    `640 × 400` (24-bit PNG or JPEG, no alpha channel). Crop or re-render the three existing
    screenshots to `1280 × 800` before upload — as captured they will be rejected by the upload
    dialog. Regenerate from the same fixture rather than stretching the existing PNGs, to avoid
    distortion.
-2. **No promotional tile exists in the repo.** A small promo tile (`440 × 280`) is optional in
+2. ~~**No promotional tile exists in the repo.**~~ **DONE** — both the 440 × 280 small tile and the optional 1400 × 560 marquee are committed. Original note: A small promo tile (`440 × 280`) is optional in
    the current dashboard but improves discoverability in category browsing; decide whether to
    commission/create one before or shortly after the first submission — it is not a hard blocker.
-3. **Icon files are 16-bit-per-channel PNGs** (`file icons/*.png` reports
+3. ~~**Icon files are 16-bit-per-channel PNGs**~~ **DONE** — all four re-encoded as 8-bit RGBA (also roughly halving their size). Original note: (`file icons/*.png` reports
    `16-bit/color RGBA` for all four sizes). Standard PNG decoders handle this fine, but it is
    unusual output from the ImageMagick conversion step in `README.md`'s icon-regeneration
    command; open `icons/icon-128.png` in the dashboard's icon preview once uploaded and confirm

@@ -17,6 +17,7 @@ The project follows semantic versioning during pre-production:
   now tells the operator to approve the current site, or confirms it is already approved, in both English
   and Polish. Also removed the unused, similarly stale `optionsStatus` message, which was never shown
   anywhere.
+- Re-encoded the extension icons as 8-bit RGBA, roughly halving their file size with no visual change.
 
 ## 0.10.1 - 2026-08-18
 
