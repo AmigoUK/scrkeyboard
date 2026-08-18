@@ -53,6 +53,7 @@ interface OptionsCopy {
   loading: string;
   pattern: string;
   remove: string;
+  rowEnabled: string;
   save: string;
   saved: string;
   setupDescription: string;
@@ -100,6 +101,7 @@ const copyByLanguage: Record<LocaleCode, OptionsCopy> = {
     loading: 'Loading settings...',
     pattern: 'URL pattern',
     remove: 'Remove',
+    rowEnabled: 'Enabled',
     save: 'Save settings',
     saved: 'Settings saved.',
     setupDescription: 'Manage operator-friendly domain rules, keyboard behaviour, and one-tap phrases.',
@@ -145,6 +147,7 @@ const copyByLanguage: Record<LocaleCode, OptionsCopy> = {
     loading: 'Ładowanie ustawień...',
     pattern: 'Wzorzec URL',
     remove: 'Usuń',
+    rowEnabled: 'Włączone',
     save: 'Zapisz ustawienia',
     saved: 'Ustawienia zapisane.',
     setupDescription: 'Zarządzaj domenami, zachowaniem klawiatury i frazami dla operatora.',
@@ -388,7 +391,7 @@ function createWhitelistRuleCard(copy: OptionsCopy, rule: UrlRule, index: number
   });
 
   header.append(
-    createField(copy.enabled, enabledInput),
+    createField(copy.rowEnabled, enabledInput),
     createField(copy.pattern, patternInput),
     createField(copy.allowPasswordFields, allowPasswordInput),
     removeButton
@@ -493,7 +496,7 @@ function createBlacklistRuleRow(copy: OptionsCopy, rule: BlockRule, index: numbe
     render();
   });
 
-  row.append(createField(copy.enabled, enabledInput), createField(copy.pattern, patternInput), removeButton);
+  row.append(createField(copy.rowEnabled, enabledInput), createField(copy.pattern, patternInput), removeButton);
   return row;
 }
 
@@ -536,7 +539,7 @@ function createPhraseRow(
   const removeButton = createButton(copy.remove, 'danger-button', callbacks.onRemove);
 
   row.append(
-    createField(copy.enabled, enabledInput),
+    createField(copy.rowEnabled, enabledInput),
     createField(copy.label, labelInput),
     createField(copy.value, valueInput),
     createField(copy.buttonColour, colourInput),
