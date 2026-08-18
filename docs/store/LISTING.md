@@ -62,16 +62,17 @@ a real listing rather than a keyword list.
 
 ## 4. Category
 
-**Recommended: Workflow & Planning.**
+**Recommended: Tools.** Second choice if unavailable: **Functionality & UI**.
 
-ScrKeyboard is not a general note-taking or personal-productivity tool (which is what
-"Productivity" tends to mean on the store), and it is not accessibility software — it is built
-for able-bodied operators running a specific job (order entry, warehouse scanning, CRM data
-entry) on a touch terminal, and it exists to make that one workflow step (typing into the
-current business system) work on hardware without a physical keyboard. "Workflow & Planning"
-matches that framing without misrepresenting the audience the way "Accessibility" would.
+ScrKeyboard is an input tool. Google's own description of *Workflow & Planning* is "time
+trackers, tools to stay focused, to-do list managers, email organizers, document editors, and
+calendar utilities" — that category is about organising work, not about entering text, and
+ScrKeyboard belongs in none of those groups. *Functionality & UI* covers extensions that change
+how you interact with the browser, including keyboard shortcuts, so it is the closer fallback.
 
----
+Do **not** pick *Accessibility*. It is tempting by name, but that category serves users with
+disabilities, whereas ScrKeyboard targets operators working at touch terminals. Listing it there
+would misrepresent the audience and attract reviews from people expecting assistive technology.
 
 ## 5. Language
 
