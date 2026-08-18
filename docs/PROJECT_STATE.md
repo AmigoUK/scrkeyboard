@@ -8,7 +8,7 @@ Remote: `https://github.com/AmigoUK/scrkeyboard.git`
 
 Current extension version: `0.10.4`
 
-Baseline code commit before this handover note: `88f6b90 fix: restore mid-width keypad reachability, tighten Tab's contenteditable shim, and clear diacritics on close`
+Baseline code commit before this handover note: `15f82ea chore(release): v0.10.4 — remove the modulepreload polyfill`
 
 ## Current Product State
 
@@ -49,13 +49,68 @@ Baseline code commit before this handover note: `88f6b90 fix: restore mid-width 
   screenshots of a standalone demo page at 900px and 1024px window widths, confirming every key is on
   screen and none is clipped — this is a headless rendering check, not manual verification in a real
   Chrome browser, which still has not been performed for this branch.
-- Manual browser verification against `manual/webforms.html` as an unpacked extension was **not** performed
-  for this v0.9.0/v0.9.1 work; it requires a real Chrome session and could not be driven from this environment.
-  The five acceptance criteria in the Acceptance Criteria section of
-  `docs/superpowers/specs/2026-08-17-v0.9-input-coverage-design.md`
-  — Customer reference punctuation, an email address, Polish diacritics composing with Shift, Tab moving
-  focus through the WebForms fixture, and the toolbar showing the real ScrKeyboard icon — remain outstanding
-  for the project owner to confirm in a real browser before wider rollout.
+- **Manual verification in a real Chrome session was performed by the project owner on 2026-08-18** and
+  reported working. This closes the five acceptance criteria in
+  `docs/superpowers/specs/2026-08-17-v0.9-input-coverage-design.md` that had been outstanding through the
+  v0.9.x work, when no agent could drive `chrome://extensions` to load an unpacked build.
+- The options page and popup were additionally rendered headlessly with a mocked `chrome` API to check
+  the credit footer in both languages, the corrected per-row checkbox labels, the review link's target,
+  and that both pages still load after the modulepreload polyfill was removed in v0.10.4.
+
+## Known Minor Issues, Deferred
+
+None of these blocks anything; they are recorded so they are not rediscovered from scratch. All were
+raised by task reviews during the v0.9.x work and judged non-blocking at the time.
+
+- `keyboardLayout.ts` has three near-identical key constructors (`createSymbolRow`, `createDigitRow`,
+  `createKeypadSymbolKey`) differing only in an id prefix. Three separate reviewers flagged this
+  independently; it is the strongest consolidation candidate in that file.
+- `fieldNavigation.ts`'s `isExplicitlyContentEditable` matches only the literal string `'true'`, so it
+  does not recognise `contenteditable=""` or `"True"`. Harmless in Chrome, where `isEditableTarget`'s
+  own `isContentEditable` check handles those, but the helper is not reusable as-is.
+- `fieldNavigation.test.ts`'s "bare contenteditable" case asserts that such a field is skipped. That
+  documents the jsdom shim's behaviour, not Chrome's — per the HTML spec a bare `contenteditable`
+  means "true", so a real browser treats it as editable. Misleading to a future reader.
+- The diacritics one-shot clears after a `character` action but not after Space or a phrase button, so
+  an operator who arms `ĄĘ`, presses Space and then types still gets an accented letter. Matches the
+  spec as written; worth revisiting if it confuses anyone.
+- `keyboardView.ts`'s click handler is five sequential `if`s mixing early-return and fall-through. It
+  is correct — verified by hand-tracing — but nothing in the code protects the ordering invariant.
+
+## Chrome Web Store Submission
+
+**Submitted for review on 2026-08-18.** Awaiting Google's verdict; nothing further to do until
+they respond.
+
+- Listing ID: `mkpgkageonmefklmndjjhancahmkdgnj`
+- Package submitted: `v0.10.4` (`scrkeyboard-0.10.4.zip`, 38 KB, source maps excluded)
+- Listing page (live once approved):
+  `https://chromewebstore.google.com/detail/mkpgkageonmefklmndjjhancahmkdgnj`
+
+Everything pasted into the dashboard is committed in `docs/store/`:
+
+- `LISTING.md` — every field with its character count: name, summary (127/132), description,
+  category, single purpose, per-permission justifications, the nine data-usage declarations, and
+  the URLs. Also carries the pre-submission checklist.
+- `PRIVACY.md` — the privacy policy the listing's Privacy policy URL points at.
+- `assets/` — store icon, four 1280x800 screenshots, and both promo tiles, all at the exact sizes
+  the dashboard requires. Do NOT use `docs/screenshots/` for this; those are 1280x860 and exist
+  only for the README. Each directory has a README saying so.
+
+Answers given that must stay true, or the listing has to be updated:
+
+- **Remote code: No.** Verified — the packaged JavaScript contains no `fetch`, `eval` or
+  `new Function`. v0.10.4 removed Vite's modulepreload polyfill, which was the last `fetch` in
+  the bundle. If a CDN dependency, analytics or `eval` is ever added, this answer must change.
+- **Category: Tools.** Not "Workflow & Planning" (Google defines that as time trackers, to-do
+  lists and calendars) and deliberately not "Accessibility", which would misrepresent the
+  audience.
+- **Homepage:** `https://attv.uk/projects/scrkeyboard.html`; **Support:** GitHub issues. Both
+  break silently if the repository is made private.
+
+Expect a reviewer question about the broad `http://*/*` and `https://*/*` optional host
+permissions. The prepared answer is in `LISTING.md` section 7: they are optional, requested one
+origin at a time when an operator approves a site, and the extension is inert until then.
 
 ## Files And Areas To Know
 
@@ -76,12 +131,13 @@ Baseline code commit before this handover note: `88f6b90 fix: restore mid-width 
 
 ## Next Suggested Work
 
-v0.9.0 and its v0.9.1 fix wave (iteration 1 of the store roadmap) are complete. v0.10.0 — "a company can
-deploy it" — per `docs/superpowers/specs/2026-08-17-roadmap-to-store-design.md` has started with the
-options page credit footer and review link; the rest of that iteration remains open:
+Iteration 1 (v0.9.x) is complete and was confirmed working in a real Chrome session by the project
+owner on 2026-08-18. Iteration 4 (store submission) was pulled forward and is done — the extension
+is with Google for review. Iteration 2, "a company can deploy it", is partly started (the options
+page credit footer and review link shipped in v0.10.0) and is the natural place to resume:
 
-- Confirm the five v0.9.0 manual acceptance criteria in a real Chrome session against `manual/webforms.html`
-  before wider rollout (see Latest Verification above).
+- **First: whatever the store review comes back with.** If Google requests changes, that outranks
+  everything below.
 - Add CSV import as the inverse of the existing export, so an administrator can configure once and distribute
   site rules and phrases to many operators.
 - Add a welcome page on `chrome.runtime.onInstalled` and a popup flow that leads a new user to their first
@@ -89,8 +145,6 @@ options page credit footer and review link; the rest of that iteration remains o
 - Add a reset-to-default action for phrase colours if operators need a quick recovery path.
 - Expand E2E coverage around options persistence, rendered phrase button styles, and WebForms interaction
   (planned for iteration 3, `v0.11.0`).
-- Prepare Chrome Web Store assets, privacy notes, and release checklist before moving towards `1.0.0`
-  (iteration 4).
 
 ## Operational Notes
 
