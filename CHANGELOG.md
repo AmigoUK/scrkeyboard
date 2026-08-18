@@ -8,6 +8,13 @@ The project follows semantic versioning during pre-production:
 - `0.x.0` for new features.
 - `x.0.0` for production releases, with `1.0.0` as the first production version.
 
+## 0.10.0 - 2026-08-18
+
+### Added
+
+- Added a small credit footer to the options page, showing the extension version (read from the
+  manifest at runtime), a link to leave a Chrome Web Store review, and project attribution links.
+
 ## 0.9.1 - 2026-08-17
 
 ### Fixed

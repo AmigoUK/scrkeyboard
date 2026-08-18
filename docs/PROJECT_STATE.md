@@ -1,12 +1,12 @@
 # ScrKeyboard Project State
 
-Last updated: 2026-08-17
+Last updated: 2026-08-18
 
 Branch: `main`
 
 Remote: `https://github.com/AmigoUK/scrkeyboard.git`
 
-Current extension version: `0.9.1`
+Current extension version: `0.10.0`
 
 Baseline code commit before this handover note: `88f6b90 fix: restore mid-width keypad reachability, tighten Tab's contenteditable shim, and clear diacritics on close`
 
@@ -31,6 +31,11 @@ Baseline code commit before this handover note: `88f6b90 fix: restore mid-width 
   by the build's validation step. Only the packed PNGs are copied into the built extension; `icons/source.svg`
   stays out of the artefact sent to the Chrome Web Store.
 - Visible user-facing branding is `ScrKeyboard`. Lowercase `scrkeyboard` remains only in technical identifiers, where renaming would require a migration.
+- The options page carries a small, muted credit footer below the settings UI, outside the re-rendered
+  `#options-root`: a Chrome Web Store review link (built from `chrome.runtime.id`, dead until the store
+  listing exists) and a project attribution line with the extension version read live from
+  `chrome.runtime.getManifest().version`. Both language-dependent strings follow the page's `en`/`pl`
+  settings language.
 
 ## Latest Verification
 
@@ -71,8 +76,9 @@ Baseline code commit before this handover note: `88f6b90 fix: restore mid-width 
 
 ## Next Suggested Work
 
-v0.9.0 and its v0.9.1 fix wave (iteration 1 of the store roadmap) are complete; the next iteration is
-`v0.10.0` — "a company can deploy it" — per `docs/superpowers/specs/2026-08-17-roadmap-to-store-design.md`:
+v0.9.0 and its v0.9.1 fix wave (iteration 1 of the store roadmap) are complete. v0.10.0 — "a company can
+deploy it" — per `docs/superpowers/specs/2026-08-17-roadmap-to-store-design.md` has started with the
+options page credit footer and review link; the rest of that iteration remains open:
 
 - Confirm the five v0.9.0 manual acceptance criteria in a real Chrome session against `manual/webforms.html`
   before wider rollout (see Latest Verification above).
