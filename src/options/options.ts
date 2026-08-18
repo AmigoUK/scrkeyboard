@@ -41,6 +41,8 @@ interface OptionsCopy {
   enabled: string;
   enterMode: string;
   exportCsv: string;
+  footerProjectLabel: string;
+  footerReviewRequest: string;
   grantAccess: string;
   grantAccessReady: string;
   grantAccessUnavailable: string;
@@ -86,6 +88,8 @@ const copyByLanguage: Record<LocaleCode, OptionsCopy> = {
     enabled: 'Enable ScrKeyboard',
     enterMode: 'Enter',
     exportCsv: 'Export CSV',
+    footerProjectLabel: 'Project & Development:',
+    footerReviewRequest: 'Enjoying ScrKeyboard? Leave a review',
     grantAccess: 'Grant access',
     grantAccessReady: 'Chrome access pattern',
     grantAccessUnavailable: 'Open the target site and use the popup to grant Chrome access for fragment rules.',
@@ -129,6 +133,8 @@ const copyByLanguage: Record<LocaleCode, OptionsCopy> = {
     enabled: 'Włącz ScrKeyboard',
     enterMode: 'Enter',
     exportCsv: 'Eksport CSV',
+    footerProjectLabel: 'Projekt i rozwój:',
+    footerReviewRequest: 'Podoba Ci się ScrKeyboard? Zostaw recenzję',
     grantAccess: 'Przyznaj dostęp',
     grantAccessReady: 'Wzorzec dostępu Chrome',
     grantAccessUnavailable: 'Otwórz docelową stronę i użyj popupu, aby przyznać dostęp Chrome dla fragmentów URL.',
@@ -163,7 +169,40 @@ const optionsRoot = root;
 let settings: ScrKeyboardSettings | null = null;
 let statusText = copyByLanguage.en.loading;
 
+const footerReviewLink = document.querySelector<HTMLAnchorElement>('#footer-review-link');
+const footerProjectLabel = document.querySelector<HTMLElement>('#footer-project-label');
+const footerVersion = document.querySelector<HTMLElement>('#footer-version');
+const footerVersionWrap = document.querySelector<HTMLElement>('#footer-version-wrap');
+
+initialiseFooterStatic();
 void initialiseOptions();
+
+function initialiseFooterStatic(): void {
+  if (typeof chrome === 'undefined' || !chrome.runtime) {
+    return;
+  }
+
+  if (footerReviewLink) {
+    footerReviewLink.href = `https://chrome.google.com/webstore/detail/${chrome.runtime.id}/reviews`;
+  }
+
+  const manifestVersion = chrome.runtime.getManifest?.().version;
+
+  if (manifestVersion && footerVersion && footerVersionWrap) {
+    footerVersion.textContent = `v${manifestVersion}`;
+    footerVersionWrap.hidden = false;
+  }
+}
+
+function applyFooterCopy(copy: OptionsCopy): void {
+  if (footerProjectLabel) {
+    footerProjectLabel.textContent = copy.footerProjectLabel;
+  }
+
+  if (footerReviewLink) {
+    footerReviewLink.textContent = copy.footerReviewRequest;
+  }
+}
 
 async function initialiseOptions(): Promise<void> {
   try {
@@ -185,6 +224,7 @@ function render(): void {
   const copy = getCopy();
   document.documentElement.lang = settings.language;
   document.title = copy.setupTitle;
+  applyFooterCopy(copy);
   optionsRoot.replaceChildren(
     createHeader(copy),
     createToolbar(copy),

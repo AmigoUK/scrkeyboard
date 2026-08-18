@@ -266,6 +266,43 @@ p {
   filter: brightness(0.97);
 }
 
+.app-footer {
+  box-sizing: border-box;
+  width: min(1180px, calc(100vw - 32px));
+  margin: 0 auto 24px;
+  padding-top: 10px;
+  border-top: 1px solid #e2e6ec;
+  color: #9aa4b2;
+  font-size: 11px;
+  line-height: 1.6;
+  text-align: center;
+}
+
+.app-footer p {
+  margin: 0;
+  color: inherit;
+  font-size: inherit;
+}
+
+.app-footer-review {
+  margin-bottom: 2px;
+}
+
+.app-footer a {
+  color: #9aa4b2;
+  text-decoration: none;
+}
+
+.app-footer a:hover {
+  color: #6b7684;
+  text-decoration: underline;
+}
+
+.app-footer-dot {
+  margin: 0 6px;
+  color: #c4cad3;
+}
+
 @media (max-width: 860px) {
   .toolbar,
   .compact-section {
