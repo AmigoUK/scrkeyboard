@@ -8,6 +8,15 @@ The project follows semantic versioning during pre-production:
 - `0.x.0` for new features.
 - `x.0.0` for production releases, with `1.0.0` as the first production version.
 
+## 0.10.4 - 2026-08-18
+
+### Changed
+
+- Removed Vite's modulepreload polyfill from the build. The extension requires Chrome 116, which
+  supports modulepreload natively, so the polyfill never ran — and it was the only fetch() call
+  in the packaged extension, which made the Chrome Web Store's remote-code question harder to
+  answer than it needed to be.
+
 ## 0.10.3 - 2026-08-18
 
 ### Fixed

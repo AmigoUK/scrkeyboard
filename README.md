@@ -4,7 +4,7 @@ ScrKeyboard is a Chrome Manifest V3 extension that gives operators of business w
 
 Default language: English. Polish is shipped alongside it as a second UI locale.
 
-Current version: **v0.10.3**.
+Current version: **v0.10.4**.
 
 Project page: <https://attv.uk/projects/scrkeyboard.html>
 

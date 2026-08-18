@@ -6,6 +6,12 @@ const rootDir = fileURLToPath(new URL('.', import.meta.url));
 
 export default defineConfig({
   build: {
+    // The extension requires Chrome 116+, which supports modulepreload natively,
+    // so Vite's polyfill is dead code. Dropping it also removes the only fetch()
+    // call from the packaged extension.
+    modulePreload: {
+      polyfill: false
+    },
     emptyOutDir: true,
     outDir: 'dist',
     sourcemap: true,
