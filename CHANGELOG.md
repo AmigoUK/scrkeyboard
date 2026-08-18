@@ -8,6 +8,15 @@ The project follows semantic versioning during pre-production:
 - `0.x.0` for new features.
 - `x.0.0` for production releases, with `1.0.0` as the first production version.
 
+## 0.10.1 - 2026-08-18
+
+### Fixed
+
+- Fixed the setup page showing "Enable ScrKeyboard" as the label for every approved-site rule,
+  blocked-site rule and quick-phrase checkbox, making each row look as though it switched the whole
+  extension on or off. Those per-row checkboxes now read "Enabled" ("Włączone" in Polish); the
+  extension-wide switch in the setup section still reads "Enable ScrKeyboard".
+
 ## 0.10.0 - 2026-08-18
 
 ### Added

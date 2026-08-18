@@ -6,7 +6,7 @@ Branch: `main`
 
 Remote: `https://github.com/AmigoUK/scrkeyboard.git`
 
-Current extension version: `0.10.0`
+Current extension version: `0.10.1`
 
 Baseline code commit before this handover note: `88f6b90 fix: restore mid-width keypad reachability, tighten Tab's contenteditable shim, and clear diacritics on close`
 
