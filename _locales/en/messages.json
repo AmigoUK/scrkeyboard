@@ -12,8 +12,12 @@
     "description": "Popup heading"
   },
   "popupStatus": {
-    "message": "Extension shell loaded. Setup controls will be added in the next milestone.",
-    "description": "Temporary popup status text"
+    "message": "Approve this site to enable ScrKeyboard here.",
+    "description": "Popup status text prompting approval of a supported site that is not yet whitelisted"
+  },
+  "popupStatusApproved": {
+    "message": "This site is approved. ScrKeyboard is ready to use here.",
+    "description": "Popup status text for a supported site that is already whitelisted"
   },
   "popupLoading": {
     "message": "Loading current site settings...",
@@ -80,10 +84,6 @@
   "optionsTitle": {
     "message": "ScrKeyboard options",
     "description": "Options page heading"
-  },
-  "optionsStatus": {
-    "message": "Settings will be available after the settings core milestone.",
-    "description": "Temporary options page status text"
   },
   "contentReady": {
     "message": "ScrKeyboard content script ready",

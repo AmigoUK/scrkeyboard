@@ -135,14 +135,30 @@ function renderCurrentSite(pageUrl: string | null): void {
     currentSiteElement.title = displayHost ?? '';
   }
 
-  if (!displayHost) {
+  if (!displayHost || !pageUrl) {
     setStatus('unsupportedPage');
     setAddCurrentSiteEnabled(false);
     return;
   }
 
-  setStatus('popupStatus');
+  setStatus(isCurrentSiteApproved(pageUrl) ? 'popupStatusApproved' : 'popupStatus');
   setAddCurrentSiteEnabled(true);
+}
+
+function isCurrentSiteApproved(pageUrl: string): boolean {
+  if (!settings) {
+    return false;
+  }
+
+  const permissionPattern = getOriginPermissionPattern(pageUrl);
+
+  if (!permissionPattern) {
+    return false;
+  }
+
+  return settings.whitelist.some(
+    (rule) => rule.pattern.toLowerCase() === permissionPattern.toLowerCase()
+  );
 }
 
 function setStatus(messageName: string, substitutions?: string | string[]): void {
