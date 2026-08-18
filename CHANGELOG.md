@@ -8,6 +8,14 @@ The project follows semantic versioning during pre-production:
 - `0.x.0` for new features.
 - `x.0.0` for production releases, with `1.0.0` as the first production version.
 
+## 0.10.3 - 2026-08-18
+
+### Fixed
+
+- Fixed the options page review link pointing at a listing that does not exist. It now uses the
+  published Chrome Web Store id, so it also works in an unpacked build, where the runtime id is
+  generated locally.
+
 ## 0.10.2 - 2026-08-18
 
 ### Fixed

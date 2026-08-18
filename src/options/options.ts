@@ -172,6 +172,8 @@ const optionsRoot = root;
 let settings: ScrKeyboardSettings | null = null;
 let statusText = copyByLanguage.en.loading;
 
+const WEB_STORE_EXTENSION_ID = 'mkpgkageonmefklmndjjhancahmkdgnj';
+
 const footerReviewLink = document.querySelector<HTMLAnchorElement>('#footer-review-link');
 const footerProjectLabel = document.querySelector<HTMLElement>('#footer-project-label');
 const footerVersion = document.querySelector<HTMLElement>('#footer-version');
@@ -181,12 +183,16 @@ initialiseFooterStatic();
 void initialiseOptions();
 
 function initialiseFooterStatic(): void {
-  if (typeof chrome === 'undefined' || !chrome.runtime) {
-    return;
+  // The published listing's id, which never changes once assigned. Hard-coded
+  // rather than read from chrome.runtime.id so the link also works in an
+  // unpacked build, where the runtime id is generated locally and would point
+  // at a listing that does not exist.
+  if (footerReviewLink) {
+    footerReviewLink.href = `https://chromewebstore.google.com/detail/${WEB_STORE_EXTENSION_ID}/reviews`;
   }
 
-  if (footerReviewLink) {
-    footerReviewLink.href = `https://chrome.google.com/webstore/detail/${chrome.runtime.id}/reviews`;
+  if (typeof chrome === 'undefined' || !chrome.runtime) {
+    return;
   }
 
   const manifestVersion = chrome.runtime.getManifest?.().version;
