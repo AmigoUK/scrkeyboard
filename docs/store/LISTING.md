@@ -154,13 +154,17 @@ Certifications (all confirmed true for ScrKeyboard):
 ## 9. Support and homepage URLs
 
 ```
-Homepage URL:  https://github.com/AmigoUK/scrkeyboard
-Support URL:   https://github.com/AmigoUK/scrkeyboard/issues
+Official URL / Homepage URL:  https://attv.uk/projects/scrkeyboard.html
+Support URL:                  https://github.com/AmigoUK/scrkeyboard/issues
 ```
 
-The owner's own site, `https://www.attv.uk`, can additionally be set as the developer/publisher
-website in the account-level "Store listing" settings if the dashboard offers that separate
-field — it is not a per-item URL.
+The homepage is the project's own page on the developer's site, which describes the extension
+for a reader who has not installed it yet — a better landing page for someone arriving from the
+store than a source repository. Support points at GitHub issues, where a report can actually be
+tracked and answered.
+
+The developer's main site, `https://www.attv.uk`, belongs in the account-level publisher website
+field if the dashboard offers one; it is not a per-item URL.
 
 ---
 

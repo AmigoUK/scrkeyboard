@@ -6,6 +6,8 @@ Default language: English. Polish is shipped alongside it as a second UI locale.
 
 Current version: **v0.10.3**.
 
+Project page: <https://attv.uk/projects/scrkeyboard.html>
+
 ## Screenshots
 
 The panels below are rendered by ScrKeyboard's own `createKeyboardView` code, unmodified, running over a
