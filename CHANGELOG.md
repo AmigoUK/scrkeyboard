@@ -8,6 +8,16 @@ The project follows semantic versioning during pre-production:
 - `0.x.0` for new features.
 - `x.0.0` for production releases, with `1.0.0` as the first production version.
 
+## 0.10.2 - 2026-08-18
+
+### Fixed
+
+- Fixed the popup showing leftover development text ("Extension shell loaded. Setup controls will be
+  added in the next milestone.") on every ordinary site instead of guidance for the operator. The popup
+  now tells the operator to approve the current site, or confirms it is already approved, in both English
+  and Polish. Also removed the unused, similarly stale `optionsStatus` message, which was never shown
+  anywhere.
+
 ## 0.10.1 - 2026-08-18
 
 ### Fixed
