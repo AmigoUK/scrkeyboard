@@ -8,6 +8,17 @@ The project follows semantic versioning during pre-production:
 - `0.x.0` for new features.
 - `x.0.0` for production releases, with `1.0.0` as the first production version.
 
+## 0.10.5 - 2026-08-20
+
+### Fixed
+
+- Fixed the "Duplicate script ID 'scrkeyboard-keyboard'" service worker error when saving settings.
+  Saving writes to `chrome.storage.sync` and sends an explicit sync request, so two content script
+  syncs ran at once; each unregistered the script before the other registered it, and the second
+  registration was rejected by Chrome. Syncs are now queued so the unregister/register pair never
+  overlaps. Until now a failed sync could leave the keyboard registered for stale match patterns
+  until the next successful sync.
+
 ## 0.10.4 - 2026-08-18
 
 ### Changed

@@ -8,7 +8,22 @@ export { getContentScriptMatchPatterns } from '../shared/hostPermissions';
 const KEYBOARD_CONTENT_SCRIPT_ID = 'scrkeyboard-keyboard';
 const KEYBOARD_CONTENT_SCRIPT_FILE = 'assets/content.js';
 
-export async function syncKeyboardContentScriptRegistration(): Promise<void> {
+// Several independent events (settings storage changes, popup and options
+// requests, granted permissions) can ask for a sync at the same time. The
+// unregister/register pair is not atomic, so overlapping syncs would both
+// clear the registration and then both register the same ID, which Chrome
+// rejects with "Duplicate script ID". Queue the syncs so they never overlap.
+let pendingSync: Promise<void> = Promise.resolve();
+
+export function syncKeyboardContentScriptRegistration(): Promise<void> {
+  const sync = pendingSync.then(reregisterKeyboardContentScript, reregisterKeyboardContentScript);
+
+  pendingSync = sync.catch(() => undefined);
+
+  return sync;
+}
+
+async function reregisterKeyboardContentScript(): Promise<void> {
   await unregisterKeyboardContentScript();
 
   const settings = await loadSettings();

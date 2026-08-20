@@ -103,6 +103,43 @@ describe('contentScriptRegistration', () => {
     ]);
   });
 
+  it('never registers a duplicate script ID when syncs overlap', async () => {
+    const registeredIds = new Set<string>();
+
+    chrome.scripting.registerContentScripts = vi.fn(
+      async (scripts: chrome.scripting.RegisteredContentScript[]) => {
+        for (const script of scripts) {
+          if (registeredIds.has(script.id)) {
+            throw new Error(`Duplicate script ID '${script.id}'`);
+          }
+
+          registeredIds.add(script.id);
+        }
+      }
+    );
+    chrome.scripting.unregisterContentScripts = vi.fn(
+      async (filter?: chrome.scripting.ContentScriptFilter) => {
+        for (const id of filter?.ids ?? []) {
+          if (!registeredIds.has(id)) {
+            throw new Error(`Nonexistent script ID '${id}'`);
+          }
+
+          registeredIds.delete(id);
+        }
+      }
+    ) as unknown as typeof chrome.scripting.unregisterContentScripts;
+
+    await expect(
+      Promise.all([
+        syncKeyboardContentScriptRegistration(),
+        syncKeyboardContentScriptRegistration(),
+        syncKeyboardContentScriptRegistration()
+      ])
+    ).resolves.toEqual([undefined, undefined, undefined]);
+
+    expect([...registeredIds]).toEqual(['scrkeyboard-keyboard']);
+  });
+
   it('injects the keyboard content script into open tabs that match active whitelist rules', async () => {
     await syncAndInjectKeyboardContentScriptIntoOpenTabs();
 
